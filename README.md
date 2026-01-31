@@ -22,7 +22,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Or you can use the `create_venv.sh` script provided.
+Or you can use the `create_venv.sh` script provided by sourcing it:
+
+```bash
+. ./create_venv.sh
+```
 
 Now you have the requirements:
 
