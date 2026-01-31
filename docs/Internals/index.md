@@ -10,17 +10,10 @@ The system consists of the following:
 
 The primary data flow is as follows:
 
-![Data Flow Diagram](Data_Flow.png)
+![Data Flow Diagram](wsprrypi_data_flow.svg)
 
 ## Log Files
 
-As of 2.x, the `wsprrypi` service will log messages to a single log. `/var/log/wsprrypi/wsprrypi_log`.
+As of 2.2.x, the `wsprrypi` service will log messages to the Debian `systemd-journald` facility.
 
-You may review these text files with standard Linux tools:
-
-- `cat /var/log/wsprrypi/wsprrypi_log`: Print the log's contents to the screen.
-- `more /var/log/wsprrypi/wsprrypi_log`: View the log using the system paging feature (`man more` for more details).
-- `tail -f /var/log/wsprrypi/wsprrypi_log`: Show the end of the log and continue to show new lines as they are logged (`man tail` for more information.)
-- You may also view the live log file via the web UI.
-
-The `logd` daemon rotates the log daily, compresses the old log, and retains 14 logs (14 days).
+See the section on the [Log Panel](../Web_UI_Operations/Logs/index.md) for more information.
