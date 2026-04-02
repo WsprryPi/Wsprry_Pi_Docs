@@ -3,3 +3,4 @@ myst-parser
 sphinx
 sphinx_rtd_theme
 esbonio
+pygments>=2.20.0
