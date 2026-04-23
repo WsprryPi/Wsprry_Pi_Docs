@@ -50,7 +50,3 @@ docs/_build/
 docs/.agents/
 docs/skills-lock.json
 docs/.codex
-
-# Python (you already have this probably)
-.venv/
-__pycache__/
