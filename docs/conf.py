@@ -139,7 +139,7 @@ html_favicon = '_static/favicon.ico'
 
 # Put the custom.css in the html static path folder (Default is _static folder).
 html_css_files = [
-    'custom.css',
+    'css/custom.css',
 ]
 
 html_static_path = ['_static']
