@@ -1,20 +1,24 @@
 <!-- Grammar and spelling checked -->
 # Command Line Operations
 
+Wsprry Pi normally runs as a `systemd` service, but you can also work with it directly from the shell for testing and one-off transmissions.
+
 ## `systemd` Service
 
-The Wsprry Pi executable, wsprrypi, is controlled by the Linux `systemd` controller.  It will run in the background as soon as your Pi starts up.  It is a singleton application by design, meaning only one `wsprrypi` process may be running.  You must stop the daemon if you desire to have some manual control for testing or other reasons.  Here are some commands you may use:
+The `wsprrypi` executable is controlled by Linux `systemd`. It runs in the background after boot, and only one `wsprrypi` process is allowed at a time. Stop the daemon before taking manual control from the command line.
+
+Useful service commands:
 
 - `sudo systemctl status wsprrypi`: Show a status page for the running daemon.
-- `sudo systemctl restart wsprrypi`: Restart the daemon and wsprrypi with it.
-- `sudo systemctl stop wsprrypi`: Stop the daemon.  The daemon will restart again upon reboot.
+- `sudo systemctl restart wsprrypi`: Restart the daemon and `wsprrypi` with it.
+- `sudo systemctl stop wsprrypi`: Stop the daemon. The daemon will restart again upon reboot.
 - `sudo systemctl start wsprrypi`: Start the daemon if it is not running.
 - `sudo systemctl disable wsprrypi`: Disable the daemon from restarting on reboot.
 - `sudo systemctl enable wsprrypi`: Enable the daemon to start on reboot if it is disabled.
 
 ## Command Line
 
-To run wsprrypi from the command line, a terse listing of command line options is available by executing `(sudo) wsprrypi -h`:
+To see the built-in help, run:
 
 ```text
 $ wsprrypi -h
@@ -39,52 +43,52 @@ See the documentation for a complete list of available options.
 
 ### Common Command Line Examples
 
-Either transmit a tone, or you must, at a minimum, supply your callsign, grid square, transmit power, and frequency.  Remember that anything that creates a transmission will require you to use `sudo`.  Arguments may use the short form with a single hyphen (e.g., `-h') or the long form with a double hyphen (e.g. --help`).  Here are some common command-line scenarios:
+To create a transmission you must either send a test tone or provide your callsign, grid square, transmit power, and frequency. Any command that causes RF output should be run with `sudo`.
 
-`wsprrypi --test-tone 780e3`
+Arguments may use either the short form with a single hyphen, such as `-h`, or the long form with a double hyphen, such as `--help`.
 
-You may transmit a constant tone at a specific frequency for testing.  In this example, wsprrypi will send a tone at 780 kHz (780000 Hz):
+Examples:
 
-`wsprrypi --help`
+- `wsprrypi --help`
 
-Display a brief help screen.
+  Display a brief help screen.
 
-`wsprrypi --test-tone 780e3`
+- `sudo wsprrypi --test-tone 780e3`
 
-Transmit a constant test tone at 780 kHz.
+  Transmit a constant test tone at 780 kHz.
 
-`wsprrypi N9NNN EM10 33 20m`
+- `sudo wsprrypi N9NNN EM10 33 20m`
 
-Using callsign N9NNN, locator EM10, and TX power 33 dBm, transmit a single WSPR transmission on the 20m band using no frequency offset calibration.
+  Transmit a single WSPR message on 20 meters with no frequency offset calibration.
 
-`wsprrypi --use-ntp N9NNN EM10 33 20m`
+- `sudo wsprrypi --use-ntp N9NNN EM10 33 20m`
 
-The same as above, but with NTP calibration.
+  Use NTP-based frequency calibration before transmitting.
 
-`wsprrypi --repeat --terminate 7 --ppm 43.17 N9NNN EM10 33 10140210 0 0 0 0`
+- `sudo wsprrypi --repeat --terminate 7 --ppm 43.17 N9NNN EM10 33 10140210 0 0 0 0`
 
-Transmit a WSPR transmission slightly off-center on 30m every 10 minutes for seven transmissions, using a fixed PPM correction value.
+  Transmit slightly off-center on 30 meters every 10 minutes for seven transmissions using a fixed PPM correction.
 
-`wsprrypi --repeat --offset --use-ntp N9NNN EM10 33 40m`
+- `sudo wsprrypi --repeat --offset --use-ntp N9NNN EM10 33 40m`
 
-Transmit repeatedly on 40m, use NTP-based frequency offset calibration, and add a random frequency offset to each transmission to minimize collisions with other transmitters.
+  Transmit repeatedly on 40 meters, apply NTP-based calibration, and randomize the offset to reduce collisions.
 
 ### Complete Command Line Listing
 
-Commands are positional, commands with no arguments, and commands requiring arguments.  Additionally, the configuration may be handled via the INI file, and the path passed to the executable at runtime with the following:
+Command-line input falls into three groups: positional arguments, switches that take no value, and options that require a value. You can also load parameters from an INI file:
 
 `wsprrypi -i /usr/local/etc/wsprrypi.ini`
 
-No additional command line arguments are necessary if the required positional parameters are present and correct in the INI file.  If you use an INI file and additional command line options, the command line options will apply AFTER the INI options, overwriting them.  In some scenarios, the INI file will be overwritten with your updated parameters.
+If the required values are present in the INI file, no additional arguments are required. If you supply both an INI file and command-line options, the command line is applied after the INI values and overrides them. In some cases the INI file is updated with the revised parameters.
 
 #### Positional Arguments
 
-Four positional arguments exist (with no `-x or --xxxx`).  These are required for WSPR transmissions (or must be supplied via the INI):
+Four positional arguments exist and are required for WSPR transmissions unless they are supplied by the INI file:
 
-- **Callsign** - Your six-character or less callsign.
-- **Gridsquare** - Your four-character maidenhead grid square
-- **Power** - Your transmit power in dBm
-- **Frequency** (list) - The frequency or list of frequencies, space separated for transmission
+- **Callsign**: Your six-character or shorter callsign.
+- **Gridsquare**: Your four-character Maidenhead grid square.
+- **Power**: Your transmit power in dBm.
+- **Frequency** (list): The transmission frequency or list of frequencies, separated by spaces.
 
 Example:
 
@@ -94,32 +98,33 @@ Example:
 
 The following commands require no arguments:
 
-- `--help` or `-h`: This command shows the version and an abbreviated help listing, then exits.
-- `--version` or `-v`: Shows the current version, then exits.
-- `--use-ntp` or `-n`: Uses Network Time Protocol via `chrony` to adjust transmission frequency calibration.
-- `--repeat` or `-r`: Repeats the frequency or loops through the list of frequencies indefinitely.
-- `--offset` or `-o`: Uses a random offset on the transmission frequency.
-- `--date-time-log` or `-D`: Applies a date/time stamp in UTC (e.g. `2025-05-06 12:17:00.561 UTC `) to the log displayed on screen.
+- `--help` or `-h`: Show the version and an abbreviated help listing, then exit.
+- `--version` or `-v`: Show the current version, then exit.
+- `--use-ntp` or `-n`: Use Network Time Protocol through `chrony` to adjust transmission frequency calibration.
+- `--repeat` or `-r`: Repeat the frequency or loop through the list of frequencies indefinitely.
+- `--offset` or `-o`: Apply a random offset to the transmission frequency.
+- `--date-time-log` or `-D`: Apply a UTC timestamp, for example `2025-05-06 12:17:00.561 UTC`, to log lines shown on screen.
 
 #### Arguments Required
 
-These commands require an argument immediately following the command:
+These commands require an argument immediately after the option:
 
-- `--ini-file` or `-i`: Pulls initial configuration from an ini file, use the full or relative path.
-- `--ppm` or` -p`: Applies a fixed PPM correnction value, -200.00 to 200.00.
-- `--terminate` or `-x`: Terminates after x iterations (either a single frequency or a list of frequencies).
-- `--test-tone` or `-t`: A test tone will be generated at the chosen frequency, this command overrides the need for the required positional arguments.
-- `--led_pin` or `-l`: The Raspberry Pi pin number, in BCM formatting (e.g. use "18" for GPIO18 or header pin 12), to use for the transmission indicator.
-- `--shutdown_button` or `-s`: The Raspberry Pi pin number, in BCM formatting (e.g., use "19" for GPIO19 or header pin 35), to use for the shutdown button.
-- `--power_level` or `-d`: A value, 0-7, to set the Raspberry Pi GPIO output power:
-  - `0`: 2mA or 3.0dBm
-  - `1`: 4mA or 6.0dBm
-  - `2`: 6mA or 7.8dBm
-  - `3`: 8mA or 9.0dBm
-  - `4`: 10mA or 10.0dBm
-  - `5`: 12mA or 10.8dBm
-  - `6`: 14mA or 11.5dBm
-  - `7`: 16mA or 12.0dBm
-- `--web-port `or `-w`: The socket on which the REST API for configuration runs.  This is hard-coded in the GUI JavaScript, so only change this if you know what you are doing.  The default is port 31415.
-- `--socket-port` or `-k`: The socket on which the Web Socket server for UI communication runs.  This is hard-coded in the GUI JavaScript, so only change this if you know what you are doing.  The default is port 31416.
+- `--ini-file` or `-i`: Load initial configuration from an INI file using a full or relative path.
+- `--ppm` or `-p`: Apply a fixed PPM correction value from `-200.00` to `200.00`.
+- `--terminate` or `-x`: Stop after a specific number of iterations.
+- `--test-tone` or `-t`: Generate a test tone at the chosen frequency. This overrides the need for the positional transmission arguments.
+- `--led_pin` or `-l`: Set the Raspberry Pi GPIO pin number, in BCM numbering, for the transmission indicator.
+- `--shutdown_button` or `-s`: Set the Raspberry Pi GPIO pin number, in BCM numbering, for the shutdown button.
+- `--power_level` or `-d`: Set the Raspberry Pi GPIO output power:
+  - `0`: 2 mA or 3.0 dBm
+  - `1`: 4 mA or 6.0 dBm
+  - `2`: 6 mA or 7.8 dBm
+  - `3`: 8 mA or 9.0 dBm
+  - `4`: 10 mA or 10.0 dBm
+  - `5`: 12 mA or 10.8 dBm
+  - `6`: 14 mA or 11.5 dBm
+  - `7`: 16 mA or 12.0 dBm
+- `--web-port` or `-w`: Set the socket used for the configuration REST API. The default is `31415`.
+- `--socket-port` or `-k`: Set the socket used for the web UI Web Socket server. The default is `31416`.
+
 <!-- Not yet implemented - `--transmit-pin` or `-a`: The pin Raspberry Pi pin number, in BCM formatting (e.g., use "18" for GPIO4 or header pin 7) for the transmissions. -->

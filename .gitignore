@@ -50,3 +50,11 @@ docs/_build/
 docs/.agents/
 docs/skills-lock.json
 docs/.codex
+
+# Local/generated agent tooling
+docs/.agents/
+docs/.codex
+docs/skills-lock.json
+
+# Sphinx build output
+docs/_build/

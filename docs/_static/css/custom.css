@@ -1,0 +1,131 @@
+:root {
+    --wsprrypi-docs-content-width: 980px;
+    --wsprrypi-docs-body-size: 16px;
+    --wsprrypi-docs-line-height: 1.7;
+    --wsprrypi-docs-heading-color: #17324d;
+    --wsprrypi-docs-text-color: #243746;
+    --wsprrypi-docs-muted-color: #4f6475;
+    --wsprrypi-docs-border-color: #d7e0e8;
+    --wsprrypi-docs-code-surface: #f4f7fa;
+    --wsprrypi-docs-link: #005a8d;
+}
+
+.wy-nav-content {
+    max-width: var(--wsprrypi-docs-content-width);
+}
+
+.rst-content {
+    color: var(--wsprrypi-docs-text-color);
+    font-size: var(--wsprrypi-docs-body-size);
+    line-height: var(--wsprrypi-docs-line-height);
+}
+
+.rst-content h1,
+.rst-content h2,
+.rst-content h3,
+.rst-content h4,
+.rst-content h5,
+.rst-content h6 {
+    color: var(--wsprrypi-docs-heading-color);
+    line-height: 1.25;
+    scroll-margin-top: 1rem;
+}
+
+.rst-content h1 {
+    margin-bottom: 1rem;
+}
+
+.rst-content h2,
+.rst-content h3 {
+    margin-top: 2rem;
+}
+
+.rst-content p,
+.rst-content ul,
+.rst-content ol,
+.rst-content dl,
+.rst-content blockquote {
+    max-width: 72ch;
+}
+
+.rst-content p,
+.rst-content ul,
+.rst-content ol,
+.rst-content dl {
+    margin-bottom: 1rem;
+}
+
+.rst-content li + li {
+    margin-top: 0.35rem;
+}
+
+.rst-content a {
+    color: var(--wsprrypi-docs-link);
+}
+
+.rst-content code.literal,
+.rst-content tt.literal,
+.rst-content :not(pre) > code {
+    background: var(--wsprrypi-docs-code-surface);
+    border: 1px solid var(--wsprrypi-docs-border-color);
+    border-radius: 0.2rem;
+    color: #16344a;
+    padding: 0.12rem 0.32rem;
+}
+
+.rst-content div[class^="highlight"],
+.rst-content pre.literal-block {
+    border: 1px solid var(--wsprrypi-docs-border-color);
+    border-radius: 0.35rem;
+    overflow-x: auto;
+}
+
+.rst-content div[class^="highlight"] pre,
+.rst-content pre.literal-block {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    padding: 1rem 1.1rem;
+}
+
+.rst-content table.docutils {
+    border: 1px solid var(--wsprrypi-docs-border-color);
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.rst-content table.docutils th,
+.rst-content table.docutils td {
+    white-space: nowrap;
+}
+
+.rst-content .admonition,
+.rst-content .note,
+.rst-content .warning,
+.rst-content .important,
+.rst-content .tip {
+    border-radius: 0.35rem;
+}
+
+.wy-menu-vertical a {
+    line-height: 1.35;
+}
+
+.wy-menu-vertical li.current > a,
+.wy-menu-vertical li.toctree-l1.current > a {
+    font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+    .wy-nav-content-wrap {
+        margin-left: 0;
+    }
+
+    .wy-nav-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .rst-content {
+        font-size: 15px;
+    }
+}
