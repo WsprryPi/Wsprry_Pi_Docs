@@ -58,3 +58,4 @@ docs/skills-lock.json
 
 # Sphinx build output
 docs/_build/
+docs/.agents/
