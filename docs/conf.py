@@ -134,7 +134,7 @@ html_theme_options = {
 # disable epub mimetype warnings
 suppress_warnings = ["epub.unknown_project_files"]
 
-html_logo = '_static/antenna.svg'
+html_logo = '_static/WsprryPi_Logo.png'
 html_favicon = '_static/favicon.ico'
 
 # Put the custom.css in the html static path folder (Default is _static folder).
