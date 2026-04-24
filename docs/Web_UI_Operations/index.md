@@ -15,10 +15,11 @@ Spots/index
 
 Use the web UI in this order:
 
-- Confirm the application is connected and healthy from the header.
-- Review or change configuration on the Configuration page.
+- Confirm the application is connected to the backend via the header indicators.
+- Review or change configuration on the Setup page.
 - Check Logs if the daemon does not behave as expected.
 - Review recent reception reports on the Spots page.
+- Monitor typical operations from the Operation page.
 
 ## Navbar
 
@@ -35,27 +36,26 @@ The antenna icon turns color depending on the status of the application:
 - **Yellow/Gold:** Indicates the web page is connected to the application, but no transmission is in progress.
 - **Green:** Indicates a transmission is in progress.
 
-If color alone is not a reliable indicator, hover over the icon to see the text status.
+### Main Application Links
 
-### WSPR Links
+![WSPR Navbar Links](Navbar.png)
 
-![WSPR Navbar Links](WSPR_Links.png)
+- **Operation:** The landing page and main view for active operations.
+- **Setup:** Configure the transmission parameters and hardware interface.
+- **Logs:** View the WsprryPi logs via a live interface to the Pi's `journald` daemon.
+- **Spots:** A view of the most recent spots of your callsign from the WSPRnet database.
+- **Maintenance:** Recovery operations to fix configuration errors, as well as a test tone generator.
 
-- **Wsprry Pi Application:** A drop-down is available on each page with links to the Wsprry Pi pages.
-- **Documentation:** Opens the online documentation in a new tab.
-- **GitHub:** Opens the source repository, issue tracker, and development history.
-- **TAPR:** Opens the TAPR site in a new tab.
-- **WSPRNet Spots:** Opens the WSPRNet database and, if your call sign is configured, goes directly to your most recent spots.
+#### Wsprry Pi Links Dropdown
 
-#### Wsprry Pi Application
-
-![WSPR Navbar Links](WsprryPi_Application.png)
+![WSPR Links](Links.png)
 
 Three pages are available here:
 
-- **Configuration:** The main Wsprry Pi page where you configure and control the station.
-- **Logs:** Shows the 500 most recent daemon log entries. Full command-line logs are still available when you need more detail.
-- **Spots:** Courtesy of [WSPR Live](https://wspr.live/wspr_downloader.php?), shows the last 60 minutes of spots and refreshes every five minutes.
+- **Documentation:** This documentation, hosted at Read The Docs.
+- **GitHub:** The main GitHub organization, containing all of the repositories supporting this project.
+- **TAPR:** TAPR is a non-profit 501(c)(3) organization of amateur radio (“ham”) operators who are interested in advancing the state of the radio art.  TAPR offers pre-built Pi HATs for Wsprry Pi in their store, among other items.
+- **WSPRNet Database:** The WSPRNet.or's database interface, where you may perform lookups on WSPR reports.
 
 ### Web Page Mode
 
@@ -93,4 +93,10 @@ On the far right side of the card header is a clock displaying both local and UT
 
 The card body contains the page-specific controls and data. You may need to scroll to see all options. The layout is responsive and is intended to remain usable on both phones and desktop browsers.
 
-Changes are not applied until you save them.
+Changes are saved as you make them.  The status of the save is shown in the card header.
+
+![Save OK](Save_OK.png)
+
+Any errors will be indicated there, with text directing you to the issue.
+
+![Save Error](Save_Error.png)
