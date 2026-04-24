@@ -1,5 +1,4 @@
-<!-- Grammar and spelling checked -->
-# Configuration Card
+# Setup Card
 
 This card is where all of your settings will happen.  Only two settings are (purposefully) not in the web UI, which will be more than enough for 99.9% of you.
 

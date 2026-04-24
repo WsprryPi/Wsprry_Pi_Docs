@@ -6,9 +6,11 @@ The web interface is the primary day-to-day control surface for Wsprry Pi. It pr
 :maxdepth: 1
 :hidden:
 
-Configuration/index
+Operations/index
+Setup/index
 Logs/index
 Spots/index
+Maintenance/index
 ```
 
 ![Wsprry Pi UI](WsprryPi_UI.png)
