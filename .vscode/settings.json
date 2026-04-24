@@ -12,9 +12,20 @@
         "toctree",
         "wideband",
         "WSJT",
-        "wsprdaemon’s",
+        "wsprdaemon's",
         "Wsprry",
         "wsprrypi",
         "WSPRX"
-    ]
+    ],
+    "python.defaultInterpreterPath": "${workspaceFolder}/docs/.venv/bin/python",
+    "python.linting.enabled": true,
+    "python.terminal.executeInFileDir": true,
+    "python.terminal.focusAfterLaunch": true,
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "args": ["--init-file", "${workspaceFolder}/.vscode/init-venv.sh"]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash"
 }
