@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Web UI Operations
 
 The web interface is the primary day-to-day control surface for Wsprry Pi. It provides configuration, status, logs, and recent spots in one responsive layout.

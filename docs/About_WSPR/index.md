@@ -5,6 +5,10 @@ WSPR, "Weak Signal Propagation Reporter," is a protocol for low-power, digital c
 
 WSPR operates by encoding information in a series of tones and transmitting it in short, controlled bursts using a highly efficient modulation scheme. The resulting signal is often too weak to be heard by human ears but can be decoded by specialized software on a receiving station, which can extract the encoded information from the noise.
 
+WSPR message types differ mainly in how much information they can encode and how they use transmission frames. Type 1 (WSPR1) is the original, single-frame format that encodes a standard callsign, grid locator (4 characters), and power level—simple, compact, and universally supported. As of version 3.0.0, two additional message types are available, WSPR 2 and WSPR 3.
+
+Type 2 (WSPR2) extends WSPR1 capabilities by allowing longer or non-standard callsigns (e.g., prefixes, suffixes, or portable identifiers) using a compressed/hashed representation, but still fits within a single transmission frame. Type 3 (WSPR3) goes further by splitting the message across two coordinated frames, enabling full transmission of extended callsigns and 6-character locators; it relies on the receiver combining both frames to reconstruct the complete message.
+
 WSPR is transmitted on a schedule, allowing multiple stations to share a single frequency. This will enable WSPR for various applications, including monitoring and analyzing radio propagation conditions, testing equipment and antennas, and conducting experiments in low-power, long-range communication.
 
 One of the critical features of WSPR is its ability to operate in very low signal-to-noise ratios. This allows for reliable communication over long distances, even under poor propagation conditions. This makes it a popular choice among amateur radio enthusiasts and researchers interested in studying long-range radio propagation and related phenomena.
@@ -17,7 +21,7 @@ Transmissions carry a station's callsign, [Maidenhead grid locator](https://en.w
 
 The basic specifications of the MEPT\_JT mode are as follows:
 
-- Transmitted message: callsign + 4-character-locator + dBm Example: "K1JT FN20 30"
+- Transmitted message: callsign + 4-character-locator + dBm Example: "K1JT FN20 30" (in the case of WSPR1)
 - Message length after lossless compression: 28 bits for callsign, 15 for locator, 7 for power level ==\> 50 bits total.
 - Forward error correction (FEC): long-constraint convolutional code, K=32, r=1/2.
 - Number of channel symbols: nsym = (50+K-1)\*2 = 162.
