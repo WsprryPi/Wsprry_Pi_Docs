@@ -1,4 +1,4 @@
-# Web UI Operations
+# User Interface
 
 The web interface is the primary day-to-day control surface for Wsprry Pi. It provides configuration, status, logs, and recent spots in one responsive layout.
 
@@ -102,3 +102,5 @@ Changes are saved as you make them.  The status of the save is shown in the card
 Any errors will be indicated there, with text directing you to the issue.
 
 ![Save Error](Save_Error.png)
+
+Information related to each page follows.

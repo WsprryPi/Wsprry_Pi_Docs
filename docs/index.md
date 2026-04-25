@@ -30,7 +30,7 @@ Install/index
 :maxdepth: 2
 :caption: Operate Wsprry Pi
 
-Web_UI_Operations/index
+User_Interface/index
 Command_Line_Operations/index
 Advanced_Operations/index
 ```
