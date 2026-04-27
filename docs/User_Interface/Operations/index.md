@@ -40,12 +40,6 @@ Within the Operations card are panels intended to be your quick reference nce to
   - *Type3Single* is a single Type 3 frame which sends a reversible callsign as well as a reversible 6-character maidenhead locator.
   - *Type2Type3Paired* is a paired frame transmission mode, alternating between Type 2 (shown as F1/2) and Type 3 (shown as F2/2) messages.  This may be thought of as an automated means to assure the receiver can correlate all extended information.
 
-    | Feature / Field | Type 1 | Type 2 | Type 3 |
-    | --- | --- | --- | --- |
-    | Callsign | Full callsign <=6 characters | Hashed (15-bit), not reversible | Fully encoded, may be >6 characters, reversible |
-    | Grid Square | 4-character Maidenhead | 4-character Maidenhead | Repurposed for callsign extension info |
-    | Power (dBm) | Included (0–60 dBm, quantized) | Included (0–60 dBm, quantized) | Included (0–60 dBm, quantized) |
-
   - *Next Message At* is displayed when in one of the three CW modes, and the scheduler is waiting for a transmission window.  The time is displayed in the local time.
   - *Message Progression* is displayed in CW mode during a transmission. It will show a cursor on the current character.
 
