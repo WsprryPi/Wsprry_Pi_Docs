@@ -1,6 +1,6 @@
-# Signal Setup
+# Signal Setup Tab
 
-Signal Setup is where configuration items related to th signal type or content are configured.
+The Signal Setup tab of the Signal Setup page is where configuration items related to th signal type or content are configured.
 
 ![Signal Setup Panel](signal_setup_wspr.png)
 
