@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Log Card
 
 ![WsprryPi Logs](logs.png)

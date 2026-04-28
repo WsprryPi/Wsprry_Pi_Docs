@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 (faq-and-known-errors)=
 # FAQ and Known Errors
 

@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Advanced Operations
 
 These topics cover the underlying controls and operating details behind WSPR and `wsprrypi`. Most users can stay in the web UI, but this page is useful when you need timing, calibration, or API details.

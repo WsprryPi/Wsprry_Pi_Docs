@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Wsprry Pi System Internals
 
 The system consists of the following:

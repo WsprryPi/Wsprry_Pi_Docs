@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Wsprry Pi Development
 
 All current development has been done with `g++` version `gcc (Debian 14.2.0-19) 14.2.0` (C++20).  The compilation is done on on the user's Pi to allow the compiled executable to run regardless of the `GLIBC` library versions.

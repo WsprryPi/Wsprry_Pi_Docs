@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Command Line Operations
 
 Wsprry Pi normally runs as a `systemd` service, but you can also work with it directly from the shell for testing and one-off transmissions.
