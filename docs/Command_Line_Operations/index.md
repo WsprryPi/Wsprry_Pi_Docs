@@ -1,129 +1,319 @@
-# Command Line Operations
 
-Wsprry Pi normally runs as a `systemd` service, but you can also work with it directly from the shell for testing and one-off transmissions.
+# Command Line Options
+
+Wsprry Pi normally runs as a `systemd` service, but you can also work with it
+directly from the shell for testing, calibration, and one-off transmissions.
+
+---
 
 ## `systemd` Service
 
-The `wsprrypi` executable is controlled by Linux `systemd`. It runs in the background after boot, and only one `wsprrypi` process is allowed at a time. Stop the daemon before taking manual control from the command line.
+The `wsprrypi` executable is managed by Linux `systemd`. It runs in the
+background after boot, and only one instance is allowed at a time. Stop the
+daemon before running manual CLI commands.
 
-Useful service commands:
+Useful commands:
 
-- `sudo systemctl status wsprrypi`: Show a status page for the running daemon.
-- `sudo systemctl restart wsprrypi`: Restart the daemon and `wsprrypi` with it.
-- `sudo systemctl stop wsprrypi`: Stop the daemon. The daemon will restart again upon reboot.
-- `sudo systemctl start wsprrypi`: Start the daemon if it is not running.
-- `sudo systemctl disable wsprrypi`: Disable the daemon from restarting on reboot.
-- `sudo systemctl enable wsprrypi`: Enable the daemon to start on reboot if it is disabled.
+- `sudo systemctl status wsprrypi`  
+  Show current status and recent logs.
 
-## Command Line
+- `sudo systemctl restart wsprrypi`  
+  Restart the daemon and reload configuration.
 
-To see the built-in help, run:
+- `sudo systemctl stop wsprrypi`  
+  Stop the daemon. It will start again on reboot unless disabled.
+
+- `sudo systemctl start wsprrypi`  
+  Start the daemon manually.
+
+- `sudo systemctl disable wsprrypi`  
+  Prevent daemon startup on boot.
+
+- `sudo systemctl enable wsprrypi`  
+  Enable daemon startup on boot.
+
+---
+
+## Command Line Overview
+
+The CLI supports two primary modes:
+
+- **Direct CLI mode**  
+  Run WSPR or CW-based transmissions directly.
+
+- **INI (daemon-style) mode**  
+  Use `-i` to load and monitor a configuration file.
+
+### Usage
 
 ```text
-$ wsprrypi -h
-
-WsprryPi version 2.0 (main).
-
-Usage:
- (sudo) wsprrypi [options] callsign gridsquare transmit_power frequency <f2> <f3> ...
- OR
- (sudo) wsprrypi --test-tone {frequency}
-
-Options:
- -h, --help
- Display this help message.
- -v, --version
- Show the WsprryPi version.
- -i, --ini-file <file>
- Load parameters from an INI file.  Provide the path and filename.
-
-See the documentation for a complete list of available options.
+(sudo) wsprrypi [options] CALLSIGN GRID POWER FREQ [FREQ...]
+(sudo) wsprrypi -i /path/to/wsprrypi.ini
+(sudo) wsprrypi --test-tone RF_FREQ [backend/options]
+(sudo) wsprrypi --mode QRSS --cw-message TEXT --cw-base-frequency FREQ
 ```
 
-### Common Command Line Examples
+---
 
-To create a transmission you must either send a test tone or provide your callsign, grid square, transmit power, and frequency. Any command that causes RF output should be run with `sudo`.
+## Common Examples
 
-Arguments may use either the short form with a single hyphen, such as `-h`, or the long form with a double hyphen, such as `--help`.
+- `wsprrypi --help`  
+  Display help text.
 
-Examples:
+- `sudo wsprrypi --test-tone 780e3`  
+  Transmit a constant RF tone at 780 kHz.
 
-- `wsprrypi --help`
+- `sudo wsprrypi N9NNN EM10 33 20m`  
+  Transmit a single WSPR message.
 
-  Display a brief help screen.
+- `sudo wsprrypi --use-ntp N9NNN EM10 33 20m`  
+  Use NTP calibration before transmission.
 
-- `sudo wsprrypi --test-tone 780e3`
+- `sudo wsprrypi --repeat --offset --use-ntp N9NNN EM10 33 40m`  
+  Continuous transmissions with offset randomization.
 
-  Transmit a constant test tone at 780 kHz.
+---
 
-- `sudo wsprrypi N9NNN EM10 33 20m`
+## Positional Arguments
 
-  Transmit a single WSPR message on 20 meters with no frequency offset calibration.
+These are required for direct WSPR transmission unless provided via INI:
 
-- `sudo wsprrypi --use-ntp N9NNN EM10 33 20m`
+- **CALLSIGN**  
+  Your callsign or supported WSPR identity form. Standard Type 1 WSPR
+  messages use a normal callsign that fits the classic WSPR field. When the
+  supplied identity cannot be represented as a single Type 1 message, the
+  planner can use paired WSPR message planning where supported. This allows
+  Type 2 and Type 3 message forms for extended callsign/grid combinations
+  rather than requiring every direct CLI transmission to fit the older
+  six-character Type 1-only form.
 
-  Use NTP-based frequency calibration before transmitting.
+- **GRID**  
+  Maidenhead grid square or locator value used by the WSPR planner. Standard
+  Type 1 messages use the normal four-character Maidenhead grid square. For
+  identities that require paired planning, the grid and callsign are evaluated
+  together so the planner can select the appropriate Type 2/Type 3-capable
+  message strategy when available.
 
-- `sudo wsprrypi --repeat --terminate 7 --ppm 43.17 N9NNN EM10 33 10140210 0 0 0 0`
+- **POWER**  
+  Transmit power in dBm. The value is rounded to valid WSPR steps and included
+  in the transmitted WSPR message where the selected message type supports it.
 
-  Transmit slightly off-center on 30 meters every 10 minutes for seven transmissions using a fixed PPM correction.
+- **FREQ**  
+  One or more frequencies or band aliases.  
+  Examples: `20m`, `14097100`, `0` (skip slot)
 
-- `sudo wsprrypi --repeat --offset --use-ntp N9NNN EM10 33 40m`
+---
 
-  Transmit repeatedly on 40 meters, apply NTP-based calibration, and randomize the offset to reduce collisions.
+## General Options
 
-### Complete Command Line Listing
+- `-h`, `--help`  
+  Display help text and exit. This is processed early and does not require root.
 
-Command-line input falls into three groups: positional arguments, switches that take no value, and options that require a value. You can also load parameters from an INI file:
+- `-v`, `--version`  
+  Print version information and exit.
 
-`wsprrypi -i /usr/local/etc/wsprrypi.ini`
+- `-i`, `--ini-file <file>`  
+  Load configuration from an INI file. When used, CLI transmission options are
+  disabled or restricted, and the program runs in daemon-style mode.
 
-If the required values are present in the INI file, no additional arguments are required. If you supply both an INI file and command-line options, the command line is applied after the INI values and overrides them. In some cases the INI file is updated with the revised parameters.
+- `-r`, `--repeat`  
+  Repeat transmissions indefinitely in direct CLI mode.
 
-#### Positional Arguments
+- `-x`, `--terminate <count>`  
+  Stop after a specified number of transmissions.
 
-Four positional arguments exist and are required for WSPR transmissions unless they are supplied by the INI file:
+- `-J`, `--journald`  
+  Send logs to the systemd journal instead of stdout.
 
-- **Callsign**: Your six-character or shorter callsign.
-- **Gridsquare**: Your four-character Maidenhead grid square.
-- **Power**: Your transmit power in dBm.
-- **Frequency** (list): The transmission frequency or list of frequencies, separated by spaces.
+- `-D`, `--date-time-log`  
+  Prefix log lines with UTC timestamps.
 
-Example:
+- `--debug-logging`, `--no-debug-logging`  
+  Enable or disable debug-level logging output.
 
-`wsprrypi N9NNN EM10 33 10140210 0 0 0 0`
+---
 
-#### No Arguments
+## WSPR Behavior
 
-The following commands require no arguments:
+- `--planner-preference <auto\|prefer_paired\|require_paired>`  
+  Controls WSPR message planning. The default `auto` mode uses a normal single
+  WSPR frame when possible and allows the planner to choose paired handling when
+  needed. `prefer_paired` asks the planner to use paired handling when it is
+  available. `require_paired` rejects a transmission if the supplied identity
+  cannot be represented with the paired-message strategy.
 
-- `--help` or `-h`: Show the version and an abbreviated help listing, then exit.
-- `--version` or `-v`: Show the current version, then exit.
-- `--use-ntp` or `-n`: Use Network Time Protocol through `chrony` to adjust transmission frequency calibration.
-- `--repeat` or `-r`: Repeat the frequency or loop through the list of frequencies indefinitely.
-- `--offset` or `-o`: Apply a random offset to the transmission frequency.
-- `--date-time-log` or `-D`: Apply a UTC timestamp, for example `2025-05-06 12:17:00.561 UTC`, to log lines shown on screen.
+- `-o`, `--offset`  
+  Apply a small random frequency offset to reduce collisions.
 
-#### Arguments Required
+- `--no-offset`  
+  Disable random offset.
 
-These commands require an argument immediately after the option:
+### WSPR Message Types
 
-- `--ini-file` or `-i`: Load initial configuration from an INI file using a full or relative path.
-- `--ppm` or `-p`: Apply a fixed PPM correction value from `-200.00` to `200.00`.
-- `--terminate` or `-x`: Stop after a specific number of iterations.
-- `--test-tone` or `-t`: Generate a test tone at the chosen frequency. This overrides the need for the positional transmission arguments.
-- `--led_pin` or `-l`: Set the Raspberry Pi GPIO pin number, in BCM numbering, for the transmission indicator.
-- `--shutdown_button` or `-s`: Set the Raspberry Pi GPIO pin number, in BCM numbering, for the shutdown button.
-- `--power_level` or `-d`: Set the Raspberry Pi GPIO output power:
-  - `0`: 2 mA or 3.0 dBm
-  - `1`: 4 mA or 6.0 dBm
-  - `2`: 6 mA or 7.8 dBm
-  - `3`: 8 mA or 9.0 dBm
-  - `4`: 10 mA or 10.0 dBm
-  - `5`: 12 mA or 10.8 dBm
-  - `6`: 14 mA or 11.5 dBm
-  - `7`: 16 mA or 12.0 dBm
-- `--web-port` or `-w`: Set the socket used for the configuration REST API. The default is `31415`.
-- `--socket-port` or `-k`: Set the socket used for the web UI Web Socket server. The default is `31416`.
+The CLI is no longer limited to classic Type 1-only callsign handling. Direct
+CLI WSPR input is passed through the same WSPR planning path used by the rest
+of the application.
 
-<!-- Not yet implemented - `--transmit-pin` or `-a`: The pin Raspberry Pi pin number, in BCM formatting (e.g., use "18" for GPIO4 or header pin 7) for the transmissions. -->
+- **Type 1** is the normal single-frame WSPR message form for standard
+  callsign, grid, and power combinations.
+- **Type 2** supports compound or extended identity cases by transmitting a
+  callsign-hash-oriented frame as part of a paired strategy.
+- **Type 3** supports the complementary extended identity information needed
+  for paired decoding.
+
+For ordinary callsigns and four-character grid squares, no special option is
+usually needed. For identities that require Type 2/Type 3 handling, use
+`--planner-preference` when you want to prefer or require paired planning.
+
+---
+
+## Backend Selection
+
+- `--backend <gpio\|si5351>`  
+  Select RF output method.  
+  - `gpio`: Direct RF from Raspberry Pi GPIO (limited models).  
+  - `si5351`: External clock generator via I2C.
+
+- `--power-level <level>`  
+  Set transmit power for the active backend:  
+  - GPIO: 0–7  
+  - Si5351: 1–4
+
+- `--gpio-power-level <0-7>`  
+  Explicitly set GPIO drive strength.
+
+- `--si5351-power-level <1-4>`  
+  Set Si5351 output drive strength.
+
+---
+
+## GPIO Backend
+
+- `--transmit-gpio <4\|20>`  
+  Select GPIO pin used for RF output.
+
+- `--transmit-pin <4\|20>`  
+  Legacy alias for transmit GPIO.
+
+- `-n`, `--use-ntp`  
+  Enable NTP-based frequency calibration.
+
+- `--no-use-ntp`  
+  Disable NTP calibration and use manual PPM.
+
+- `-p`, `--ppm <value>`  
+  Apply manual frequency correction (-200 to 200 ppm).
+
+---
+
+## Si5351 Backend
+
+- `--si5351-i2c-bus <bus>`  
+  Select I2C bus (default: 1).
+
+- `--si5351-i2c-address <addr>`  
+  Set device address (decimal or hex).
+
+- `--si5351-reference-frequency <hz>`  
+  Define reference oscillator frequency.
+
+- `--si5351-tx-output <CLK0\|CLK1\|CLK2>`  
+  Select output clock. This option is not exposed in the Web UI.
+
+---
+
+## CW / QRSS / FSKCW / DFCW Modes
+
+- `--mode <WSPR\|QRSS\|FSKCW\|DFCW>`  
+  Select transmission mode.
+
+- `--cw-message <text>`  
+  Message to transmit in CW-based modes.
+
+- `--cw-base-frequency <freq>`  
+  Base RF frequency. Supports Hz, kHz, MHz, GHz suffixes.
+
+- `--cw-shift-hz <hz>`  
+  Frequency shift for FSK-based modes.
+
+- `--cw-dot-seconds <seconds>`  
+  Length of a Morse "dot".
+
+### Timing
+
+- `--cw-start-minute <0-59>`  
+  Start minute for scheduled transmissions.
+
+- `--cw-repeat-minutes <minutes>`  
+  Interval between transmissions.
+
+### Spacing
+
+- `--cw-intra-element-gap <multiple>`  
+  Gap between elements of a character.
+
+- `--cw-inter-character-gap <multiple>`  
+  Gap between characters.
+
+- `--cw-inter-word-gap <multiple>`  
+  Gap between words.
+
+### Envelope Control
+
+- `--cw-fade-shape <none\|linear\|raised_cosine>`  
+  Shape of amplitude transitions.
+
+- `--cw-fade-in-ms <ms>`  
+  Fade-in duration.
+
+- `--cw-fade-out-ms <ms>`  
+  Fade-out duration.
+
+- `--cw-fade-slice-ms <ms>`  
+  Resolution of fade steps.
+
+---
+
+## Service and GPIO Controls
+
+- `--no-web`  
+  Disable Web UI and WebSocket server.
+
+- `-w`, `--web-port <port>`  
+  HTTP REST API port (default: 31415).
+
+- `-k`, `--socket-port <port>`  
+  WebSocket port (default: 31416).
+
+- `-l`, `--led_pin <gpio>`  
+  Set TX LED GPIO.
+
+- `--led-pin <gpio>`  
+  Alias for LED pin.
+
+- `--use-led`, `--no-led`  
+  Enable or disable LED.
+
+- `-s`, `--shutdown_button <gpio>`  
+  Set shutdown button GPIO.
+
+- `--shutdown-button <gpio>`  
+  Alias.
+
+- `--use-shutdown`, `--no-shutdown`  
+  Enable or disable shutdown monitoring.
+
+---
+
+## Test Tone
+
+- `-t`, `--test-tone <frequency>`  
+  Generate a continuous RF tone. Useful for calibration and testing.
+
+---
+
+## Notes
+
+- CLI options override INI values unless restricted.
+- Some advanced features are CLI-only.
+- Root privileges (`sudo`) are required for RF output.
