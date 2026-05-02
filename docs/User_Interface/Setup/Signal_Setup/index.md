@@ -100,7 +100,7 @@ CW modes are not as strictly formatted, and are **not** a beacon mode as WSPR is
 
 The Mode panel allows configuring most of the metadata for CW modes.
 
-#### Mode
+#### Available Modes
 
 The actual CW mode is one of:
 

@@ -1,4 +1,4 @@
-# Pi I/O Configuration
+# Pi I/O Configuration Tab
 
 The Pi I/O page contains settings for Raspberry Pi pin usage, including status indicators and hardware control lines exposed through the web interface.
 

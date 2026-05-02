@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Adafruit",
         "avgseg",
         "Bresenham",
         "callsign",
@@ -13,6 +14,7 @@
         "narrowband",
         "PLLD",
         "QRSS",
+        "TCXO",
         "testtone",
         "titlesonly",
         "toctree",

@@ -1,4 +1,4 @@
-# Operations
+# Operations Card
 
 The first page along the top of the Navbar is "Operations".  This page serves as the root page, and will be the most commonly monitored page during normal operations.
 

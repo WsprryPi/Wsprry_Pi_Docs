@@ -25,7 +25,7 @@ There are only two choices when setting up the GPIO-based transmitter:
 
 GPIO4 is the most common pin used.  GPIO20 is technically possible to use, however this has not been tested.  It is there in case you wish to experiment.
 
-### Power Level
+### GPIO Power Level
 
 These are output driver strength levels mapped within the Pi's GPIO registers.  You may adjust the output from 0-7 with the slider.  The values roughly align to power levels at the pin before any amplification or filtering:
 
@@ -58,7 +58,7 @@ You must have a reference frequency to govern the clock generator.  QRP Labs bre
 
 Enter the frequency here that corresponds to your installed TCXO.
 
-### Power Level
+### Si 5351 Power Level
 
 The Si5351 has four configurable power levels:
 

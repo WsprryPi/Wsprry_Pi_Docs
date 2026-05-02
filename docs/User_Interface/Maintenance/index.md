@@ -1,5 +1,4 @@
-
-# Maintenance
+# Maintenance Card
 
 The maintenance page allows you to perform tasks that are not necessarily related to the business of transmitting WSPR or QRSS modes, but that you may need from time to time.
 
