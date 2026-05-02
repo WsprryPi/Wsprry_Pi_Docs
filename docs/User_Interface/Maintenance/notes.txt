@@ -1,0 +1,63 @@
+Read-only review completed. The Maintenance page has three main actions, plus three buttons inside the Test Tone modal.
+
+  Maintenance Buttons
+
+  Repair current configuration
+  Defined in data/views/maintenance.php:46, handled by data/maintenance.js:260.
+
+  It sends POST /config/repair with:
+
+  { "verb": "repair" }
+
+  Backend path: /home/pi/WsprryPi/src/web_server.cpp:220 routes this to repair_from_web(true), declared via the HTTP server class in /home/pi/WsprryPi/src/web_server.hpp:57.
+
+ 
+  Reset to defaults
+  Defined in data/views/maintenance.php:75, handled by data/maintenance.js:264.
+
+  It first shows a confirmation dialog. If confirmed, it sends:
+
+  { "verb": "restore" }
+
+  Backend path: same POST /config/repair route in /home/pi/WsprryPi/src/web_server.cpp:245, calling repair_from_web(false).
+
+
+
+  Test tone
+  Defined in data/views/maintenance.php:95, handled by data/site.js:3292.
+
+  This button itself does not transmit. It opens #testToneModal and initializes the Start/End button state.
+
+  Test Tone Modal Buttons
+
+  Start
+  Defined in data/views/maintenance.php:129, handled by data/site.js:3305.
+
+  If a scheduled transmission is active or merely enabled, the UI blocks the start and prompts the user to stop/disable transmissions first. If allowed, it sends WebSocket command:
+
+  { "command": "tone_start" }
+
+  Backend path: /home/pi/WsprryPi/src/web_socket.cpp:393, aligned with /home/pi/WsprryPi/src/web_socket.hpp:60, calls start_test_tone().
+
+  Impact: start_test_tone() in /home/pi/WsprryPi/src/scheduling.cpp:3125 rejects duplicate, active-transmission, or enabled-transmission cases. On success it sets web_test_tone, saves the
+  prior mode, stops any transmitter execution, selects the first configured WSPR frequency entry, resolves actual RF frequency using the WSPR audio offset, temporarily switches runtime mode to
+  TONE, prepares band-selector GPIO state, commits a tone TransmissionRequest, and starts the transmitter asynchronously. It does not persist tone mode to the INI.
+
+  End
+  Defined in data/views/maintenance.php:135, handled by data/site.js:3334.
+
+  It sends WebSocket command:
+
+  { "command": "tone_end" }
+
+  Backend path: /home/pi/WsprryPi/src/web_socket.cpp:408 calls end_test_tone().
+
+  Impact: end_test_tone() in /home/pi/WsprryPi/src/scheduling.cpp:3222 stops and joins the transmitter, clears execution state, finalizes selector GPIO cleanup, reconciles the TX LED, clears
+  web_test_tone, restores the previous runtime mode, and then either calls set_config(true) to restore normal WSPR scheduling or restores a prior direct-tone startup request. If transmit is
+  enabled after restoration, it can re-arm/start the scheduler again.
+
+  Close
+  Defined in data/views/maintenance.php:141.
+
+  It dismisses the modal. Important detail: the modal hidden.bs.modal event is bound to onTestToneEnd in data/site.js:3010. So closing the modal while a test tone is active behaves like
+  pressing End; closing it while no tone is active just resets the Start/End button state.
