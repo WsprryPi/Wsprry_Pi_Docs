@@ -1,8 +1,11 @@
-
 # Command Line Options
 
 Wsprry Pi normally runs as a `systemd` service, but you can also work with it
 directly from the shell for testing, calibration, and one-off transmissions.
+
+:::{note}
+Only one instance of Wsprry Pi may run on the system at the same time.
+:::
 
 ---
 
