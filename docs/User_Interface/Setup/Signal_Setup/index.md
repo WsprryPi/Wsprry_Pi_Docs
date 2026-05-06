@@ -58,7 +58,7 @@ Using the bands will select the canonical WSPR frequency.
 
 #### Random offset
 
-Turning this switch on will acc a positive or negative random offset to the transmitted frequency.  This can be handy when there is a lot of traffic on WSPR, and allow you to find a more clear slice of the available bandwidth.
+Turning this switch on will add a positive or negative random offset to the transmitted frequency.  This can be handy when there is a lot of traffic on WSPR, and allow you to find a more clear slice of the available bandwidth.
 
 #### Reported Power
 
@@ -74,7 +74,7 @@ This setting hs no bearing on actual transmission power.
 
 Some operators may choose to manually calibrate their rig.  This is more important with GPIO-based transmissions where the Raspberry Pi frequencies may be impacted by power, heat, and mechanical differences.
 
-Others may opd for the simpler and "accurate enough" NTP calibration.  This uses an internet time source to calibrate the output frequency.  For most bands, this is more than reasonable.  Some operators on higher bands such as 6m and 2m may find even a small deviation puts them out of the transmission boundaries, and may need to use a calculated PPM adjustment.
+Others may opt for the simpler and "accurate enough" NTP calibration.  This uses an internet time source to calibrate the output frequency.  For most bands, this is more than reasonable.  Some operators on higher bands such as 6m and 2m may find even a small deviation puts them out of the transmission boundaries, and may need to use a calculated PPM adjustment.
 
 When NTP is enabled, the Frequency Calibration field is dithered.  When using the Si5351 clock module, NTP is disabled and manual calibration should be used - although the combination of a TCXO and the Si5351 is often so close, it may be ignored.
 
@@ -142,4 +142,4 @@ This adds gaps between words, as a multiplier applied to the dot timing.  Typica
 
 ### CW Message
 
-Any message may be entered in this box that can me represented by the 26 letters and 10 numerals.  The length of the message is factored against the dot seconds and other derived timings, and the interface will throw an error if the message would be 15 minutes and the "repeat every" is set for 10 minutes.
+Any message may be entered in this box that be represented by the 26 letters and 10 numerals.  The length of the message is factored against the dot seconds and other derived timings, and the interface will throw an error if the message would be 15 minutes and the "repeat every" is set for 10 minutes.

@@ -8,7 +8,7 @@ WSPR message types differ mainly in how much information they can encode and how
 
 Type 2 (WSPR2) extends WSPR1 capabilities by allowing longer or non-standard callsigns (e.g., prefixes, suffixes, or portable identifiers) using a compressed/hashed representation, but still fits within a single transmission frame. Type 3 (WSPR3) goes further by splitting the message across two coordinated frames, enabling full transmission of extended callsigns and 6-character locators; it relies on the receiver combining both frames to reconstruct the complete message.
 
-WSPR is transmitted on a schedule, allowing multiple stations to share a single frequency. This will enable WSPR for various applications, including monitoring and analyzing radio propagation conditions, testing equipment and antennas, and conducting experiments in low-power, long-range communication.
+WSPR is transmitted on a schedule, allowing multiple stations to share a single frequency. This makes WSPR suitable for various applications, including monitoring and analyzing radio propagation conditions, testing equipment and antennas, and conducting experiments in low-power, long-range communication.
 
 One of the critical features of WSPR is its ability to operate in very low signal-to-noise ratios. This allows for reliable communication over long distances, even under poor propagation conditions. This makes it a popular choice among amateur radio enthusiasts and researchers interested in studying long-range radio propagation and related phenomena.
 

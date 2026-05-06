@@ -49,6 +49,6 @@ After a conversation with Bruce Raymond of TAPR, I forked @threeme3's repo and p
 
 In late 2024, George [K9TRV] of TAPR contacted me about some questions related to using WsprryPi on the Pi 5.  The conversation spurred me to discard the original code in favor of a more modern, extensible, and maintainable base.
 
-As of Version 2.0+, all of the original code has been replaced with my own; it is no longer derivative work and released it under the MIT license.
+As of Version 2.0+, all of the original code has been replaced with my own; it is no longer derivative work, and I have released it under the MIT license.
 
 My goal, and where you will validate my success, is to allow you to execute one command on your Pi to install and run the Wsprry Pi software.  If you are lucky and have been living right, a radio wave will hit the cosmos and be received [somewhere else](https://wsprnet.org).

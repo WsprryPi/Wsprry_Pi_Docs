@@ -2,7 +2,7 @@
 
 This card is where your normal day-to-day configuration changes happen. Several settings are intentionally not exposed in the web UI because they are reserved for development and experimental use.
 
-Settings will save, or throw an error in the indicator at the top of the pace.  No special "Save" button is required or provided.
+Settings will save, or throw an error in the indicator at the top of the page.  No special "Save" button is required or provided.
 
 ```{toctree}
 :maxdepth: 1

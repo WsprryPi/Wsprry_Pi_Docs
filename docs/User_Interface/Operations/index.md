@@ -12,7 +12,7 @@ If you are using a Raspberry Pi 5 or similar, you will see an indicator that the
 
 When you select "Go to Setup" you will be directed to the `/wsprrypi/index.php?page=config&setup_tab=#transmitter-hardware-pane` tab, where the Si5351 will be automatically selected as the output path.  From here you may continue normally.
 
-Within the Operations card are panels intended to be your quick reference nce to your current broadcast status, as well as a means to enable, disable, or stop transmissions.
+Within the Operations card are panels intended to be your quick reference to your current broadcast status, as well as a means to enable, disable, or stop transmissions.
 
 ![Initial Operations](Initial_Ops.png)
 
