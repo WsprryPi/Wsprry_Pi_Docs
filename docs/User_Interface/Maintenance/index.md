@@ -66,3 +66,25 @@ Should you be configured to transmit in either WSPR or CW mode, the page will pr
 ![Disable Transmissions](disable_transmissions.png)
 
 You will need to re-enable transmissions again on the Operations page when you are finished testing.
+
+## Update Checker
+
+The Wsprry Pi UI will automatically check the running version against releases on GitHub.  When a new version is available, you will see a pop-up directing you to the [Releases page](https://github.com/WsprryPi/WsprryPi/releases/).
+
+![Update Available Modal](update_avail.png)
+
+You may also check manually on the Maintenance page, and force an immediate check.
+
+![Force Update Check](manual_update_check.png)
+
+You may dismiss the modal, and the footer will continue to quietly remind you that an update is available.
+
+![Update Available Footer](update_footer.png)
+
+You may also choose to "Never check again" either in the modal, or by selecting "About" in the footer.
+
+![About - Never Check](about_update.png)
+
+If you choose to never check again and wish to re-enable the checking, the opposite setting is available in the "About" footer, as well as in the update check section in the maintenance panel.
+
+Technical information on the update check process is available in the [WsprryPi Automatic Update Polling](update_check.md) technical page.
