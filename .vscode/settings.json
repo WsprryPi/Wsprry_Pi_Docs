@@ -13,6 +13,7 @@
         "lowpass",
         "MOSFET",
         "narrowband",
+        "Optocoupler",
         "PLLD",
         "QRSS",
         "TAPR",

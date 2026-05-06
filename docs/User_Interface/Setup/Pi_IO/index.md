@@ -34,6 +34,8 @@ You may select active high or low, depending on your need.
 Most amplifiers allocate a pin to be grounded to its own chassis as an activation switch. Do not connect this directly to your Pi, it will overload your GPIO and may cause physical damage. A relay, SSR or MOSFET will be needed in most cases to switch the amp from the GPIO.
 :::
 
+A small PC817 Optocoupler Isolation Board, such as [this one available on Amazon](https://www.amazon.com/EC-Buying-Optocoupler-Isolation-Optoelectronic/dp/B0D3CX6NP6), may be a good ready-made solution.
+
 ## Band GPIO
 
 This section allows you to set pins to drive relays per band, to use a device such as the [QRP Labs Ultimate Relay-Switched LPF Kit](https://qrp-labs.com/ultimatelpf.html).
