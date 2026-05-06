@@ -8,15 +8,17 @@ This software uses system time to determine the start of WSPR transmissions, so 
 
 ## Frequency Calibration
 
-The system uses NTP calibration by default through `chrony` and can often reach about 0.1 PPM error after the Pi temperature stabilizes and the NTP loop converges.
+### GPIO-Based Transmissions
 
-Frequency calibration matters because WSPR occupies a narrow band. The Raspberry Pi reference crystal has both static error and temperature-dependent drift. You can rely on NTP-based correction or apply a fixed PPM correction manually.
-
-### NTP Calibration
+Starting in version 2.0, the installer replaces the default `ntpd` implementation with [Chrony](https://chrony-project.org/), which has proven more reliable for this application.
 
 NTP tracks and calculates a PPM correction automatically. If your Pi is running NTP, use `--use-ntp` to query the latest correction before each WSPR transmission. Residual error can remain because of NTP loop delay, so this works best after the system has been powered on long enough for clock and temperature behavior to settle.
 
-Starting in version 2.0, the installer replaces the default `ntpd` implementation with [Chrony](https://chrony-project.org/), which has proven more reliable for this application.
+Frequency calibration matters because WSPR occupies a narrow band. The Raspberry Pi reference crystal has both static error and temperature-dependent drift. You can rely on NTP-based correction or apply a fixed PPM correction manually.
+
+### Si5351-Based Transmissions
+
+The Si5351 required a crystal reference, and it is this reference that will govern the transmission frequency calibration.  `chrony` is not used to calibrate this frequency, however you may manually adjust the calibration via the PPM offset configuration item.  In testing against a 27MHz crystal, no calibration was needed.
 
 ### AM Calibration
 
@@ -29,152 +31,619 @@ Suppose your local AM station is at 780 kHz. Use `--test-tone` to produce nearby
 The daemon reads `wsprrypi.ini` for its execution parameters. In normal use there is rarely a reason to edit the file directly. The installer stores it in the user data directory:
 
 ```bash
-$ ls -al /usr/local/etc
+$ ls -al /usr/local/etc/wsprrypi.ini
 total 12
 drwxr-xr-x  2 root root 4096 Feb 18 14:51 .
 drwxr-xr-x 10 root root 4096 Sep 21 19:02 ..
 -rw-rw-rw-  1 root root  171 Mar  6 19:47 wsprrypi.ini
 ```
 
-The file uses standard INI syntax. It has four sections: `Control`, `Common`, `Extended`, and `Server`. Blank lines and extra whitespace are ignored. Each setting is a key/value pair separated by an equals sign.
+The file uses standard INI syntax. It has four sections: `Meta`, `Operation`, `Calibration`, `GPIO`, `Si5351`, `WSPR`, `CW`, and `Band GPIO`. Blank lines and extra whitespace are ignored. Each setting is a key/value pair separated by an equals sign.
 
 This is the default INI file that ships with the installation. Any comments in the file must begin with a semicolon (`;`).
 
 ```ini
-; Created for WsprryPi version 2.0
+; Created for WsprryPi version %SEMANTIC_VERSION%
 ; Copyright (C) 2023 - 2026 Lee C. Bussy (@LBussy)
 
-; Edit the values below as needed.  Do not remove sections or keys.
+[Meta]
+debug_logging = False
 
-[Control]
-; Transmit: Set to True to enable transmitting, False to disable.
-Transmit = true
+[Operation]
+; Mode:
+; Active transmit mode.
+; Valid values:
+;   WSPR
+;   QRSS
+;   FSKCW
+;   DFCW
+Mode = WSPR
 
-[Common]
-; Call Sign: Your ham radio call sign (maximum 7 characters).
-Call Sign = AA0NT
-; Grid Square: Your location's Maidenhead grid square (4 characters).
-Grid Square = EM18
-; TX Power: Transmitter power in dBm (integer, e.g., 20).
-TX Power = 20
-; Frequency: Transmission frequency in meters (e.g., '20m') or Hz (e.g., '450000000').
-Frequency = 40m
-; Transmit Pin: The GPIO pin for WSPR transmissions (BCM numbering).
+; Transmit:
+; Global RF transmit gate. False prevents transmission and scheduling.
+Transmit = False
+
+; Transmit Backend:
+; RF transmit backend.
+; Valid values:
+;   gpio    - Raspberry Pi GPCLK/PWM RF output
+;   si5351  - Si5351 clock-generator RF output
+Transmit Backend = gpio
+
+; Use LED:
+; Enable status LED output.
+Use LED = False
+
+; LED Pin:
+; BCM GPIO used for LED status output.
+LED Pin = 18
+
+; Use Amp:
+; Enables optional external amplifier control.
+Use Amp = false
+
+; Amp Pin:
+; BCM GPIO used for optional external amplifier control.
+; Leave blank to disable amplifier control.
+Amp Pin =
+
+; Amp Pin Active High:
+; Controls amplifier GPIO polarity.
+Amp Pin Active High = false
+
+; Web Port:
+; Port used for REST interface.
+Web Port = 31415
+
+; Socket Port:
+; Port used for WebSocket interface.
+Socket Port = 31416
+
+; Use Shutdown:
+; Enable shutdown button monitoring.
+Use Shutdown = False
+
+; Shutdown Button:
+; BCM GPIO used for shutdown trigger.
+Shutdown Button = 19
+
+
+[Calibration]
+; PPM:
+; Frequency calibration in parts per million.
+; Used directly by the Si5351 backend and whenever GPIO.Use NTP is false.
+PPM = 0.0
+
+
+[GPIO]
+; Transmit Pin:
+; BCM GPIO used for RF output when Transmit Backend = gpio.
+; GPCLK0 is supported on BCM GPIO 4 or 20.
+; Ignored by the Si5351 backend.
 Transmit Pin = 4
 
-[Extended]
-; PPM: Frequency offset in parts per million (floating-point).
-PPM = 0
-; Use NTP: Calibrate tones via NTP
-Use NTP = true
-; Offset: Set to True to enable frequency offset correction, False to disable.
-Offset = true
-; Use LED: Set to True to enable LED usage, False to disable.
-Use LED = true
-; LED Pin as a GPIO/BCM designation, e.g., Pin 12/GPIO18/BCM18 = 18
-LED Pin = 18
-; Power Level: Output power level (integer from 0 to 7, where 7 is maximum).
-Power Level = 0
+; Power Level:
+; GPIO backend RF output power setting.
+; Valid range is 0 to 7.
+Power Level = 7
 
-[Server]
-; Port used for REST interface
-Web Port = 31415
-; Port used for websockets
-Socket Port = 31416
-; Use Shutdowwn: Set to True to enable shutdown button, False to disable.
-Use Shutdown = true
-; PIN (BCM) used for shutdown watcher
-Shutdown Button = 19
+; Use NTP:
+; Apply NTP-based PPM correction for the GPIO backend.
+; Ignored by the Si5351 backend, which uses Calibration.PPM only.
+Use NTP = True
+
+
+[Si5351]
+; I2C Bus:
+; Linux I2C bus number for the Si5351 device.
+; Bus 1 usually maps to /dev/i2c-1 on Raspberry Pi systems.
+I2C Bus = 1
+
+; I2C Address:
+; 7-bit Si5351 I2C address.
+; 0x60 is the common default for many Si5351 breakout boards.
+I2C Address = 0x60
+
+; Reference Frequency:
+; Si5351 crystal or reference input frequency in Hz.
+; Typical modules use 27000000.
+Reference Frequency = 27000000
+
+; TX Output:
+; Si5351 clock output used for transmit RF.
+; Valid values:
+;   CLK0
+;   CLK1
+;   CLK2
+; Unused outputs are held in a safe non-transmitting state by WsprryPi.
+; The internal parked PLL is a synthesis state, not an emitted parked RF output.
+; This setting is configurable in INI and CLI; it is not exposed in the web UI.
+TX Output = CLK0
+
+; Power Level:
+; Si5351 backend drive-strength level.
+; Valid range is 1 to 4.
+Power Level = 1
+
+
+[WSPR]
+; Call Sign:
+; Your amateur radio callsign.
+; Supports standard, compound, and extended WSPR formats.
+Call Sign = NXXX
+
+; Grid Square:
+; Your Maidenhead grid locator.
+Grid Square = ZZ99
+
+; TX Power:
+; Transmitter power in dBm.
+TX Power = 20
+
+; Frequency:
+; WSPR band name or dial frequency in Hz.
+Frequency = 20m
+
+; Planner Preference:
+; Controls how WsprryPi selects between single-frame and paired WSPR transmissions.
+; Valid values:
+;   auto
+;   prefer_paired
+;   require_paired
+Planner Preference = auto
+
+; Use Random Offset:
+; Enable WSPR frequency randomization around the dial-derived RF frequency.
+Use Random Offset = True
+
+
+[CW]
+; Message:
+; Text transmitted by QRSS, FSKCW, or DFCW when the selected mode is non-WSPR.
+Message = HELLO
+
+; Base Frequency:
+; Base RF frequency for non-WSPR modes.
+; Use whole-number Hz, or add Hz, kHz, MHz, or GHz to decimal values.
+; QRSS transmits on this frequency.
+; FSKCW uses this as the space frequency.
+; DFCW uses this as the dot frequency.
+Base Frequency = 14096900
+
+; Shift Hz:
+; Frequency shift in Hz for keyed dual-frequency CW modes.
+; FSKCW mark frequency = Base Frequency + Shift Hz.
+; DFCW dash frequency = Base Frequency + Shift Hz.
+; QRSS ignores this field.
+Shift Hz = 5
+
+; Dot Seconds:
+; Dot length in seconds for QRSS, FSKCW, and DFCW timing.
+Dot Seconds = 3.0
+
+; Intra Element Gap:
+; Gap between dots and dashes, expressed as a multiple of Dot Seconds.
+Intra Element Gap = 1.0
+
+; Inter Character Gap:
+; Gap between characters, expressed as a multiple of Dot Seconds.
+Inter Character Gap = 3.0
+
+; Inter Word Gap:
+; Gap between words, expressed as a multiple of Dot Seconds.
+Inter Word Gap = 7.0
+
+; Fade Shape:
+; Envelope fade shape for QRSS, FSKCW, and DFCW events.
+; Valid values: none, linear, raised_cosine.
+Fade Shape = raised_cosine
+
+; Fade In Ms:
+; RF envelope fade-in duration in milliseconds.
+Fade In Ms = 20
+
+; Fade Out Ms:
+; RF envelope fade-out duration in milliseconds.
+Fade Out Ms = 20
+
+; Fade Slice Ms:
+; Advanced envelope approximation control for QRSS, FSKCW, and DFCW fades.
+; Smaller values produce smoother duty-gated fades at higher switching cost.
+; This does not change Fade In Ms or Fade Out Ms duration.
+Fade Slice Ms = 2
+
+; Start Minute:
+; Minute after the top of the hour for scheduled QRSS/FSKCW/DFCW launches.
+; Valid range: 0 to 59.
+Start Minute = 0
+
+; Repeat Minutes:
+; Repeat interval in minutes for scheduled QRSS/FSKCW/DFCW launches.
+; Must be greater than 0.
+Repeat Minutes = 10
+
+
+[Band GPIO]
+; Per-band GPIO assignment for band switching (BCM numbering).
+; Assign a GPIO number to enable switching for that band.
+; Leave blank to disable switching for that band.
+; The same GPIO may be assigned to multiple bands.
+; "<band> Active High" controls polarity (default = false).
+
+2200m = 
+2200m Active High = false
+
+630m = 
+630m Active High = false
+
+160m = 
+160m Active High = false
+
+80m = 
+80m Active High = false
+
+60m = 
+60m Active High = false
+
+40m = 
+40m Active High = false
+
+30m = 
+30m Active High = false
+
+22m = 
+22m Active High = false
+
+20m = 
+20m Active High = false
+
+17m = 
+17m Active High = false
+
+15m = 
+15m Active High = false
+
+12m = 
+12m Active High = false
+
+10m = 
+10m Active High = false
+
+6m = 
+6m Active High = false
+
+4m =
+4m Active High = false
+
+2m =
+2m Active High = false
 ```
 
-## REST and Web Sockets
+## REST and WebSocket Interfaces
 
-Wsprry Pi 2.x introduces both a REST API and a Web Socket interface.
+WsprryPi exposes both an HTTP REST interface and a WebSocket interface for configuration, control, monitoring, and UI synchronization.
 
-### REST API
+For normal browser and API use, access these interfaces through the Apache proxy path:
 
-The executable exposes a REST API on port `31415` by default. A basic health check is available at `http://{servername}.local:31415/`:
+```text
+http://{servername}.local/wsprrypi/
+```
 
-![Health Check Page](Health_Check.png)
+The WsprryPi backend still listens on its service ports internally:
 
-You can `GET` the configuration from `http://{servername}.local:31415/config`, and a `PUT` request with a valid JSON payload will update it. A typical payload looks like this:
+- HTTP REST/UI backend: `31415`
+- WebSocket backend: `31416`
+
+Those ports are implementation details behind the proxy. Most users and documentation examples should use the proxied `/wsprrypi/` paths.
+
+## REST API
+
+The HTTP interface serves both the browser UI and the REST API through the proxied base path.
+
+The UI entry point is:
+
+```text
+http://{servername}.local/wsprrypi/
+```
+
+### Configuration Endpoint
+
+The primary proxied configuration endpoint is:
+
+```text
+http://{servername}.local/wsprrypi/config
+```
+
+Supported operations:
+
+- `GET`: Returns the active runtime configuration as JSON
+- `PUT`: Replaces the configuration with a full JSON payload
+- `PATCH`: Updates selected configuration fields
+
+The backend service receives this request internally as:
+
+```text
+http://127.0.0.1:31415/config
+```
+
+The API exposes configuration for:
+
+- WSPR Type 2/3 support
+- QRSS, FSKCW, and DFCW configuration
+- Si5351 backend configuration
+- Band GPIO selector configuration
+- Amp Control GPIO support
+- Web and WebSocket port configuration
+- CW timing and fade configuration
+- Planner preferences and paired-frame behavior
+
+A typical payload resembles:
 
 ```json
 {
+    "Operation": {
+        "Mode": "WSPR",
+        "Transmit": true,
+        "Transmit Backend": "gpio",
+        "Use LED": true,
+        "LED Pin": 18,
+        "Use Amp": false,
+        "Amp Pin": -1,
+        "Amp Pin Active High": false,
+        "Use Shutdown": true,
+        "Shutdown Button": 19,
+        "Web Port": 31415,
+        "Socket Port": 31416
+    },
     "Common": {
         "Call Sign": "AA0NT",
-        "Frequency": "40m",
         "Grid Square": "EM18",
-        "TX Power": 20,
-        "Transmit Pin": 4
+        "Power": 20,
+        "Frequencies": "20m"
     },
-    "Control": {
-        "Transmit": true
+    "GPIO": {
+        "Transmit Pin": 4,
+        "Power Level": 7,
+        "Use NTP": true,
+        "PPM": 0.0
     },
-    "Extended": {
-        "LED Pin": 18,
-        "Offset": true,
-        "PPM": 0.0,
-        "Power Level": 0,
-        "Use LED": true,
-        "Use NTP": true
+    "Band GPIO": {
+        "20m": {
+            "Enabled": true,
+            "GPIO": 21,
+            "Active High": true
+        }
     },
     "Meta": {
-        "Center Frequency Set": [],
-        "Date Time Log": true,
+        "Use INI": true,
         "INI Filename": "/usr/local/etc/wsprrypi.ini",
+        "Date Time Log": true,
         "Loop TX": false,
-        "Mode": "WSPR",
-        "TX Iterations": 0,
-        "Test Tone": 730000.0,
-        "Use INI": true
-    },
-    "Server": {
-        "Shutdown Button": 19,
-        "Socket Port": 31416,
-        "Use Shutdown": true,
-        "Web Port": 31415
+        "TX Iterations": 0
     }
 }
 ```
 
-You can also `GET` the version payload from `http://{servername}.local:31415/version`:
+### Version Endpoint
+
+Version and update metadata are available through the proxied endpoint:
+
+```text
+http://{servername}.local/wsprrypi/version
+```
+
+The backend service receives this request internally as:
+
+```text
+http://127.0.0.1:31415/version
+```
+
+Modern versions expose structured metadata:
 
 ```json
 {
-    "wspr_version": "1.2.1-2-0-devel+1bfaecb (2-0-devel)"
+    "wspr_version": "3.0.0-rc.4+abcdef0 (devel)",
+    "ui_version": "3.0.0-rc.4+abcdef0 (devel)",
+    "ui_build_id": "mtime-1234567890abcdef",
+    "wspr_version_raw": "3.0.0-rc.4+abcdef0",
+    "wspr_branch": "devel",
+    "wspr_branch_state": "branch",
+    "wspr_commit": "abcdef0123456789",
+    "wspr_build_dirty": false
 }
 ```
 
-### Web Socket
+This endpoint is used for:
 
-The executable exposes a Web Socket on port `31416` by default. Available commands include:
+- Browser UI version display
+- Automatic update polling
+- UI build reload detection
+- Asset cache busting
+- GitHub update comparison logic
 
-- `get_tx_state`: The server responds with `{"tx_state": true}` or `{"tx_state": false}`.
-- `reboot`: The server responds with `{"command": "reboot"}` and reboots the server.
-- `shutdown`: The server responds with `{"command": "shutdown"}` and shuts down the server.
+## WebSocket Interface
 
-As long as the connection remains open, the server broadcasts certain events to connected clients:
+The WebSocket interface provides:
 
-- **Configuration reload:** Tells connected clients that the INI file has been updated and the cached configuration should be refreshed.
-  `{"state":"reload","timestamp":"2025-05-06T16:43:02Z","type":"configuration"}`
-- **Transmission start:** Tells connected clients that a transmission has started.
-  `{"state":"starting","timestamp":"2025-05-06T16:40:01Z","type":"transmit"}`
-- **Transmission complete:** Tells connected clients that a transmission has finished.
-  `{"state":"finished","timestamp":"2025-05-06T16:41:51Z","type":"transmit"}`
+- Runtime state broadcasts
+- Browser UI synchronization
+- Configuration reload notifications
+- Transmission lifecycle events
+- Test-tone state updates
+- Real-time control integration
+
+For normal browser use, connect through the proxied WebSocket path:
+
+```text
+ws://{servername}.local/wsprrypi/socket
+```
+
+The backend service receives this connection internally as:
+
+```text
+ws://127.0.0.1:31416/socket
+```
+
+### Available Commands
+
+Examples of supported commands include:
+
+- `get_tx_state`
+- `shutdown`
+- `reboot`
+- Runtime control and synchronization requests used by the browser UI
+
+Example request:
+
+```json
+{"command":"get_tx_state"}
+```
+
+Example response:
+
+```json
+{"tx_state":true}
+```
+
+### Broadcast Events
+
+As long as the socket remains connected, the server broadcasts runtime events to all connected clients.
+
+#### Configuration Reload
+
+Broadcast when the active configuration changes:
+
+```json
+{
+    "state":"reload",
+    "timestamp":"2025-05-06T16:43:02Z",
+    "type":"configuration"
+}
+```
+
+#### Transmission Start
+
+Broadcast when a transmission begins:
+
+```json
+{
+    "state":"starting",
+    "timestamp":"2025-05-06T16:40:01Z",
+    "type":"transmit"
+}
+```
+
+#### Transmission Complete
+
+Broadcast when a transmission finishes:
+
+```json
+{
+    "state":"finished",
+    "timestamp":"2025-05-06T16:41:51Z",
+    "type":"transmit"
+}
+```
+
+#### Transmission Cancelled
+
+Broadcast when a transmission is stopped before completion:
+
+```json
+{
+    "state":"cancelled",
+    "timestamp":"2025-05-06T16:40:20Z",
+    "type":"transmit"
+}
+```
+
+#### Test Tone State
+
+Broadcast during transient RF test tone operations:
+
+```json
+{
+    "state":"starting",
+    "type":"test_tone"
+}
+```
+
+The browser UI relies heavily on these broadcasts for:
+
+- Live status updates
+- Modal synchronization
+- Runtime control state
+- Configuration refresh
+- Multi-tab coordination
+- Update notification behavior
 
 ## PWM Peripheral
 
-The code uses the Raspberry Pi PWM peripheral to time the frequency transitions of the output clock. The Raspberry Pi sound system also uses this peripheral, so sound activity during a WSPR transmission can interfere with transmission quality. The install script disables the onboard sound path automatically, so most users do not need to make a manual change.
+The GPIO RF backend uses the Raspberry Pi PWM peripheral to time the frequency transitions of the output clock.
 
-## RF And Electrical Considerations
+The Raspberry Pi sound subsystem also uses this peripheral, so sound activity during a WSPR transmission can interfere with transmission quality.
 
-The Pi PWM output is a square wave, so a low-pass filter is required. Connect a low-pass filter through a DC-blocking capacitor to GPIO4 (`GPCLK0`) and a ground pin on the Raspberry Pi before connecting an antenna. GPIO4 and ground are on header pins 7 and 9 respectively. See [this reference](http://elinux.org/RPi\_Low-level\_peripherals) for pin layout details.
+The install script disables the onboard audio path automatically, so most users do not need to make manual changes.
 
-Examples of low-pass filters can be [found here](http://www.gqrp.com/harmonic\_filters.pdf). TAPR also offers a [shield for the Raspberry Pi](https://www.tapr.org/kits_20M-wsprrypi-pi.html) that provides band-appropriate filtering and amplifies the output to 20 dBm.
+This restriction applies only to the direct GPIO RF backend. External hardware backends such as Si5351 are not affected.
 
-The expected power output from the Pi is configurable from the command line or the web UI. When connected to a simple dipole antenna, this small amount of power may still result in reception reports over long distances.
+## RF and Electrical Considerations
 
-Because the Raspberry Pi does not strongly attenuate ripple and noise from the 5 V supply, use a regulated power supply with good ripple suppression. Supply ripple can appear as mixing products centered around the transmit carrier, typically at 100 Hz or 120 Hz.
+The GPIO RF backend produces a square-wave RF clock, so a low-pass filter is required.
 
-Do not expose GPIO4 to voltages or currents above the absolute maximum limits. GPIO4 outputs a 3.3 V digital clock with a maximum current of 16 mA. Do not short the pin or connect a resistive dummy load directly to it. Use a decoupling capacitor to remove the DC component when connecting loads, transformers, or antennas. Antennas can also expose the GPIO pin to static and induced RF energy, so some form of isolation is recommended.
+Connect a low-pass filter through a DC-blocking capacitor to GPIO4 (`GPCLK0`) and a ground pin on the Raspberry Pi before connecting an antenna.
+
+GPIO4 and ground are on header pins 7 and 9 respectively.
+
+See:
+
+- http://elinux.org/RPi_Low-level_peripherals
+
+for Raspberry Pi pin layout details.
+
+Examples of low-pass filters can be found here:
+
+- http://www.gqrp.com/harmonic_filters.pdf
+
+TAPR also offers a Raspberry Pi shield with filtering and amplification:
+
+- https://www.tapr.org/kits_20M-wsprrypi-pi.html
+
+The expected RF power output from the GPIO backend is configurable from the command line, INI file, or Web UI.
+
+Even at low power levels, WSPR transmissions are commonly received over very long distances.
+
+Because the Raspberry Pi does not strongly attenuate ripple and noise from the 5 V supply, use a regulated power supply with good ripple suppression.
+
+Supply ripple can appear as mixing products centered around the transmit carrier, typically at 100 Hz or 120 Hz.
+
+Do not expose GPIO pins to voltages or currents above the Raspberry Pi absolute maximum ratings.
+
+GPIO4 outputs a 3.3 V digital clock with a maximum current of approximately 16 mA.
+
+Do not:
+
+- Short GPIO4 directly to ground
+- Connect a resistive dummy load directly to the GPIO
+- Connect external amplifier keying circuitry directly to GPIO pins
+
+Use appropriate isolation when controlling external amplifiers.
+
+Most amplifiers expect their control line to be switched relative to chassis ground, which usually requires:
+
+- A relay
+- An SSR
+- A MOSFET driver
+- Or another isolated switching stage
+
+Do not connect amplifier keying inputs directly to Raspberry Pi GPIO pins.
+
+A DC-blocking capacitor should always be used when connecting transformers, filters, or antennas to the GPIO RF output.
+
+Antennas can also expose GPIO pins to:
+
+- Static discharge
+- Induced RF energy
+- Lightning transients
+
+Some form of isolation and protection is strongly recommended.
