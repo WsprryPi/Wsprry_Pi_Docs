@@ -3,14 +3,6 @@
 
 This section collects common installation issues, compatibility notes, and hardware questions that come up repeatedly when running Wsprry Pi.
 
-```{toctree}
-:maxdepth: 1
-:hidden:
-
-why_12m_looks_noisy
-lowpass-filter-justification
-```
-
 - {ref}`Install error: bash syntax error near unexpected token (less-than) <install-error-bash-line-1-syntax-error-near-unexpected-token->`
 - {ref}`Install error: curl 404 (requested URL returned error 404) <or-curl-22-the-requested-url-returned-error-404>`
 - {ref}`WSPR-15 Support <wspr-15-support>`
