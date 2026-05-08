@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Wsprry Pi System Internals
 
 The system consists of the following:
@@ -16,4 +15,4 @@ The primary data flow is as follows:
 
 As of 2.2.x, the `wsprrypi` service will log messages to the Debian `systemd-journald` facility.
 
-See the section on the [Log Panel](../Web_UI_Operations/Logs/index.md) for more information.
+See the section on the [Log Panel](../User_Interface/Logs/index.md) for more information.

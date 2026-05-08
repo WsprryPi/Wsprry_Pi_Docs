@@ -1,4 +1,3 @@
-<!-- Grammar and spelling checked -->
 # Installing Wsprry Pi
 
 ## Gather Hardware
@@ -9,44 +8,24 @@ You will need the following:
 - An SD card for the OS image
 - A power supply for the Pi.  Pay attention to potentially noisy power supplies here.  You will benefit from a well-regulated supply with sufficient ripple suppression.  You may see supply ripple as mixing products centered around the transmit carrier, typically at 120Hz (60Hz mains frequency) and 100Hz (50Hz mains frequency).
 
-**NOTE: The Raspberry Pi 5 is not supported.**
+If you are using a Raspberry Pi 5 or variants, you will additionally need the Si5351 Clock Generator.  While I have provided a KiCad design for a Pi HAT with a purpose-built circuit surrounding the Si5351, you also may use one of the common breakout boards:
+
+- [Adafruit Si5351 Clock Generator Breakout](https://learn.adafruit.com/adafruit-si5351-clock-generator-breakout/overview) - This will work for frequencies up to 6m; the 25MHz TCXO is not well suited for 2m.
+- [QRP Labs Si5351A Synthesizer](https://www.qrp-labs.com/synth.html) - This breakout kit comes with a 27MHz TCXO, capable of transmissions through 2m.
+
+The Si5351 is controlled through the Pi's [I2C bus](https://pinout.xyz/pinout/i2c), requiring a connection to GPIO2 and GPIO3 for this communication.
 
 ## Prerequisites
 
 This section may be the most challenging part of the whole installation.  *You must have a working Raspberry Pi with Internet access.* It can be hard-wired or on Wi-Fi.  There is no better place to learn how to set up your new Pi than from the people who make it themselves.  [Go here](https://www.raspberrypi.com/documentation/computers/getting-started.html), and learn how to install the operating system with the [Raspberry Pi Imager](https://www.raspberrypi.com/software/).  To enable SSH access, pre-configure your image with your local/time zone, Wi-Fi credentials, and a unique hostname.
 
-![Raspberry Pi Imager](rpi_imager.png)
+![Raspberry Pi Imager](Raspberry_Pi_Imager.png)
 
-I am only testing the current [`stable` versions](https://www.debian.org/releases/stable/).  Testing everything on more than one release, 32 and 64-bit, takes more time than I have right now.  In theory it will compile and run on [`oldstable`](https://www.debian.org/releases/oldstable/) but I won't support issues there.
+I am only testing the current [`stable` versions](https://www.debian.org/releases/stable/).  Testing everything on more than one release, 32 and 64-bit, and now GPIO and Si5153, with WSPR 1, 2 and 3, plus three CW modes, takes more time than I have right now.  In theory it will compile and run on [`oldstable`](https://www.debian.org/releases/oldstable/) but I won't support issues there.
 
 You can use a full-featured desktop version with all the bells and whistles, or Wsprry Pi will run just fine on the Lite version on an SD card as small as 2 GB (although a minimum of 8 GB seems more comfortable these days).  You can even run it headless without a keyboard, mouse, or monitor.  If you enable SSH, you can use your command line from Windows 10/11, macOS, or another Pi.
 
-Whatever you do, you will need command-line access to your Pi to proceed via SSH or the console.  Once you are up and running and connected to the Internet, you may proceed with Wsprry Pi installation.  Here is a recommended process:
-
-**Open the Raspberry Pi Imager:**
-
-* Choose your Raspberry Pi Device
-* Choose your Operating System
-* Choose Storage (you should only insert one SD card)
-* Next
-* At "Use OS Customizations," select "Edit Settings."
-  * On the General Tab
-    * Set the hostname to something unique on your network (like `wsprrypi`)
-    * Set username and password (you must do this, or SSH will not work)
-      * Only the username `pi` has been tested
-      * Choose a password you can remember
-    * Configure wireless LAN
-      * SSID is your network name
-      * The password is whatever you use
-      * Select the proper Wireless LAN country
-    * Set Locale settings to your location and keyboard type
-  * On the Services Tab
-    * Check "Enable SSH"
-    * Select "Use Password authentication."
-  * Save
-  * "Yes" to apply customizations
-* "Yes" to erase media
-* Wait for the writer to tell you it is okay to remove the SD card
+Whatever you do, you will need command-line access to your Pi to proceed via SSH or the console.  Once you are up and running and connected to the Internet, you may proceed with Wsprry Pi installation.  Each time I update this documentation, the Raspberry Pi Imager has changed the workflow.  Use Internet resources to find your best path.  You will only need command line (SSH) access to the Pi, but you are welcome to use any other configuration.
 
 ## System Changes
 
@@ -58,7 +37,7 @@ Aside from the obvious, installing Wsprry Pi, the install script will do the fol
   - `ws://127.0.0.1:31416/socket` to `/wsprrypi/socket` for Web Socket communications.
 - **Install Chrony**, [a replacement for ntpd](https://chrony-project.org/).
 - **Install PHP**, a popular, general-purpose scripting language that is especially suited for web development.  The [PHP Group](https://www.php.net/) maintains PHP.  I wrote the web pages in PHP.
-- **Install Raspberry Pi development libraries and other Packages**, `git`, and `libgpiod2`.
+- **Install Raspberry Pi development libraries and other Packages**, `git`, and `libgpiod`.
 - **Compile and configure Wsprry Pi**
 - **Disable the Raspberry Pi's built-in sound card.** Wsprry Pi uses the RPi PWM peripheral to time the frequency transitions of the output clock.  The Pi's sound system also utilizes this peripheral; any sound events during a WSPR transmission will interfere with the WSPR transmission.
 
@@ -78,7 +57,7 @@ If that happens, this longer form should work:
 
 This install command is idempotent; running it additional times will not have any negative impact.  If an update is released, re-run the installer to take advantage of the new release.
 
-Since the installation script compiles the application on your Pi to avoid any library version errors, it will take some time on older Pis with fewer resources.  A Pi 3 with 1 GB of memory takes about 20 minutes.  If the script detects a system with fewer resources, it will intentionally use fewer resources, resulting in a slower installation time.  If that is the case, it will issue a warning:
+Since the installation script compiles the application on your Pi to avoid any version errors, it will take some time on older Pis with fewer resources.  A Pi 3 with 1 GB of memory takes about 20 minutes.  If the script detects a system with fewer resources, it will intentionally use fewer resources, resulting in a slower installation time.  If that is the case, it will issue a warning:
 
 ```text
 [WARN ] The compilation step may take from 10m (Pi 3) to up to 50m (Pi 1)
@@ -181,6 +160,6 @@ Connect to your new web page from your favorite computer or cell phone using the
 
 ## Additional Hardware
 
-While the TAPR Hat is optional, an antenna is not.  Choosing an antenna is beyond the scope of this documentation; however, you can use a simple random wire connected to the GPIO4 pin (GPCLK0), which is labeled `7` on the header.
+While the TAPR Hat is optional, an antenna is not.  Choosing an antenna is beyond the scope of this documentation; however, you can use a simple random wire connected to the [GPIO4 pin (GPCLK0)](https://pinout.xyz/pinout/pin7_gpio4/), which is labeled `7` on the header.
 
-![Raspberry Pi Pinout](pinout.png)
+As explained above, if you are using a Pi 5, you will not use the GPIO4 connection and instead leverage the Si5351.
