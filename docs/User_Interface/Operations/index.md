@@ -39,15 +39,19 @@ Within the Operations card are panels intended to be your quick reference to you
 
     ![Frequency Panel](frequency.png)
 
-- **Current Plan** will display the current (or next if in pause mode) plan to be transmitted.  For WSPR modes, it will show the type of WSPR frame being transmitted, as well as the callsign and locator.  For CW modes it will show the message and a cursor for the character being transmitted.
+    If a GPIO LPF pin is configured, that pin and the active high/low status will be displayed after the frequency:
+
+    ![Frequency Panel GPIO Status](frequency_gpio.png)
+
+- **Current Plan** or **Message Progression** will display the current (or next if in pause mode) plan to be transmitted.  For WSPR modes, it will show the type of WSPR frame being transmitted, as well as the callsign and locator.  For CW modes it will show the message and a cursor for the character being transmitted.
 
     ![Current Plan](current_plan.png)
 
   - *Type1Single* is a standard Type 1 WSPR frame.
   - *Type2Single* is a single Type 2 WSPR frame which sends a callsign with a prefix (`W0/`) or suffix (`/P`) as a hashed component.  The hash is not reversible.  Decoding relies on correlation over time by the receiver with previous full-message decodes from paired transmissions.
-  - *Type3Single* is a single Type 3 frame which sends a reversible callsign as well as a reversible 6-character maidenhead locator.
-  - *Type2Type3Paired* is a paired frame transmission mode, alternating between Type 2 (shown as F1/2) and Type 3 (shown as F2/2) messages.  This may be thought of as an automated means to assure the receiver can correlate all extended information.
-
+  - *Type1Type3Paired* is a paired frane transmission mode, alternating between Type 1 (shown as F1/2) and Type 3 (shown as F2/2) messages. This plan is to support paired transmission support for a long locator but a simple callsign.  This may be thought of as an automated means to assure the receiver can correlate all extended information.
+  - *Type3Single* is a single Type 3 frame which sends a reversible callsign as well as a reversible 6-character maidenhead locator.  
+  - *Type2Type3Paired* is a paired frame transmission mode, alternating between Type 2 (shown as F1/2) and Type 3 (shown as F2/2) messages. This plan is to support paired transmission support for a complex or long callsign and a long locator. This may be thought of as an automated means to assure the receiver can correlate all extended information.
   - *Next Message At* is displayed when in one of the three CW modes, and the scheduler is waiting for a transmission window.  The time is displayed in the local time.
   - *Message Progression* is displayed in CW mode during a transmission. It will show a cursor on the current character.
 
