@@ -18,15 +18,71 @@ WSPR or Weak Signal Prorogation Reporting is the original mode for Wsprry Pi.
 
 ### Station Identity
 
-Within the Station identity section, you will set your callsign and locator.  For normal Type 1 WSPR messages, the callsign is any valid callsign of 6 characters or less.  The Grid Locator is the four character Maidenhead locator for where you are transmitting.
+Within the Station identity section, you will set your callsign and locator. For normal Type 1 WSPR messages, the callsign is any valid 6-character or fewer. The Grid Locator is the four- character Maidenhead locator for where you are transmitting.
 
-If you need or desire to use callsign extensions, have a callsign longer than 6 characters, or want or need to use a six-character locator, you will need to consider the use of Type 2 or 3 messages.
+If you need or desire to use callsign extensions, have a callsign longer than 6 characters, or want or need to use a six-character locator, you will need to consider using Type 2 or 3 messages.
 
-| Feature / Field | Type 1 | Type 2 | Type 3 |
+#### WSPR Transmission Type Selection Examples
+
+| Callsign | Locator | Meaning | Allowed/Required Transmission |
 | --- | --- | --- | --- |
-| Callsign | Full callsign <=6 characters | Hashed (15-bit), not reversible | Fully encoded, may be >6 characters, reversible |
-| Grid Square | 4-character Maidenhead | 4-character Maidenhead | Repurposed for callsign extension info |
-| Power (dBm) | Included (0–60 dBm, quantized) | Included (0–60 dBm, quantized) | Included (0–60 dBm, quantized) |
+| `AA0NT` | `EM18` | Standard callsign with 4-character locator | Type 1 single-frame |
+| `AA0NT` | `EM18IG` | Standard callsign with 6-character locator | Type 1/3 paired transmission should be used if full 6-character locator reporting is required |
+| `<AA0NT>` | `EM18` | Explicit Type 3 callsign with 4-character locator | Not useful; Type 3 is intended for extended locator or hashed callsign use |
+| `<AA0NT>` | `EM18IG` | Explicit Type 3 callsign with 6-character locator | Type 1/3 paired transmission |
+| `W0/AA0NT` | `EM18` | Compound/prefixed callsign with 4-character locator | Type 2 single-frame |
+| `W0/AA0NT` | `EM18IG` | Compound/prefixed callsign with 6-character locator | Type 2/3 paired transmission |
+| `<W0/AA0NT>` | `EM18IG` | Explicit Type 3 form of compound/prefixed callsign | Type 2/3 paired transmission |
+| `AA0NT/P` | `EM18` | Compound/suffixed callsign with 4-character locator | Type 2 single-frame |
+| `AA0NT/P` | `EM18IG` | Compound/suffixed callsign with 6-character locator | Type 2/3 paired transmission |
+| `<AA0NT/P>` | `EM18IG` | Explicit Type 3 form of compound/suffixed callsign | Type 2/3 paired transmission |
+
+##### Rule Summary
+
+- A normal callsign with a 4-character locator uses **Type 1**.
+
+    ```text
+    AA0NT EM18
+    ```
+
+- A normal callsign with a 6-character locator requires a **Type 1/3 pair** to
+  remain self-identifying.
+
+    ```text
+    AA0NT EM18
+    <AA0NT> EM18IG
+    ```
+
+- A compound, portable, or prefixed callsign with a 4-character locator uses  **Type 2**.
+
+    ```text
+    W0/AA0NT EM18
+    AA0NT/P EM18
+    ```
+
+- A compound, portable, or prefixed callsign with a 6-character locator requires a **Type 2/3 pair**.
+
+    ```text
+    W0/AA0NT EM18
+    <W0/AA0NT> EM18IG
+    ```
+
+    ```text
+    AA0NT/P EM18
+    <AA0NT/P> EM18IG
+    ```
+
+- Angle brackets request an explicit **Type 3** callsign frame.
+
+    ```text
+    <AA0NT>
+    ```
+
+This should not make pairing invalid. Instead, when paired transmission is
+required, the planner should choose the appropriate companion frame:
+
+- Standard inner callsign: **Type 1/3 pair**
+- Compound inner callsign: **Type 2/3 pair**
 
 ### WSPR Transmission Plan
 
