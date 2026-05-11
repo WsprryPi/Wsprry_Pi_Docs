@@ -20,6 +20,14 @@ Within the Operations card are panels intended to be your quick reference to you
 
     ![Ready](ready.png)
 
+- **Reboot Behavior:** 
+
+    ![Reboot Behavior](reboot_behavior.png)
+
+  - *Disable transmission on (re)boot* means that any time the daemon is restarted (which includes a reboot), the transmission state will be disabled.  This is provided to protect against unexpected transmissions and potential damage to any PA finals.
+  - *Follow the last transmission setting* takes the transmission control from the last known state, and follows accordingly on daemon restart,
+  - *Restart transmission on (re)boot* will always enable transmissions, if the system can honor the configuration, when the daemon restarts.
+
 - **Transmission Controls:** This panel contains a switch to enable to disable transmissions as well as an emergency stop.
 
     ![Transmission Control](transmission_controls.png)
