@@ -3,6 +3,10 @@
 
 The Wsprry Pi Support GPT can help you interpret a Wsprry Pi support bundle and think through common operating problems. It is most useful when Wsprry Pi is installed but something is not behaving the way you expect.
 
+Start here: [Open the Wsprry Pi Support GPT](https://chatgpt.com/g/g-6a43dc71d1988191b16ead50e3bb707b-wsprrypi-support-assistant).
+
+For best results, generate a Wsprry Pi support bundle ZIP first, then upload that ZIP file to the GPT along with a short description of the problem.
+
 ## When to Use It
 
 Use the Wsprry Pi Support GPT when you want help with issues such as:
@@ -30,7 +34,7 @@ A short, specific description usually helps more than a long transcript with no 
 
 ## Uploading a Support Bundle
 
-Generate a support bundle from the Wsprry Pi application, then upload the ZIP file to the Wsprry Pi Support GPT. The support bundle contains diagnostic information intended to help identify configuration, runtime, audio, WSPR decoding, upload, and environment issues.
+Generate a support bundle from the Wsprry Pi application, then upload the ZIP file to the [Wsprry Pi Support GPT](https://chatgpt.com/g/g-6a43dc71d1988191b16ead50e3bb707b-wsprrypi-support-assistant). The support bundle contains diagnostic information intended to help identify configuration, runtime, audio, WSPR decoding, upload, and environment issues.
 
 After uploading the ZIP file, ask the GPT to review it and explain what it finds. You can also ask it to suggest the next checks to make.
 
