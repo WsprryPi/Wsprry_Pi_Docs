@@ -33,6 +33,7 @@ Install/index
 User_Interface/index
 Command_Line_Operations/index
 Advanced_Operations/index
+Support/index
 ```
 
 ```{toctree}
