@@ -166,7 +166,7 @@ The actual CW mode is one of:
 
 #### Dot seconds
 
-Dot seconds are the basis for timing the character elements.  If a dot is 3 seconds, a dash is 3*dot or 9 seconds.
+Dot seconds are the basis for timing the character elements.  In QRSS and FSKCW, a dash lasts three dot lengths.  In DFCW, dots and dashes have the same duration; the frequency shift distinguishes a dash from a dot.
 
 #### Frequency offset
 
@@ -184,18 +184,30 @@ This is the CW form of the PPM/NTP settings in WSPR.  Here you may calibrate you
 
 QRSS operators generally start ad the 0 minute, and every 10 minutes thereafter.  Start at 0 and Repeat at 10 will enable this cadence.
 
-#### Intra-Element Gap
+#### QRSS/FSKCW Intra-Element Gap
 
-This adds a small gap in between elements of a character.  In other words, an "S" without gaps may be indistinguishable from a "T".  This is a positive multiplier applied to the dot seconds.
+This adds a gap between elements of a QRSS or FSKCW character.  It is a positive multiplier applied to Dot seconds.  This setting does not control DFCW spacing.
 
-#### Inter-Character Gap
+#### QRSS/FSKCW Inter-Character Gap
 
-This adds gaps between characters, as a multiplier applied to the dot timing.  Typically this is 3*dot length.
+This adds gaps between QRSS or FSKCW characters, as a multiplier applied to Dot seconds.  The default is 3 dot lengths.
 
-#### Inter-Word Gap
+#### QRSS/FSKCW Inter-Word Gap
 
-This adds gaps between words, as a multiplier applied to the dot timing.  Typically this is 7*dot length.
+This adds gaps between QRSS or FSKCW words, as a multiplier applied to Dot seconds.  The default is 7 dot lengths.
+
+#### DFCW Gap Controls
+
+When DFCW is selected, the web UI shows a separate set of timing controls.  Each value is a positive multiplier applied to Dot seconds:
+
+- **DFCW Intra-Element Gap** - Gap between the equal-duration dot and dash symbols within a character.  The default is `0.333333` dot lengths.
+- **DFCW Inter-Character Gap** - Gap between characters.  The default is `1.0` dot lengths.
+- **DFCW Inter-Word Gap** - Gap between words.  The default is `3.0` dot lengths.
+
+Selecting QRSS or FSKCW shows the shared QRSS/FSKCW gap controls instead.
 
 ### CW Message
 
-Any message may be entered in this box that be represented by the 26 letters and 10 numerals.  The length of the message is factored against the dot seconds and other derived timings, and the interface will throw an error if the message would be 15 minutes and the "repeat every" is set for 10 minutes.
+Enter the message as text using the 26 letters and 10 numerals.  Numeric-looking text such as `73` is a valid CW message.
+
+The web UI displays an estimated message duration near this field for QRSS, FSKCW, and DFCW.  The estimate uses Dot seconds and the gap controls for the selected mode.  A DFCW estimate uses the DFCW-specific gaps and equal-duration dots and dashes.  The interface reports an error if the estimated message duration is longer than the configured repeat interval.

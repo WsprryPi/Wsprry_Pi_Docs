@@ -252,14 +252,28 @@ usually needed. For identities that require Type 2/Type 3 handling, use
 
 ### Spacing
 
+The `--cw-*` gap options are shared by QRSS and FSKCW. DFCW uses its own gap options.
+
 - `--cw-intra-element-gap <multiple>`  
-  Gap between elements of a character.
+  QRSS/FSKCW gap between elements of a character.
 
 - `--cw-inter-character-gap <multiple>`  
-  Gap between characters.
+  QRSS/FSKCW gap between characters.
 
 - `--cw-inter-word-gap <multiple>`  
-  Gap between words.
+  QRSS/FSKCW gap between words.
+
+- `--dfcw-intra-element-gap <multiple>`
+
+  DFCW gap between equal-duration dot and dash symbols (default: `0.333333` dot lengths).
+
+- `--dfcw-inter-character-gap <multiple>`
+
+  DFCW gap between characters (default: `1.0` dot lengths).
+
+- `--dfcw-inter-word-gap <multiple>`
+
+  DFCW gap between words (default: `3.0` dot lengths).
 
 ### Envelope Control
 
