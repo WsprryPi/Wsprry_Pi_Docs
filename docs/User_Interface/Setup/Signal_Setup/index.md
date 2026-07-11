@@ -12,7 +12,7 @@ Set your preferred mode and the page context will change specific to that mode.
 
 ## WSPR Mode
 
-WSPR or Weak Signal Prorogation Reporting is the original mode for Wsprry Pi.
+WSPR or Weak Signal Propagation Reporting is the original mode for Wsprry Pi.
 
 ![WSPR Mode](WSPR_Mode.png)
 
@@ -124,7 +124,7 @@ Reported power is not the same as the actual transmission power.  The transmitte
 
 dBm is added to the encoder WSPR message to be a reference for the decoded message.  The operator should choose the value that is closest to their actual transmission power.
 
-This setting hs no bearing on actual transmission power.
+This setting has no bearing on actual transmission power.
 
 #### Frequency calibration (PPM) & NTP Calibration
 
@@ -141,7 +141,7 @@ In all cases, NTP will continue to keep the Pi in sync to time messages appropri
 Planning mode relates to the use of Type 1, 2, and 3 messages, and the behavior when certain data elements are entered.
 
 - **Automatic** - The planner attempts to choose the best transmission plan based on the data entered.
-- **Prefer paired when available** - If the planner finds it can generate both Type 2 and 3 messages, it ill do so in alternating windows.
+- **Prefer paired when available** - If the planner finds it can generate both Type 2 and 3 messages, it will do so in alternating windows.
 - **Require paired** - Requires the planner to always use a paired Type 2 and 3 message format.  For those who want the additional data to be received and understood by even the most remote stations under challenging conditions, this is likely the best choice.
 
 ## CW Mode
