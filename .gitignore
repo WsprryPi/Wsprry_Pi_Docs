@@ -63,3 +63,5 @@ docs/.agents/
 node_modules/
 
 .agents/
+
+.impeccable/
