@@ -1,6 +1,6 @@
 # Signal Setup Tab
 
-The Signal Setup tab of the Signal Setup page is where configuration items related to th signal type or content are configured.
+The Signal Setup tab of the Signal Setup page is where configuration items related to the signal type or content are configured.
 
 ![Signal Setup Panel](signal_setup_wspr.png)
 
@@ -184,15 +184,15 @@ This is the CW form of the PPM/NTP settings in WSPR.  Here you may calibrate you
 
 QRSS operators generally start ad the 0 minute, and every 10 minutes thereafter.  Start at 0 and Repeat at 10 will enable this cadence.
 
-#### QRSS/FSKCW Intra-Element Gap
+#### QRSS/FSKCW Intra Element Gap
 
 This adds a gap between elements of a QRSS or FSKCW character.  It is a positive multiplier applied to Dot seconds.  This setting does not control DFCW spacing.
 
-#### QRSS/FSKCW Inter-Character Gap
+#### QRSS/FSKCW Inter Character Gap
 
 This adds gaps between QRSS or FSKCW characters, as a multiplier applied to Dot seconds.  The default is 3 dot lengths.
 
-#### QRSS/FSKCW Inter-Word Gap
+#### QRSS/FSKCW Inter Word Gap
 
 This adds gaps between QRSS or FSKCW words, as a multiplier applied to Dot seconds.  The default is 7 dot lengths.
 
@@ -200,11 +200,13 @@ This adds gaps between QRSS or FSKCW words, as a multiplier applied to Dot secon
 
 When DFCW is selected, the web UI shows a separate set of timing controls.  Each value is a positive multiplier applied to Dot seconds:
 
-- **DFCW Intra-Element Gap** - Gap between the equal-duration dot and dash symbols within a character.  The default is `0.333333` dot lengths.
-- **DFCW Inter-Character Gap** - Gap between characters.  The default is `1.0` dot lengths.
-- **DFCW Inter-Word Gap** - Gap between words.  The default is `3.0` dot lengths.
+- **DFCW Intra Element Gap** - Gap between the equal-duration dot and dash symbols within a character.  The default is `0.333333` dot lengths.
+- **DFCW Inter Character Gap** - Gap between characters.  The default is `1.0` dot lengths.
+- **DFCW Inter Word Gap** - Gap between words.  The default is `3.0` dot lengths.
 
 Selecting QRSS or FSKCW shows the shared QRSS/FSKCW gap controls instead.
+
+The same settings are available in the [INI configuration example](../../../Advanced_Operations/index.md#ini-file) and as [command-line spacing options](../../../Command_Line_Operations/index.md#spacing).
 
 ### CW Message
 
