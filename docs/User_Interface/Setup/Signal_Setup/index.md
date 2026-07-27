@@ -182,7 +182,7 @@ This is the CW form of the PPM/NTP settings in WSPR.  Here you may calibrate you
 
 #### Start minute / Repeat interval
 
-QRSS operators generally start ad the 0 minute, and every 10 minutes thereafter.  Start at 0 and Repeat at 10 will enable this cadence.
+QRSS operators generally start at minute 0 and repeat every 10 minutes. Start at 0 and Repeat at 10 will enable this cadence. The repeat interval must also be long enough for the complete CW message. A transmission may take exactly the full repeat interval, but it may not run longer than that interval.
 
 #### Intra-Element Gap
 
@@ -198,4 +198,30 @@ This adds gaps between words, as a multiplier applied to the dot timing.  Typica
 
 ### CW Message
 
-Any message may be entered in this box that be represented by the 26 letters and 10 numerals.  The length of the message is factored against the dot seconds and other derived timings, and the interface will throw an error if the message would be 15 minutes and the "repeat every" is set for 10 minutes.
+Enter the text to transmit in the Message field. Setup updates the **Estimated Message Length** when you edit the message or change:
+
+- the selected QRSS, FSKCW, or DFCW mode;
+- the dot length or speed;
+- the spacing values used by the selected mode.
+
+Changing the repeat interval reevaluates whether that estimated duration fits within the transmission window.
+
+Only the active spacing controls affect the estimate. QRSS and FSKCW use their shared spacing values, while DFCW uses the DFCW spacing values.
+
+(cw-message-too-long)=
+#### When a CW message is too long
+
+If the estimated message length exceeds the repeat interval, Setup keeps the draft in the Message field but does not save it. The Message field is marked invalid, and the Setup header displays a persistent **Save failed** status. The detail reports the calculated message duration and configured repeat interval, then identifies the available corrections.
+
+Autosave remains paused while the message is too long. Further edits that remain over the limit update the estimate and keep the inline failure visible; they do not repeatedly open the general configuration reload-failure dialog.
+
+To correct the configuration, use one or more of these options:
+
+- Shorten the message.
+- Reduce the dot length or select a faster speed.
+- Reduce the spacing values used by the selected mode.
+- Increase the repeat interval.
+
+Setup clears the duration error and resumes autosave automatically as soon as the estimated message length is less than or equal to the repeat interval. A duration equal to the repeat interval is valid.
+
+An empty message or a message containing an unsupported character is a separate validation error. Correct the message shown in the field; clearing a duration error does not make an empty or unsupported message valid.
