@@ -142,6 +142,10 @@ html_css_files = [
     'css/custom.css',
 ]
 
+html_js_files = [
+    'js/accessibility.js',
+]
+
 html_static_path = ['_static']
 
 # -- Options for HTMLHelp output ---------------------------------------------

@@ -5,10 +5,10 @@ Wsprry Pi is a Raspberry Pi-based transmitter for amateur radio operators who wa
 As of version 3.0.0, several CW capabilities were added to the suite:
 
 - QRSS: The name “QRSS” is a derivation of the Q code “QRS”, a phrase Morse code operators send to indicate the transmitter needs to slow down. The extra “S” means slow way, way down.
-- FSKCW: Frequency Shift Keying CW is a variant of QRSS that instead of activating/deactivatin the carrier, the carrier is always activated as long as the transmission lasts. During pauses between dots, dashes or characters the frequency is shifted downwards.
+- FSKCW: Frequency Shift Keying CW is a variant of QRSS. Instead of switching the carrier on and off, FSKCW keeps it active for the transmission and shifts the frequency downward during gaps between elements and characters.
 - DFCW: Dual Frequency CW is a combination of QRSS and FSKCW. In DFCW, the element duration is replaced by the element frequency, speeding transmissions considerably.
 
-CW and the use of these additional protocols are beyond the scope of this documentation.  A good place to start is [Scott Harden's [AJ4VD] website](https://swharden.com/blog/tags/#qrss).
+To configure these modes, see [Configure WSPR and CW](User_Interface/Setup/Signal_Setup/index.md). For their direct command-line controls, see [CW Mode Options](Command_Line_Operations/cw_modes.md). [Scott Harden's AJ4VD website](https://swharden.com/blog/tags/#qrss) provides additional QRSS background and experiments.
 
 This documentation is organized to help you move through the project in a practical order:
 
