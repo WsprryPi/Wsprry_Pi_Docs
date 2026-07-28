@@ -218,7 +218,7 @@ This is the CW form of the PPM/NTP settings in WSPR.  Here you may calibrate you
 
 #### Start minute / Start second / Repeat interval
 
-QRSS operators generally start at minute 0 and repeat every 10 minutes. **Start minute** selects the minute after the hour, **Start second** selects the offset within that minute, and **Repeat interval** sets the cadence in minutes. The repeat interval must also be long enough for the complete CW message. A transmission may take exactly the full repeat interval, but it may not run longer than that interval.
+QRSS operators generally start at minute 0 and repeat every 10 minutes. **Start minute** selects the minute after the hour. **Start second** accepts a whole number from `0` through `59` and offsets each scheduled QRSS, FSKCW, or DFCW transmission from that minute. Its default value is `5`, and an explicit value of `0` is valid. **Repeat interval** sets the cadence in minutes; the start-second offset does not change that interval or the calculated message duration. The repeat interval must also be long enough for the complete CW message. A transmission may take exactly the full repeat interval, but it may not run longer than that interval.
 
 ### CW Message
 
@@ -236,6 +236,7 @@ Changing the repeat interval reevaluates whether the estimated duration fits wit
 Only the active spacing controls affect the estimate. QRSS and FSKCW use their shared spacing values, while DFCW uses the DFCW spacing values.
 
 (cw-message-too-long)=
+
 ##### When a CW message is too long
 
 If the estimated message length exceeds the repeat interval, Setup keeps the draft in the Message field but does not save it. The Message field is marked invalid, and the Setup header displays a persistent **Save failed** status. The detail reports the calculated message duration and configured repeat interval, then identifies the available corrections.
