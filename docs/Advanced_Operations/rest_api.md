@@ -1,0 +1,141 @@
+# REST API
+
+WsprryPi exposes both an HTTP REST interface and a WebSocket interface for configuration, control, monitoring, and UI synchronization.
+
+For persistent event and command connections, see {doc}`websocket`.
+
+For normal browser and API use, access these interfaces through the Apache proxy path:
+
+```text
+http://{servername}.local/wsprrypi/
+```
+
+The WsprryPi backend still listens on its service ports internally:
+
+- HTTP REST/UI backend: `31415`
+- WebSocket backend: `31416`
+
+Those ports are implementation details behind the proxy. Most users and documentation examples should use the proxied `/wsprrypi/` paths.
+
+The HTTP interface serves both the browser UI and the REST API through the proxied base path.
+
+The UI entry point is:
+
+```text
+http://{servername}.local/wsprrypi/
+```
+
+## Configuration Endpoint
+
+The primary proxied configuration endpoint is:
+
+```text
+http://{servername}.local/wsprrypi/config
+```
+
+Supported operations:
+
+- `GET`: Returns the active runtime configuration as JSON
+- `PUT`: Replaces the configuration with a full JSON payload
+- `PATCH`: Updates selected configuration fields
+
+The backend service receives this request internally as:
+
+```text
+http://127.0.0.1:31415/config
+```
+
+The API exposes configuration for:
+
+- WSPR Type 2/3 support
+- QRSS, FSKCW, and DFCW configuration
+- Si5351 backend configuration
+- Band GPIO selector configuration
+- Amp Control GPIO support
+- Web and WebSocket port configuration
+- CW timing and fade configuration
+- Planner preferences and paired-frame behavior
+
+A typical payload resembles:
+
+```json
+{
+    "Operation": {
+        "Mode": "WSPR",
+        "Transmit": true,
+        "Transmit Backend": "gpio",
+        "Use LED": true,
+        "LED Pin": 18,
+        "Use Amp": false,
+        "Amp Pin": -1,
+        "Amp Pin Active High": false,
+        "Use Shutdown": true,
+        "Shutdown Button": 19,
+        "Web Port": 31415,
+        "Socket Port": 31416
+    },
+    "Common": {
+        "Call Sign": "AA0NT",
+        "Grid Square": "EM18",
+        "Power": 20,
+        "Frequencies": "20m"
+    },
+    "GPIO": {
+        "Transmit Pin": 4,
+        "Power Level": 7,
+        "Use NTP": true,
+        "PPM": 0.0
+    },
+    "Band GPIO": {
+        "20m": {
+            "Enabled": true,
+            "GPIO": 21,
+            "Active High": true
+        }
+    },
+    "Meta": {
+        "Use INI": true,
+        "INI Filename": "/usr/local/etc/wsprrypi.ini",
+        "Date Time Log": true,
+        "Loop TX": false,
+        "TX Iterations": 0
+    }
+}
+```
+
+## Version Endpoint
+
+Version and update metadata are available through the proxied endpoint:
+
+```text
+http://{servername}.local/wsprrypi/version
+```
+
+The backend service receives this request internally as:
+
+```text
+http://127.0.0.1:31415/version
+```
+
+Modern versions expose structured metadata:
+
+```json
+{
+    "wspr_version": "3.0.0-rc.4+abcdef0 (devel)",
+    "ui_version": "3.0.0-rc.4+abcdef0 (devel)",
+    "ui_build_id": "mtime-1234567890abcdef",
+    "wspr_version_raw": "3.0.0-rc.4+abcdef0",
+    "wspr_branch": "devel",
+    "wspr_branch_state": "branch",
+    "wspr_commit": "abcdef0123456789",
+    "wspr_build_dirty": false
+}
+```
+
+This endpoint is used for:
+
+- Browser UI version display
+- Automatic update polling
+- UI build reload detection
+- Asset cache busting
+- GitHub update comparison logic

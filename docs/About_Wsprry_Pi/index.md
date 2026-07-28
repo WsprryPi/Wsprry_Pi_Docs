@@ -4,7 +4,9 @@ WsprryPi creates a very simple WSPR beacon on your Raspberry Pi by generating a 
 
 You connect the generated output through a [Low-Pass Filter to remove harmonics](https://www.nutsvolts.com/magazine/article/making\_waves\_) and then to an appropriate antenna.  It operates on bands from 2200m up to 6m.
 
-**You should not use Wsprry Pi without a low-pass filter, as it will create interference from harmonics on other bands.**
+:::{warning}
+Do not use Wsprry Pi without an appropriate low-pass filter. Unfiltered output can create harmonic interference on other bands.
+:::
 
 This image shows a square waveform, typical of the output from the Pi GPIO, with an overlay showing how a waveform might look through successive low-pass filters:
 
@@ -37,7 +39,7 @@ The following are untested but will likely work:
 - Raspberry Pi 500 (2024)
 - Raspberry Pi 500+ (2025)
 
-The Raspberry Pi 5 (and variants) has a different chip configuration and is only supported via teh Si5351 clock generator option.
+The Raspberry Pi 5 (and variants) has a different chip configuration and is only supported via the Si5351 clock generator option.
 
 ## Attribution
 

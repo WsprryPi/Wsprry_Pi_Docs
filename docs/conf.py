@@ -11,6 +11,9 @@
 import os
 import re
 import subprocess
+import sys
+
+sys.path.insert(0, os.path.abspath('_ext'))
 
 # -- Project information -----------------------------------------------------
 
@@ -79,6 +82,7 @@ else:
 # -- General configuration ---------------------------------------------------
 
 extensions = [
+    'image_delivery',
     'myst_parser',
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
@@ -126,9 +130,9 @@ html_theme_options = {
     # Toc options
     'collapse_navigation': False,
     'sticky_navigation': True,
-    'navigation_depth': 4,
-    'includehidden': False,
-    'titles_only': False
+    'navigation_depth': 3,
+    'includehidden': True,
+    'titles_only': True
 }
 
 # disable epub mimetype warnings
@@ -140,6 +144,10 @@ html_favicon = '_static/favicon.ico'
 # Put the custom.css in the html static path folder (Default is _static folder).
 html_css_files = [
     'css/custom.css',
+]
+
+html_js_files = [
+    'js/accessibility.js',
 ]
 
 html_static_path = ['_static']

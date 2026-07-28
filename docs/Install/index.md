@@ -41,7 +41,8 @@ Aside from the obvious, installing Wsprry Pi, the install script will do the fol
 - **Compile and configure Wsprry Pi**
 - **Disable the Raspberry Pi's built-in sound card.** Wsprry Pi uses the RPi PWM peripheral to time the frequency transitions of the output clock.  The Pi's sound system also utilizes this peripheral; any sound events during a WSPR transmission will interfere with the WSPR transmission.
 
-## Install WSPR
+(install-wspr)=
+## Install Wsprry Pi
 
 You may use this command to install Wsprry Pi (one line):
 
