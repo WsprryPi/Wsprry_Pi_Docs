@@ -310,11 +310,15 @@
 
 .wy-menu-vertical li.current > a,
 .wy-menu-vertical li.toctree-l1.current > a {
-    background: var(--wsprrypi-docs-chrome-active);
+    background: rgb(var(--wsprrypi-docs-surface-rgb));
     border-top: 1px solid var(--wsprrypi-docs-chrome-border);
     border-bottom: 1px solid var(--wsprrypi-docs-chrome-border);
-    color: var(--wsprrypi-docs-chrome-text);
+    color: var(--wsprrypi-docs-heading-color);
     font-weight: 600;
+}
+
+.wy-menu-vertical li.current > a > button.toctree-expand {
+    color: inherit;
 }
 
 .wy-nav-top,
