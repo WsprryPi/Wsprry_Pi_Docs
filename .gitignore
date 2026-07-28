@@ -47,6 +47,8 @@ docs/_build/
 .codex/tmp/
 
 # Impeccable / agent skill bundles
+.agents/skills/impeccable/
+.impeccable/
 docs/.agents/
 docs/skills-lock.json
 docs/.codex
