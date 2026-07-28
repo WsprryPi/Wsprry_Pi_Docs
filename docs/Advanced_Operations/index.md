@@ -200,7 +200,8 @@ Use Random Offset = True
 [CW]
 ; Message:
 ; Text transmitted by QRSS, FSKCW, or DFCW when the selected mode is non-WSPR.
-Message = HELLO
+; Numeric-looking text such as 73 remains a text message.
+Message = 73
 
 ; Base Frequency:
 ; Base RF frequency for non-WSPR modes.
@@ -222,16 +223,29 @@ Shift Hz = 5
 Dot Seconds = 3.0
 
 ; Intra Element Gap:
-; Gap between dots and dashes, expressed as a multiple of Dot Seconds.
+; QRSS/FSKCW gap between dots and dashes, expressed as a multiple of Dot Seconds.
 Intra Element Gap = 1.0
 
 ; Inter Character Gap:
-; Gap between characters, expressed as a multiple of Dot Seconds.
+; QRSS/FSKCW gap between characters, expressed as a multiple of Dot Seconds.
 Inter Character Gap = 3.0
 
 ; Inter Word Gap:
-; Gap between words, expressed as a multiple of Dot Seconds.
+; QRSS/FSKCW gap between words, expressed as a multiple of Dot Seconds.
 Inter Word Gap = 7.0
+
+; DFCW Intra Element Gap:
+; DFCW gap between equal-duration dot/dash symbols, expressed as a multiple of Dot Seconds.
+; DFCW dot and dash symbols have the same duration and differ by frequency.
+DFCW Intra Element Gap = 0.333333
+
+; DFCW Inter Character Gap:
+; DFCW gap between characters, expressed as a multiple of Dot Seconds.
+DFCW Inter Character Gap = 1.0
+
+; DFCW Inter Word Gap:
+; DFCW gap between words, expressed as a multiple of Dot Seconds.
+DFCW Inter Word Gap = 3.0
 
 ; Fade Shape:
 ; Envelope fade shape for QRSS, FSKCW, and DFCW events.

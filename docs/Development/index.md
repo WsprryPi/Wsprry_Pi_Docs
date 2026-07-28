@@ -134,6 +134,13 @@ make -j$(nproc)
 make -j$(nproc) release
 ```
 
+Node.js is required for the complete runtime semantics validation target. Run it from the Raspberry Pi checkout:
+
+```bash
+cd ~/WsprryPi/src
+make semantics-test
+```
+
 Targeted regression tests are also built and run from `src`.
 
 Examples:
