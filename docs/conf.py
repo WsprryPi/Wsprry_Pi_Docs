@@ -126,9 +126,9 @@ html_theme_options = {
     # Toc options
     'collapse_navigation': False,
     'sticky_navigation': True,
-    'navigation_depth': 4,
-    'includehidden': False,
-    'titles_only': False
+    'navigation_depth': 3,
+    'includehidden': True,
+    'titles_only': True
 }
 
 # disable epub mimetype warnings

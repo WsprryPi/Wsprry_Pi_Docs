@@ -2,6 +2,13 @@
 
 Wsprry Pi is developed as a modular Raspberry Pi application with a native C++ backend and a separate Bootstrap-based web UI.
 
+```{toctree}
+:maxdepth: 1
+:hidden:
+
+Automatic Update Polling Internals <../User_Interface/Maintenance/update_check>
+```
+
 The project officially supports Raspberry Pi 5. GPIO RF transmission on Raspberry Pi 5 requires dedicated supported hardware rather than the older direct GPIO clock path used on earlier Raspberry Pi models.
 
 ## Build Environment

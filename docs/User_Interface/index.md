@@ -6,11 +6,14 @@ The web interface is the primary day-to-day control surface for Wsprry Pi. It pr
 :maxdepth: 1
 :hidden:
 
-Operations/index
-Setup/index
-Logs/index
-Spots/index
-Maintenance/index
+Operate Transmissions <Operations/index>
+Setup Overview <Setup/index>
+Configure WSPR and CW <Setup/Signal_Setup/index>
+Configure Transmitter <Setup/Transmitter/index>
+Configure Raspberry Pi I/O <Setup/Pi_IO/index>
+View Logs <Logs/index>
+View Reception Reports <Spots/index>
+Maintenance <Maintenance/index>
 ```
 
 ![Wsprry Pi UI](WsprryPi_UI.png)
