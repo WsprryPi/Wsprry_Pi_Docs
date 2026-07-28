@@ -1,0 +1,306 @@
+# INI Configuration Reference
+
+The daemon reads `wsprrypi.ini` for its execution parameters. In normal use there is rarely a reason to edit the file directly. The installer stores it in the user data directory:
+
+```bash
+$ ls -al /usr/local/etc/wsprrypi.ini
+total 12
+drwxr-xr-x  2 root root 4096 Feb 18 14:51 .
+drwxr-xr-x 10 root root 4096 Sep 21 19:02 ..
+-rw-rw-rw-  1 root root  171 Mar  6 19:47 wsprrypi.ini
+```
+
+The file uses standard INI syntax. It has four sections: `Meta`, `Operation`, `Calibration`, `GPIO`, `Si5351`, `WSPR`, `CW`, and `Band GPIO`. Blank lines and extra whitespace are ignored. Each setting is a key/value pair separated by an equals sign.
+
+This is the default INI file that ships with the installation. Any comments in the file must begin with a semicolon (`;`).
+
+```ini
+; Created for WsprryPi version %SEMANTIC_VERSION%
+; Copyright (C) 2023 - 2026 Lee C. Bussy (@LBussy)
+
+[Meta]
+debug_logging = False
+
+[Operation]
+; Mode:
+; Active transmit mode.
+; Valid values:
+;   WSPR
+;   QRSS
+;   FSKCW
+;   DFCW
+Mode = WSPR
+
+; Transmit:
+; Global RF transmit gate. False prevents transmission and scheduling.
+Transmit = False
+
+; Transmit Backend:
+; RF transmit backend.
+; Valid values:
+;   gpio    - Raspberry Pi GPCLK/PWM RF output
+;   si5351  - Si5351 clock-generator RF output
+Transmit Backend = gpio
+
+; Use LED:
+; Enable status LED output.
+Use LED = False
+
+; LED Pin:
+; BCM GPIO used for LED status output.
+LED Pin = 18
+
+; Use Amp:
+; Enables optional external amplifier control.
+Use Amp = false
+
+; Amp Pin:
+; BCM GPIO used for optional external amplifier control.
+; Leave blank to disable amplifier control.
+Amp Pin =
+
+; Amp Pin Active High:
+; Controls amplifier GPIO polarity.
+Amp Pin Active High = false
+
+; Web Port:
+; Port used for REST interface.
+Web Port = 31415
+
+; Socket Port:
+; Port used for WebSocket interface.
+Socket Port = 31416
+
+; Use Shutdown:
+; Enable shutdown button monitoring.
+Use Shutdown = False
+
+; Shutdown Button:
+; BCM GPIO used for shutdown trigger.
+Shutdown Button = 19
+
+
+[Calibration]
+; PPM:
+; Frequency calibration in parts per million.
+; Used directly by the Si5351 backend and whenever GPIO.Use NTP is false.
+PPM = 0.0
+
+
+[GPIO]
+; Transmit Pin:
+; BCM GPIO used for RF output when Transmit Backend = gpio.
+; GPCLK0 is supported on BCM GPIO 4 or 20.
+; Ignored by the Si5351 backend.
+Transmit Pin = 4
+
+; Power Level:
+; GPIO backend RF output power setting.
+; Valid range is 0 to 7.
+Power Level = 7
+
+; Use NTP:
+; Apply NTP-based PPM correction for the GPIO backend.
+; Ignored by the Si5351 backend, which uses Calibration.PPM only.
+Use NTP = True
+
+
+[Si5351]
+; I2C Bus:
+; Linux I2C bus number for the Si5351 device.
+; Bus 1 usually maps to /dev/i2c-1 on Raspberry Pi systems.
+I2C Bus = 1
+
+; I2C Address:
+; 7-bit Si5351 I2C address.
+; 0x60 is the common default for many Si5351 breakout boards.
+I2C Address = 0x60
+
+; Reference Frequency:
+; Si5351 crystal or reference input frequency in Hz.
+; Typical modules use 27000000.
+Reference Frequency = 27000000
+
+; TX Output:
+; Si5351 clock output used for transmit RF.
+; Valid values:
+;   CLK0
+;   CLK1
+;   CLK2
+; Unused outputs are held in a safe non-transmitting state by WsprryPi.
+; The internal parked PLL is a synthesis state, not an emitted parked RF output.
+; This setting is configurable in INI and CLI; it is not exposed in the web UI.
+TX Output = CLK0
+
+; Power Level:
+; Si5351 backend drive-strength level.
+; Valid range is 1 to 4.
+Power Level = 1
+
+
+[WSPR]
+; Call Sign:
+; Your amateur radio callsign.
+; Supports standard, compound, and extended WSPR formats.
+Call Sign = NXXX
+
+; Grid Square:
+; Your Maidenhead grid locator.
+Grid Square = ZZ99
+
+; TX Power:
+; Transmitter power in dBm.
+TX Power = 20
+
+; Frequency:
+; WSPR band name or dial frequency in Hz.
+Frequency = 20m
+
+; Planner Preference:
+; Controls how WsprryPi selects between single-frame and paired WSPR transmissions.
+; Valid values:
+;   auto
+;   prefer_paired
+;   require_paired
+Planner Preference = auto
+
+; Use Random Offset:
+; Enable WSPR frequency randomization around the dial-derived RF frequency.
+Use Random Offset = True
+
+
+[CW]
+; Message:
+; Text transmitted by QRSS, FSKCW, or DFCW when the selected mode is non-WSPR.
+; Numeric-looking text such as 73 remains a text message.
+Message = 73
+
+; Base Frequency:
+; Base RF frequency for non-WSPR modes.
+; Use whole-number Hz, or add Hz, kHz, MHz, or GHz to decimal values.
+; QRSS transmits on this frequency.
+; FSKCW uses this as the space frequency.
+; DFCW uses this as the dot frequency.
+Base Frequency = 14096900
+
+; Shift Hz:
+; Frequency shift in Hz for keyed dual-frequency CW modes.
+; FSKCW mark frequency = Base Frequency + Shift Hz.
+; DFCW dash frequency = Base Frequency + Shift Hz.
+; QRSS ignores this field.
+Shift Hz = 5
+
+; Dot Seconds:
+; Dot length in seconds for QRSS, FSKCW, and DFCW timing.
+Dot Seconds = 3.0
+
+; Intra Element Gap:
+; QRSS/FSKCW gap between dots and dashes, expressed as a multiple of Dot Seconds.
+Intra Element Gap = 1.0
+
+; Inter Character Gap:
+; QRSS/FSKCW gap between characters, expressed as a multiple of Dot Seconds.
+Inter Character Gap = 3.0
+
+; Inter Word Gap:
+; QRSS/FSKCW gap between words, expressed as a multiple of Dot Seconds.
+Inter Word Gap = 7.0
+
+; DFCW Intra Element Gap:
+; DFCW gap between equal-duration dot/dash symbols, expressed as a multiple of Dot Seconds.
+; DFCW dot and dash symbols have the same duration and differ by frequency.
+DFCW Intra Element Gap = 0.333333
+
+; DFCW Inter Character Gap:
+; DFCW gap between characters, expressed as a multiple of Dot Seconds.
+DFCW Inter Character Gap = 1.0
+
+; DFCW Inter Word Gap:
+; DFCW gap between words, expressed as a multiple of Dot Seconds.
+DFCW Inter Word Gap = 3.0
+
+; Fade Shape:
+; Envelope fade shape for QRSS, FSKCW, and DFCW events.
+; Valid values: none, linear, raised_cosine.
+Fade Shape = raised_cosine
+
+; Fade In Ms:
+; RF envelope fade-in duration in milliseconds.
+Fade In Ms = 20
+
+; Fade Out Ms:
+; RF envelope fade-out duration in milliseconds.
+Fade Out Ms = 20
+
+; Fade Slice Ms:
+; Advanced envelope approximation control for QRSS, FSKCW, and DFCW fades.
+; Smaller values produce smoother duty-gated fades at higher switching cost.
+; This does not change Fade In Ms or Fade Out Ms duration.
+Fade Slice Ms = 2
+
+; Start Minute:
+; Minute after the top of the hour for scheduled QRSS/FSKCW/DFCW launches.
+; Valid range: 0 to 59.
+Start Minute = 0
+
+; Repeat Minutes:
+; Repeat interval in minutes for scheduled QRSS/FSKCW/DFCW launches.
+; Must be greater than 0.
+Repeat Minutes = 10
+
+
+[Band GPIO]
+; Per-band GPIO assignment for band switching (BCM numbering).
+; Assign a GPIO number to enable switching for that band.
+; Leave blank to disable switching for that band.
+; The same GPIO may be assigned to multiple bands.
+; "<band> Active High" controls polarity (default = false).
+
+2200m = 
+2200m Active High = false
+
+630m = 
+630m Active High = false
+
+160m = 
+160m Active High = false
+
+80m = 
+80m Active High = false
+
+60m = 
+60m Active High = false
+
+40m = 
+40m Active High = false
+
+30m = 
+30m Active High = false
+
+22m = 
+22m Active High = false
+
+20m = 
+20m Active High = false
+
+17m = 
+17m Active High = false
+
+15m = 
+15m Active High = false
+
+12m = 
+12m Active High = false
+
+10m = 
+10m Active High = false
+
+6m = 
+6m Active High = false
+
+4m =
+4m Active High = false
+
+2m =
+2m Active High = false
+```
