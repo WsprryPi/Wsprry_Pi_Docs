@@ -11,6 +11,9 @@
 import os
 import re
 import subprocess
+import sys
+
+sys.path.insert(0, os.path.abspath('_ext'))
 
 # -- Project information -----------------------------------------------------
 
@@ -79,6 +82,7 @@ else:
 # -- General configuration ---------------------------------------------------
 
 extensions = [
+    'image_delivery',
     'myst_parser',
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
