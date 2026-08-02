@@ -88,3 +88,16 @@ You may also choose to "Never check again" either in the modal, or by selecting 
 If you choose to never check again and wish to re-enable the checking, the opposite setting is available in the "About" footer, as well as in the update check section in the maintenance panel.
 
 Technical information on the update check process is available in the [WsprryPi Automatic Update Polling](update_check.md) technical page.
+
+## Support Bundle
+
+Use **Support Bundle** when a developer asks for diagnostic information about your Wsprry Pi installation. The Maintenance workflow creates the archive locally, lets you opt in to an active I²C bus scan when needed, downloads the completed `.tar.gz` through your browser, and removes the retained Pi-side copy after successful receipt.
+
+Review the archive before sharing it. See [Create and Share a Support Bundle](support_bundle.md) for the complete collection inventory, privacy guidance, download and cleanup behavior, and instructions for attaching the bundle to a GitHub issue.
+
+```{toctree}
+:maxdepth: 1
+:hidden:
+
+Create and Share a Support Bundle <support_bundle>
+```

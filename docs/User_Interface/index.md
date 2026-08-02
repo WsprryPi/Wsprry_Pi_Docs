@@ -49,7 +49,7 @@ The antenna icon turns color depending on the status of the application:
 - **Setup:** Configure the transmission parameters and hardware interface.
 - **Logs:** View the WsprryPi logs via a live interface to the Pi's `journald` daemon.
 - **Spots:** A view of the most recent spots of your callsign from the WSPRnet database.
-- **Maintenance:** Recovery operations to fix configuration errors, as well as a test tone generator.
+- **Maintenance:** Configuration recovery, test-tone controls, update checks, and support-bundle creation.
 
 #### Wsprry Pi Links Dropdown
 

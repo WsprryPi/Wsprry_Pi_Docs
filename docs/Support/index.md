@@ -1,7 +1,7 @@
 (support-gpt)=
 # Getting Help with the Wsprry Pi Support GPT
 
-The Wsprry Pi Support GPT can help you troubleshoot Wsprry Pi by reviewing your description of the problem and, when available, a Wsprry Pi support bundle ZIP.
+The Wsprry Pi Support GPT can help you troubleshoot Wsprry Pi by reviewing your description of the problem. A Wsprry Pi support bundle can also help a project developer investigate an issue.
 
 Start here: [Open the Wsprry Pi Support GPT](https://chatgpt.com/g/g-6a43dc71d1988191b16ead50e3bb707b-wsprrypi-support-assistant).
 
@@ -9,8 +9,8 @@ Start here: [Open the Wsprry Pi Support GPT](https://chatgpt.com/g/g-6a43dc71d19
 
 1. Open the Wsprry Pi Support GPT.
 2. Briefly describe what is going wrong.
-3. Upload a Wsprry Pi support bundle ZIP if you already have one.
-4. If you do not have a support bundle yet, ask the GPT to help you collect one.
+3. If you need developer help, [create and review a support bundle](../User_Interface/Maintenance/support_bundle.md).
+4. Keep the downloaded `.tar.gz` available in case the project developer requests it.
 
 You can still start with the GPT even if you do not already have a bundle.
 
@@ -41,9 +41,9 @@ A short, specific description usually helps more than a long transcript with no 
 
 ## Using a Support Bundle
 
-A support bundle ZIP gives the GPT useful diagnostic context. It can help identify configuration, runtime, audio, WSPR decoding, upload, and Raspberry Pi environment issues.
+A support bundle gives a developer useful diagnostic context. It can help identify configuration, runtime, audio, WSPR decoding, upload, and Raspberry Pi environment issues.
 
-If you already have a support bundle, upload it to the GPT. If you do not, ask the GPT to guide you through collecting one.
+Create and download the bundle from the Maintenance page. Before sharing it, review the collection inventory and extracted reports for information you do not want to make public. The [support-bundle guide](../User_Interface/Maintenance/support_bundle.md) explains creation, active I²C consent, archive review, automatic Pi-side cleanup, and GitHub issue attachment.
 
 ## Example Questions
 
@@ -64,7 +64,7 @@ Do not paste or upload:
 - Unrelated personal files
 - Private documents that are not part of the support request
 
-The support bundle is intended for diagnostics, but you should review what you upload if you are concerned.
+The support bundle is intended for diagnostics, but automatic redaction is best-effort. Always review it before attaching it to a public issue or sending it to another service.
 
 ## If the GPT Cannot Solve the Issue
 
