@@ -55,15 +55,18 @@ The collector creates a top-level `bundle` directory containing `README.txt`, `N
 | Wsprry Pi project | Detected checkout path, project file inventory, Git remote/status/commit information, build files, service documentation, and configuration files found in the checkout. |
 | Installed runtime | Installed release and debug executable versions, help output, file metadata, architecture, ELF header, SHA-256, shared-library dependencies, installed INI file, and systemd unit details. |
 | Services and logs | Wsprry Pi and Apache status, enablement, systemd properties, recent unit and identifier journals, recent system journal, kernel log, installer log, syslog/messages, and legacy Wsprry Pi logs when present. Normal collection limits the number of recent log lines. |
+| Processes and current resources | A point-in-time system process list, process tree, systemd control groups when available, and Wsprry Pi process details resolved from the service's systemd `MainPID`. The summary reports current RSS, virtual size, PSS when readable, threads, tasks, and open-file-descriptor count. Unavailable, stopped, permission, and process-race states are labeled instead of reported as zero. |
 | GPIO and hardware | GPIO/I²C device nodes, loaded hardware-related kernel modules, group membership, GPIO chip/line information, selected GPIO lookups, pinout data, kernel GPIO debug information when readable, and Raspberry Pi boot configuration files. |
 | I²C | Passive interface status from Raspberry Pi configuration, available I²C adapters from `i2cdetect -l`, and whether the active scan was skipped, succeeded, failed, or unavailable. The bus 1 address table appears only when the user explicitly enables active probing. |
 | Web interface and Apache | Apache status, configuration test, sites, modules, listening TCP sockets, enabled/available Apache configuration, document-root and proxy declarations, web-root inventory, configured Wsprry Pi web/socket ports, and a local web-root probe. |
 | Network and time | Interface addresses, routes, local and UTC time, time-zone/synchronization status, and Chrony or NTP peer information when available. |
 | Packages | Installed Debian package list and policy information for selected Wsprry Pi build/runtime dependencies. |
 
-Configuration-like text files are scanned for common credentials before the archive is created. URL-embedded credentials and common fields such as passwords, tokens, secrets, API keys, access keys, upload keys, and reporter passwords are replaced with `[REDACTED]`. Review is still necessary because logs and configuration formats can contain identifiers or sensitive values that the automatic patterns do not recognize.
+Configuration-like text files and collected command lines are scanned for common credentials before the archive is created. URL-embedded credentials, common credential fields, and common command-line options such as `--password VALUE` and `--token VALUE` are replaced with `[REDACTED]`. Review is still necessary because process arguments, logs, and configuration formats can contain identifiers or sensitive values that the automatic patterns do not recognize.
 
 The Maintenance workflow runs through the privileged daemon, so it can normally read the intended service and system diagnostics. The command-line collector also supports unprivileged use; when it cannot read privileged logs or system files, its result records that diagnostics may be incomplete.
+
+The process information is a snapshot taken while the bundle is created. It can show current process sizes and counts, but it cannot reconstruct earlier growth, recover a process's state after an out-of-memory termination, or provide historical monitoring. Comparing a normal-state bundle with one collected while a symptom is present may provide useful context.
 
 ## Review the Bundle Before Sharing
 
@@ -92,6 +95,7 @@ Start with these files and directories:
 - `bundle/NEXT-STEPS.txt` for the generated handoff reminder.
 - `bundle/configs` for configuration and service files.
 - `bundle/logs` for application, Apache, installer, system, and kernel logs.
+- `bundle/processes` for the current system process views and Wsprry Pi resource summary.
 - `bundle/project` for checkout and installed-runtime information.
 - `bundle/hardware`, `bundle/web`, `bundle/network`, and `bundle/commands` for their corresponding diagnostic reports.
 
