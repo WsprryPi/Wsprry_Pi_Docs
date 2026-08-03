@@ -8,6 +8,12 @@ This inline state identifies a timing problem that can be corrected on the Setup
 
 See {ref}`cw-message-too-long` for the duration inputs and correction steps.
 
+## GPIO RF Output Conflicts
+
+When the GPIO transmitter backend is selected, its configured GPIO4 or GPIO20 RF output cannot also be assigned to an enabled Band GPIO, Transmit LED, Shutdown Button, or Amp Control. Setup marks both conflicting controls with `GPION is reserved by GPIO RF Output.` and keeps the invalid draft visible without saving it.
+
+Resolve the conflict by changing either pin, disabling the ordinary GPIO role, or selecting the Si5351 backend. The reservation depends on the selected backend, not the **Transmit** switch, so turning transmission off does not release the GPIO RF output pin. Disabled ordinary roles may retain their pin values.
+
 (startup-transmission-is-inhibited)=
 ## Startup Transmission Is Inhibited
 

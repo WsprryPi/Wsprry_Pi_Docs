@@ -56,6 +56,8 @@ The API exposes configuration for:
 - CW timing and fade configuration
 - Planner preferences and paired-frame behavior
 
+Configuration replacement and patch requests apply the same GPIO ownership validation as startup and INI reload. With the GPIO backend, the selected GPIO4 or GPIO20 RF output cannot also be used by an enabled Band GPIO, Transmit LED, Shutdown Button, or Amp Control, regardless of the `Operation.Transmit` value. A rejected request returns the conflict instead of clearing or moving either assignment.
+
 A typical payload resembles:
 
 ```json

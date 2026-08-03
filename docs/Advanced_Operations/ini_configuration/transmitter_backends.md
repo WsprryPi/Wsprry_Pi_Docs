@@ -16,7 +16,7 @@ The `[Calibration]` section supplies the manual PPM correction used by the Si535
 (gpio-section)=
 ## GPIO
 
-The `[GPIO]` section configures the supported direct RF pin, GPIO-backend power level, and NTP-derived correction.
+The `[GPIO]` section configures the supported direct RF pin, GPIO-backend power level, and NTP-derived correction. When `Operation.Transmit Backend = gpio`, the configured transmit pin is reserved even if `Operation.Transmit = false`. The other supported transmit pin remains available to ordinary GPIO roles. When the Si5351 backend is selected, a retained GPIO transmit-pin value reserves nothing.
 
 ```{literalinclude} default_wsprrypi.ini
 :language: ini

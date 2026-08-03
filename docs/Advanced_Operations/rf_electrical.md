@@ -16,9 +16,9 @@ The GPIO RF backend produces a square-wave RF clock, so a low-pass filter is req
 
 For the reasoning behind that requirement, see {doc}`../FAQ/lowpass-filter-justification`.
 
-Connect a low-pass filter through a DC-blocking capacitor to GPIO4 (`GPCLK0`) and a ground pin on the Raspberry Pi before connecting an antenna.
+Connect a low-pass filter through a DC-blocking capacitor to the configured GPIO4 or GPIO20 `GPCLK0` RF output and a ground pin on the Raspberry Pi before connecting an antenna.
 
-GPIO4 and ground are on header pins 7 and 9 respectively.
+GPIO4 is on header pin 7 and GPIO20 is on header pin 38. Header pin 9 is a nearby ground connection.
 
 See:
 
@@ -44,11 +44,11 @@ Supply ripple can appear as mixing products centered around the transmit carrier
 
 Do not expose GPIO pins to voltages or currents above the Raspberry Pi absolute maximum ratings.
 
-GPIO4 outputs a 3.3 V digital clock with a maximum current of approximately 16 mA.
+The selected GPIO RF pin outputs a 3.3 V digital clock with a maximum current of approximately 16 mA.
 
 Do not:
 
-- Short GPIO4 directly to ground
+- Short the selected GPIO RF output directly to ground
 - Connect a resistive dummy load directly to the GPIO
 - Connect external amplifier keying circuitry directly to GPIO pins
 
