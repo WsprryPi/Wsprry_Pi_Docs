@@ -48,8 +48,17 @@ The antenna icon turns color depending on the status of the application:
 - **Operation:** The landing page and main view for active operations.
 - **Setup:** Configure the transmission parameters and hardware interface.
 - **Logs:** View the WsprryPi logs via a live interface to the Pi's `journald` daemon.
-- **Spots:** A view of the most recent spots of your callsign from the WSPRnet database.
+- **Spots:** Open reception-report resources for WSPR or QRSS.
 - **Maintenance:** Configuration recovery, test-tone controls, update checks, and support-bundle creation.
+
+#### Spots Menu
+
+![The Spots menu with WSPR spots and QRSS Plus choices](Spots_Menu.png)
+
+The **Spots** menu provides two reception-report destinations:
+
+- **WSPR spots:** Opens the Wsprry Pi Spots page in the current browser tab. This page shows recent WSPR reception reports for your callsign.
+- **QRSS Plus:** Opens the external [QRSS Plus](https://swharden.com/qrss/plus/) website in a new browser tab.
 
 #### Wsprry Pi Links Dropdown
 
