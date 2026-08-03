@@ -23,7 +23,13 @@ There are only two choices when setting up the GPIO-based transmitter:
 
 ### Transmit Pin
 
-GPIO4 is the most common pin used.  GPIO20 is technically possible to use, however this has not been tested.  It is there in case you wish to experiment.
+GPIO4 and GPIO20 are the supported direct RF output choices. The selected pin is reserved by the GPIO backend even when transmission is disabled, because Wsprry Pi must retain ownership of the configured RF path for startup and safe-state handling.
+
+The other pin remains available on the **Pi I/O** tab. Selecting the Si5351 backend releases both GPIO4 and GPIO20 for ordinary GPIO roles; the retained GPIO transmit-pin value is ignored while Si5351 is selected.
+
+If an existing configuration assigns the selected RF pin to an enabled ordinary GPIO role, both controls remain visible and are marked invalid until one assignment is changed or disabled. Invalid edits are not saved.
+
+![GPIO RF output conflict](../Conditional_GPIO/GPIO_RF_Conflict.png)
 
 ### GPIO Power Level
 

@@ -20,6 +20,8 @@ Socket Port = 31416
 ; Transmit Pin:
 ; BCM GPIO used for RF output when Transmit Backend = gpio.
 ; GPCLK0 is supported on BCM GPIO 4 or 20.
+; The selected pin is reserved from enabled Band GPIO, LED, shutdown, and amp roles,
+; even when Operation.Transmit is false.
 ; Ignored by the Si5351 backend.
 Transmit Pin = 4
 

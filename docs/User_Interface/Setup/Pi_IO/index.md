@@ -12,6 +12,10 @@ Enabling the Transmit LED lets you monitor the transmission state without the We
 
 You may use the dropdown to configure it to a pin other than the TAPR default, which is GPIO18.
 
+GPIO4 and GPIO20 are available here unless the GPIO transmitter backend currently selects that same pin as its RF output. A retained conflict remains visible and blocks autosave until the LED is disabled, another LED pin is selected, the RF transmit pin is changed, or the Si5351 backend is selected.
+
+![Transmit LED conflict with GPIO RF output](../Conditional_GPIO/TX_LED_RF_Conflict.png)
+
 This is an Active High control ay 3V3 intended for use with an LED and a properly sized resistor.
 
 ## Enable Shutdown & Shutdown Pin
@@ -44,4 +48,4 @@ This section allows you to set pins to drive relays per band, to use a device su
 
 Whether you use a band selection such as `20m` in WSPR, or a specific frequency, the system will determine which band that frequency represents. To energize a relay for that band, check the "Enabled" box for that band, select the GPIO pin you would like to use, and whether you want it to be "Active High" (checked) or "Active Low" (unchecked).
 
-No error checking is performed intentionally. Only pins known to be usable are included in the drop-down, but you can select the same pin for multiple bands.
+The selected GPIO RF output cannot also be used by an enabled Band GPIO, Transmit LED, Shutdown Button, or Amp Control. Disabled roles may retain a pin without reserving it. The same pin can still be shared by multiple enabled bands when every assignment uses the same **Active High** setting; conflicting polarity is rejected.

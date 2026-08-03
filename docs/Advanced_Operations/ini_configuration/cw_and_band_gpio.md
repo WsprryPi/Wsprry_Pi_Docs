@@ -16,7 +16,7 @@ The `[CW]` section preserves one shared dot duration, the separate QRSS/FSKCW an
 (band-gpio-section)=
 ## Band GPIO
 
-The `[Band GPIO]` section assigns optional BCM GPIO outputs and polarity independently for every listed band. A blank band assignment disables switching for that band.
+The `[Band GPIO]` section assigns optional BCM GPIO outputs and polarity independently for every listed band. A blank band assignment disables switching for that band. An enabled assignment cannot use the GPIO backend's selected RF output pin. Multiple enabled bands may share one GPIO only when their polarity matches.
 
 ```{literalinclude} default_wsprrypi.ini
 :language: ini

@@ -161,6 +161,6 @@ Connect to your new web page from your favorite computer or cell phone using the
 
 ## Additional Hardware
 
-While the TAPR Hat is optional, an antenna is not.  Choosing an antenna is beyond the scope of this documentation; however, you can use a simple random wire connected to the [GPIO4 pin (GPCLK0)](https://pinout.xyz/pinout/pin7_gpio4/), which is labeled `7` on the header.
+While the TAPR Hat is optional, an antenna is not. Choosing an antenna is beyond the scope of this documentation. The direct GPIO backend can use GPIO4 (header pin 7) or GPIO20 (header pin 38), but its square-wave output requires the filtering, DC blocking, and protection described in the [RF and Electrical Reference](../Advanced_Operations/rf_electrical.md). Do not connect an antenna directly to an unfiltered GPIO pin.
 
 As explained above, if you are using a Pi 5, you will not use the GPIO4 connection and instead leverage the Si5351.
