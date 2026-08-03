@@ -28,6 +28,15 @@ Within the Operations card are panels intended to be your quick reference to you
   - *Follow the last transmission setting* takes the transmission control from the last known state, and follows accordingly on daemon restart,
   - *Restart transmission on (re)boot* will always enable transmissions, if the system can honor the configuration, when the daemon restarts.
 
+  These choices control whether transmission is requested after startup. They do not bypass startup hardware safety. Before WsprryPi starts its web and socket services or creates a transmission schedule, it places the selected transmitter backend in a disabled state:
+
+  - For the **Si5351** backend, all clock outputs are disabled.
+  - For the **GPIO** backend, the DMA and clock path is stopped and the selected transmit GPIO is returned to an input state.
+
+  If WsprryPi cannot confirm this safe state, it inhibits every transmission path for the lifetime of that daemon process. The web interface remains available for diagnosis, but changing the transmission switch, reloading the configuration, or changing modes does not clear the inhibition. Correct the hardware or configuration problem and restart the WsprryPi service so the startup safety check can run again.
+
+  The startup check runs when the WsprryPi daemon starts; it cannot control transmitter hardware before the daemon is running. Stations that require guaranteed RF inhibition throughout power-up should also use an independent hardware inhibit or power-control circuit.
+
 - **Transmission Controls:** This panel contains a switch to enable to disable transmissions as well as an emergency stop.
 
     ![Transmission Control](transmission_controls.png)
