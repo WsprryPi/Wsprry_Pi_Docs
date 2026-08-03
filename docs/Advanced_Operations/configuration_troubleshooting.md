@@ -7,3 +7,25 @@ When a QRSS, FSKCW, or DFCW message would take longer than its configured repeat
 This inline state identifies a timing problem that can be corrected on the Setup page. Other configuration reload failures that cannot be tied safely to an editable field may still appear in the general reload-failure dialog and may require checking the application log or configuration file.
 
 See {ref}`cw-message-too-long` for the duration inputs and correction steps.
+
+(startup-transmission-is-inhibited)=
+## Startup Transmission Is Inhibited
+
+At every daemon start, WsprryPi attempts to disable the selected transmitter backend before it starts services or schedules any transmission. If the safe state cannot be confirmed, the daemon continues running for diagnosis but blocks all transmission paths. This startup inhibition is separate from the saved **Transmit** switch and **Enable on Boot** policy.
+
+Review the WsprryPi log for the startup-quiescence error, then check the hardware selected on the **Setup > Transmitter** page:
+
+- For **Si5351**, verify the configured I2C bus and address, device wiring and power, and that the device is visible to the operating system.
+- For **GPIO**, verify that the Raspberry Pi model supports direct GPIO-clock transmission, that the configured transmit pin is GPIO4 or GPIO20, and that the service has the permissions required to access the Pi peripherals.
+
+Also correct any configuration error identified in the log. The daemon deliberately does not clear this safety latch after an INI reload, mode change, or transmission-toggle change.
+
+After correcting the cause, restart the service:
+
+```console
+sudo systemctl restart wsprrypi.service
+```
+
+Then confirm in the log that the configured backend was selected without a startup-inhibition error. After a successful restart, the saved **Enable on Boot** policy determines whether transmission scheduling is enabled.
+
+Do not repeatedly restart the service without correcting the reported cause. If the failure persists, leave transmission disabled and collect a support bundle from **Maintenance** before requesting help.
