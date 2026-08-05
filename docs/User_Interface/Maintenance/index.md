@@ -36,36 +36,75 @@ You will need to reconfigure all of your preferences before continuing to transm
 
 ## Test Tone
 
-A test tone is useful for manual calibration, SWR testing, and tuning your antenna.
+A test tone is useful for checking the transmit path, calibration, and tuning.
+Connect the transmitter to a suitable dummy load or attenuated test path before
+starting. Keep the test brief, and select **End** as soon as the check is
+complete.
 
 ![Test Tone](test_tone.png)
 
-Press the "Test tone" button, and you are presented with a modal.
+Select **Test tone** to open the manual tone controls. This does not change the
+frequency saved in Setup.
 
-![Test Tone Modal](test_tone_wspr_modal.png)
+### Choose the frequency source
 
-This modal presents your currently configured frequency as the default frequency for the test tone. There is also a critical callout while in WSPR mode:
+Choose one of these frequency sources:
 
-WSPR transmits in USB. Your dial frequency is the value you enter in the setup pages. WSPR tones are ~1500 Hz higher than the dial frequency. When you are configured in WSPR for 20m, your dial frequency is 14.0956 MHz, but your transmit frequency is actually 14.097100 MHz.
+- **WSPR band** uses a canonical band entry supplied by the connected
+  controller. The preview shows the WSPR dial frequency and the resulting RF
+  frequency after the WSPR offset is applied.
+- **Custom RF frequency** accepts an exact, whole-number frequency in Hz. This
+  value is the RF frequency; no WSPR offset is added.
 
-You can see this distinction in the logs:
+![Test Tone frequency-source controls with Custom RF frequency selected](test_tone_frequency_source.jpg)
 
-```text
-2026-04-29T11:56:59.910Z wsprrypi.service [INFO ] WSPR-band test tone using dial frequency: 14.095600 MHz
-2026-04-29T11:56:59.911Z wsprrypi.service [INFO ] Started transmission: 14.097100 MHz.
-```
+The example above shows the safe disconnected state: the frequency source and
+exact RF preview remain visible, while **Start** and **End** are unavailable.
 
-You may change the transmit frequency here, if desired.
+The WSPR band list is controller-authorized rather than a fixed list in the
+browser. **Start** remains unavailable until the controller is connected, its
+catalog is available, a valid frequency source is selected, and normal
+transmission interlocks permit a test tone. A disabled button is visually
+muted and cannot be selected.
 
-When you are in CW mode, there is no Upper Sideband offset, so the frequency you set is actually the transmit frequency:
-
-![Test Tone Modal](test_tone_cw_modal.png)
-
-Should you be configured to transmit in either WSPR or CW mode, the page will prompt you to stop and disable those transmissions before proceeding.
+If scheduled WSPR or CW-family transmission is enabled, the page prompts you
+to stop and disable it before starting a test tone.
 
 ![Disable Transmissions](disable_transmissions.png)
 
-You will need to re-enable transmissions again on the Operations page when you are finished testing.
+You must re-enable normal transmissions on the Operations page after testing.
+
+### Read the result
+
+Before **Start**, the frequency summary is a preview of the request. After the
+controller replies, the execution status reports what the controller actually
+committed. When the committed frequency matches the preview, the status does
+not repeat the full dial-frequency, offset, and RF-frequency calculation.
+
+The execution status calls out information that changes what you should do,
+including:
+
+- a committed frequency that differs from the request;
+- controller selector details or warnings;
+- a rejected or failed start; and
+- whether **End** remains available for recovery.
+
+After the controller confirms a successful stop, the status reads **Test Tone
+ended.** **Start** becomes available again when the connection, catalog,
+selection, and interlocks still permit it.
+
+### Recover from an uncertain result
+
+If a Start or End request times out, or the connection drops before the result
+is confirmed, the browser cannot safely claim whether RF is active. Follow the
+status guidance and reconnect if necessary. **End** remains available whenever
+the tone may still be active, including after reconnect or when the WSPR catalog
+is unavailable. Use **End** to request a confirmed stop before attempting
+another Start.
+
+Send one Test Tone action at a time and wait for its result before selecting
+another action. Start and End requests are not transactionally serialized.
+
 
 ## Update Checker
 

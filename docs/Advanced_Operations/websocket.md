@@ -105,6 +105,12 @@ Broadcast during transient RF test tone operations:
 }
 ```
 
+Test Tone Start and End requests are not transactionally serialized. Clients
+must send one lifecycle request at a time and wait for its result before sending
+the next. After a timeout or disconnect, the RF state may be unknown; clients
+must preserve access to End until the controller confirms that the tone has
+stopped.
+
 The browser UI relies heavily on these broadcasts for:
 
 - Live status updates
