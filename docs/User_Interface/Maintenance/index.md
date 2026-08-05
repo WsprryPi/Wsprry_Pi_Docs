@@ -109,7 +109,9 @@ processed.
 
 ## Update Checker
 
-The Wsprry Pi UI will automatically check the running version against releases on GitHub.  When a new version is available, you will see a pop-up directing you to the [Releases page](https://github.com/WsprryPi/WsprryPi/releases/).
+The Wsprry Pi UI automatically checks the running build against eligible releases and its trusted upstream branch on GitHub. A newer tagged release is shown as an **Update available**. A non-main development build may instead show **Newer branch build available** when its upstream branch contains the running commit and has newer commits.
+
+Tagged-release notifications provide a link to the [Releases page](https://github.com/WsprryPi/WsprryPi/releases/). Branch-build notifications identify the target branch and commit and direct prerelease users to their designated update channel; they do not present an unrelated Releases link.
 
 ![Update Available Modal](update_avail.png)
 
@@ -117,7 +119,7 @@ You may also check manually on the Maintenance page, and force an immediate chec
 
 ![Force Update Check](manual_update_check.png)
 
-You may dismiss the modal, and the footer will continue to quietly remind you that an update is available.
+You may dismiss the modal, and the footer will continue to quietly show the release or branch-build notification.
 
 ![Update Available Footer](update_footer.png)
 
