@@ -119,9 +119,10 @@ main_commit_diff_without_release
 
 * `devel` targets upstream `devel`
 * If local `devel` commit is reachable from upstream `main`, it targets `main`
-* If upstream `devel` is missing, it falls back to `main`
+* If upstream `devel` is missing, `main` is selected only after proving that it contains the running commit
 * Other branches target the same-name upstream branch
-* If same-name upstream branch is missing, they fall back to `devel`
+* If the same-name upstream branch is missing, `devel` is selected only after proving that it contains the running commit
+* If containment cannot be established, the check fails with `unsafe_target` instead of claiming an update
 * Non-main branches allow commit-based update notifications
 
 ### Detached or Unknown Branch Behavior
@@ -145,7 +146,9 @@ currentSha...targetHeadSha
 
 * GitHub compare status `ahead` means the target branch contains the installed commit and additional newer commits, so update is available
 * `identical` means no update
-* `behind` and `diverged` are treated as local-ahead/no-update
+* `behind` is reported as local-ahead/no-update
+* `diverged` is a distinct no-update state because neither history is a safe upgrade path from the other
+* An unavailable comparison, including GitHub HTTP 404, fails with `comparison_unavailable`; differing SHAs alone never establish an update
 * Empty commits on a tracked non-main upstream branch are detected because GitHub reports the branch as `ahead`
 
 ### Tagged Release Behavior
@@ -160,5 +163,6 @@ currentSha...targetHeadSha
 ### Commit-Based Prerelease Behavior
 
 * Non-main prerelease or build-metadata versions can surface branch/SHA updates
-* The modal treats these as branch/channel updates, not exact tagged release updates
+* The UI labels these results `Newer branch build available`, not as a newer released version
+* The modal treats these as branch/channel updates, not exact tagged release updates, and identifies the target branch and commit
 * The primary action button is hidden unless the result is a tagged semantic release update

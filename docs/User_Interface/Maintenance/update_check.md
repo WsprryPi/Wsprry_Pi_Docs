@@ -33,7 +33,7 @@ It works by:
 * Fetching GitHub release and branch information
 * Comparing the installed SHA/version against upstream targets
 * Applying branch-aware update policy rules
-* Showing an `Update available` modal when appropriate
+* Showing an `Update available` or `Newer branch build available` modal when appropriate
 
 Purpose:
 
