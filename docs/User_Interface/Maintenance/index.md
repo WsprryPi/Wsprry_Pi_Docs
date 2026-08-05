@@ -102,8 +102,9 @@ the tone may still be active, including after reconnect or when the WSPR catalog
 is unavailable. Use **End** to request a confirmed stop before attempting
 another Start.
 
-Send one Test Tone action at a time and wait for its result before selecting
-another action. Start and End requests are not transactionally serialized.
+The controller serializes Test Tone **Start** and **End** requests. Each
+lifecycle action and its result broadcast complete before the next action is
+processed.
 
 
 ## Update Checker
