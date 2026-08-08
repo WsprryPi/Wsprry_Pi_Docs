@@ -65,8 +65,6 @@ Compute Modules retain the GPIO and I2C capabilities of their corresponding Rasp
 | Raspberry Pi Compute Module 5 | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
 | Raspberry Pi Compute Module Zero | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
 
-CM3+, CM4S, and CM0 are not yet included in the installer's recognized-model list. Their **Untested** entries describe expected hardware capability, not current installability.
-
 ## Raspberry Pi Pico incompatibility
 
 Raspberry Pi Pico boards are microcontrollers and do not run Linux, so they are incompatible with WsprryPi. WsprryPi cannot use either the GPIO or Si5351 transmitter backend on these boards.
