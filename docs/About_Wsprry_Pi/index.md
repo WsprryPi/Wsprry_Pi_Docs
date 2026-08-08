@@ -93,7 +93,7 @@ Qualification is specific to the transmitter type and band.
 | 20 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 17 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 15 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 12 m\* | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 12 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span>\* | <span class="qualification-status qualification-status--untested">Untested</span> |
 | 10 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 6 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
 | 4 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
@@ -101,7 +101,7 @@ Qualification is specific to the transmitter type and band.
 | 1.25 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
 | 70 cm | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
 
-\* On a Raspberry Pi Zero 2 W with a `BCM2837`-compatible processor and 32-bit OS, one of five complete captured 12 m frames decoded. The other four did not, so the result did not meet the requirement for three consecutive decodes. On the Raspberry Pi 4 with a `BCM2711` processor, none of nine 12 m frames decoded across the three tested pacing settings, including 0 of 3 at the production setting.
+\* The 12 m GPIO result is based on testing with two Raspberry Pi processors. On a Raspberry Pi Zero 2 W with a `BCM2837`-compatible processor and 32-bit OS, one of five complete captured frames decoded. The other four did not, so the result did not meet the requirement for three consecutive decodes. On the Raspberry Pi 4 with a `BCM2711` processor, none of nine frames decoded across the three tested pacing settings, including 0 of 3 at the production setting. This note does not apply to the separate Si5351 status.
 
 - <span class="qualification-status qualification-status--qualified">Qualified</span>: The transmitter type produced usable output on that band during qualification testing.
 - <span class="qualification-status qualification-status--unqualified">Unqualified</span>: Test tones did not produce usable carriers on that transmitter type. WsprryPi rejects these band and transmitter combinations before RF activation, so they are not available for selection.
