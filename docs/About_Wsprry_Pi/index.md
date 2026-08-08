@@ -85,21 +85,23 @@ Qualification is specific to the transmitter type and band.
 | 2200 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
 | 630 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
 | 160 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 80 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 60 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 40 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 30 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 22 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 20 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 17 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 15 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 12 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 10 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 80 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 60 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 40 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 30 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 22 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 20 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 17 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 15 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 12 m\* | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 10 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 6 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 4 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 4 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
 | 2 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 1.25 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 70 cm | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 1.25 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 70 cm | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+
+\* On a Raspberry Pi Zero 2 W with a `BCM2837`-compatible processor and 32-bit OS, one of five complete captured 12 m frames decoded. The other four did not, so the result did not meet the requirement for three consecutive decodes. On the Raspberry Pi 4 with a `BCM2711` processor, none of nine 12 m frames decoded across the three tested pacing settings, including 0 of 3 at the production setting.
 
 - <span class="qualification-status qualification-status--qualified">Qualified</span>: The transmitter type produced usable output on that band during qualification testing.
 - <span class="qualification-status qualification-status--unqualified">Unqualified</span>: Test tones did not produce usable carriers on that transmitter type. WsprryPi rejects these band and transmitter combinations before RF activation, so they are not available for selection.
