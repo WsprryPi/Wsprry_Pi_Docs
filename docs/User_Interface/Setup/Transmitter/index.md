@@ -17,6 +17,12 @@ GPIO-based transmissions are the typical method most people think of when they t
 
 It is available to select on all Pi versions before the Pi 5.
 
+Conducted testing qualifies this backend on 80 m, 20 m, 15 m, and 10 m with
+the production pacing value. WsprryPi rejects GPIO requests in the 12 m, 6 m,
+and 2 m band ranges before transmitter activation. The restriction applies to
+scheduled operation and Test Tone and does not limit the Si5351 backend. See
+[GPIO Band Capabilities and Signal Quality](../../../FAQ/why_12m_looks_noisy.md).
+
 ![GPIO Configuration](GPIO.png)
 
 There are only two choices when setting up the GPIO-based transmitter:

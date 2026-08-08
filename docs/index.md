@@ -2,6 +2,14 @@
 
 Wsprry Pi is a Raspberry Pi-based transmitter for amateur radio operators who want to explore propagation with WSPR. The project focuses on making a low-cost, low-complexity beacon practical to install, configure, and operate on common Raspberry Pi hardware.
 
+Wsprry Pi supports two distinct transmitter paths. The Si5351 clock-generator
+backend is the supported path for 2 m. Direct Raspberry Pi GPIO has been
+qualified on 80 m, 20 m, 15 m, and 10 m with production pacing. WsprryPi
+rejects direct GPIO requests in the 12 m, 6 m, and 2 m band ranges before
+transmitter activation. See
+[GPIO Band Capabilities and Signal Quality](FAQ/why_12m_looks_noisy.md) before
+choosing hardware for a band.
+
 As of version 3.0.0, several CW capabilities were added to the suite:
 
 - QRSS: The name “QRSS” is a derivation of the Q code “QRS”, a phrase Morse code operators send to indicate the transmitter needs to slow down. The extra “S” means slow way, way down.
