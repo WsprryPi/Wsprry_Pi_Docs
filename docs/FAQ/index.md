@@ -7,14 +7,14 @@ This section collects common installation issues, compatibility notes, and hardw
 :maxdepth: 1
 :hidden:
 
-Why 12m Looks Noisy <why_12m_looks_noisy>
+GPIO Band Capabilities and Signal Quality <why_12m_looks_noisy>
 Low-Pass Filter Requirements <lowpass-filter-justification>
 ```
 
 - {ref}`Install error: bash syntax error near unexpected token (less-than) <install-error-bash-line-1-syntax-error-near-unexpected-token->`
 - {ref}`Install error: curl 404 (requested URL returned error 404) <or-curl-22-the-requested-url-returned-error-404>`
 - {ref}`WSPR-15 Support <wspr-15-support>`
-- {ref}`Why 12m Looks "Noisy" on the Raspberry Pi <why_12m_looks_noisy>`
+- {ref}`GPIO Band Capabilities and Signal Quality <why_12m_looks_noisy>`
 - {ref}`Low Pass Filter Requirements <lpf-justification>`
 
 (install-error-bash-line-1-syntax-error-near-unexpected-token-)=
@@ -54,10 +54,10 @@ Current Support and Viability
 Bottom line: WSPR-15 still works in legacy workflows, but it remains a niche protocol with minimal software and network support. For new weak-signal experiments, FST4W or standard 2-minute WSPR are the more practical choices.
 
 (why-12m-looks-noisy-on-the-raspberry-pi)=
-## Why 12m Looks "Noisy" on the Raspberry Pi
+## GPIO Band Capabilities and Signal Quality
 
 > This section has been moved to a separate document for clarity.
-> See: [Why 12m Looks "Noisy" on the Raspberry Pi](why_12m_looks_noisy.md)
+> See: [GPIO Band Capabilities and Signal Quality](why_12m_looks_noisy.md)
 
 (lpf-justification)=
 ## Low Pass Filter Requirements

@@ -22,6 +22,13 @@
 
 ## GPIO Backend
 
+The GPIO backend is qualified on 80 m, 20 m, 15 m, and 10 m with production
+pacing. Requests whose final RF frequency is in the 12 m, 6 m, or 2 m band
+range are rejected before GPIO activation, whether entered as a band name or
+an arbitrary frequency. This covers WSPR, CW modes, and Test Tone; Si5351 is
+unaffected. A steady test tone is not sufficient evidence that WSPR modulation will decode. See
+[GPIO Band Capabilities and Signal Quality](../FAQ/why_12m_looks_noisy.md).
+
 - `--transmit-gpio <4\|20>`  
   Select GPIO pin used for RF output.
 

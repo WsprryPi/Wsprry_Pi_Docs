@@ -2,7 +2,7 @@
 
 WsprryPi creates a very simple WSPR beacon on your Raspberry Pi by generating a Pulse-Width Modulation (PWM) square-wave signal through a General-Purpose Input/Output (GPIO) pin on a Raspberry Pi.  As of version 3.0.0, the ability to use an inexpensive clock generator, the Si5351 was added.  This allows use of the more capable Raspberry Pi 5.
 
-You connect the generated output through a [Low-Pass Filter to remove harmonics](https://www.nutsvolts.com/magazine/article/making\_waves\_) and then to an appropriate antenna.  It operates on bands from 2200m up to 6m.
+You connect the generated output through a [Low-Pass Filter to remove harmonics](https://www.nutsvolts.com/magazine/article/making\_waves\_) and then to an appropriate antenna. Band capability depends on the transmitter backend. Direct GPIO is qualified on 80 m, 20 m, 15 m, and 10 m; WsprryPi rejects GPIO transmission requests on 12 m, 6 m, and 2 m. The Si5351 is the supported backend for 2 m. See [GPIO Band Capabilities and Signal Quality](../FAQ/why_12m_looks_noisy.md).
 
 :::{warning}
 Do not use Wsprry Pi without an appropriate low-pass filter. Unfiltered output can create harmonic interference on other bands.
