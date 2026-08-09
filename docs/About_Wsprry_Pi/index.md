@@ -82,9 +82,9 @@ Qualification is specific to the transmitter type and band.
 
 | Band | GPIO | Si5351 |
 | --- | --- | --- |
-| 2200 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 630 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
-| 160 m | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 2200 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+| 630 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+| 160 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
 | 80 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 60 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 40 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
@@ -93,18 +93,20 @@ Qualification is specific to the transmitter type and band.
 | 20 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 17 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 15 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 12 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span>\* | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 12 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span>\* | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 10 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 6 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 4 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 2 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 1.25 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> |
+| 1.25 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
 | 70 cm | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
 
 \* The 12 m GPIO result is based on testing with two Raspberry Pi processors. On a Raspberry Pi Zero 2 W with a `BCM2837`-compatible processor and 32-bit OS, one of five complete captured frames decoded. The other four did not, so the result did not meet the requirement for three consecutive decodes. On the Raspberry Pi 4 with a `BCM2711` processor, none of nine frames decoded across the three tested pacing settings, including 0 of 3 at the production setting. This note does not apply to the separate Si5351 status.
 
+The 2200 m, 630 m, 160 m, 12 m Si5351, and 1.25 m results were completed in [Issue 390](https://github.com/WsprryPi/WsprryPi/issues/390) using conducted, attenuated testing. GPIO 630 m and 160 m and Si5351 12 m each produced three consecutive correct WSPR decodes. GPIO 2200 m and Si5351 630 m and 160 m did not produce usable requested-frequency carriers. The Si5351 planner rejected 2200 m and 1.25 m before RF activation. These results apply to the tested Raspberry Pi 4 GPIO and Raspberry Pi 5 Si5351/27 MHz TCXO paths; they are not universal RF specifications for every station.
+
 - <span class="qualification-status qualification-status--qualified">Qualified</span>: The transmitter type produced usable output on that band during qualification testing.
-- <span class="qualification-status qualification-status--unqualified">Unqualified</span>: Test tones did not produce usable carriers on that transmitter type. WsprryPi rejects these band and transmitter combinations before RF activation, so they are not available for selection.
+- <span class="qualification-status qualification-status--unqualified">Unqualified</span>: The transmitter type did not meet the carrier or decode gate on that band. Do not use an unqualified combination. Some unsupported requests are rejected before RF activation; a selectable setting does not override the qualification table.
 - <span class="qualification-status qualification-status--untested">Untested</span>: No qualification result is available for that band and transmitter type.
 
 See [GPIO Band Capabilities and Signal Quality](../FAQ/why_12m_looks_noisy.md) for the GPIO qualification findings.
