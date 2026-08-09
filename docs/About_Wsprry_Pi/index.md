@@ -78,30 +78,45 @@ Raspberry Pi Pico boards are microcontrollers and do not run Linux, so they are 
 
 ## Transmitter qualification
 
-Qualification is specific to the transmitter type and band.
+Qualification is specific to the transmitter type, band, and GPIO clock profile.
 
-| Band | GPIO | Si5351 |
-| --- | --- | --- |
-| 2200 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
-| 630 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
-| 160 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
-| 80 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 60 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 40 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 30 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 22 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 20 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 17 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 15 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 12 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span>\* | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 10 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 6 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 4 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 2 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
-| 1.25 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
-| 70 cm | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+### GPIO clock profiles
 
-\* The 12 m GPIO result is based on testing with two Raspberry Pi processors. On a Raspberry Pi Zero 2 W with a `BCM2837`-compatible processor and 32-bit OS, one of five complete captured frames decoded. The other four did not, so the result did not meet the requirement for three consecutive decodes. On the Raspberry Pi 4 with a `BCM2711` processor, none of nine frames decoded across the three tested pacing settings, including 0 of 3 at the production setting. This note does not apply to the separate Si5351 status.  This suggests that the processor type or speed has a bearing on the gross quality of the 12m signal; however, it remains unqualified, as a single spurious decode among many is not a dependable product test result.
+Wsprry Pi supports two GPIO clock profiles. The processor identifies which profile a Raspberry Pi uses, but the relevant transmitter difference is the PLLD frequency and the resulting divider range.
+
+| GPIO clock profile | Processor or package | Raspberry Pi models | <span style="white-space: nowrap;">PLLD</span> |
+| --- | --- | --- | --- |
+| Legacy | [`BCM2835`, `BCM2836`, `BCM2837`, and `BCM2837B0`](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835); [`RP3A0`](https://www.raspberrypi.com/documentation/computers/processors.html#rp3a0) contains a `BCM2710A1` die from the `BCM2837` family | Raspberry Pi 1 A, A+, B, and B+; Raspberry Pi 2 B; Raspberry Pi 3 A+, B, and B+; Raspberry Pi Zero, Zero W, and Zero 2 W; Compute Module 1, 3, and 3+ | 500 MHz |
+| BCM2711 | [`BCM2711`](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711) | Raspberry Pi 4 B; Raspberry Pi 400; Compute Module 4 and 4S | 750 MHz |
+
+Some Raspberry Pi 2 and Raspberry Pi 3 model revisions use different processors within the legacy profile. They retain the same 500 MHz PLLD category for Wsprry Pi GPIO transmission.
+
+### Band qualification
+
+| Band | GPIO: 500 MHz PLLD | GPIO: 750 MHz PLLD | Si5351 |
+| --- | --- | --- | --- |
+| 2200 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span>\* | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+| 630 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+| 160 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+| 80 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 60 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 40 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 30 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 22 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 20 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 17 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 15 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 12 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span>\*\* | <span class="qualification-status qualification-status--unqualified">Unqualified</span>\*\* | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 10 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 6 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 4 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 2 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
+| 1.25 m | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+| 70 cm | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unqualified">Unqualified</span> |
+
+\* On 2200 m, the BCM2711 GPIO backend uses the 54 MHz oscillator because the 750 MHz PLLD cannot represent the required divider. The 500 MHz PLLD produced a usable carrier during testing but did not produce a decodable WSPR frame.
+
+\*\* On 12 m, one of eight complete frames decoded on a Raspberry Pi Zero 2 W in the 500 MHz PLLD profile. None of nine frames decoded on a Raspberry Pi 4 in the 750 MHz PLLD profile. Neither result met the requirement for three consecutive decodes. The difference correlates with the tested clock profiles, but it does not establish the processor itself as the cause. This note does not apply to the separate Si5351 result.
 
 - <span class="qualification-status qualification-status--qualified">Qualified</span>: The transmitter type produced usable output on that band during qualification testing.
 - <span class="qualification-status qualification-status--unqualified">Unqualified</span>: The transmitter type did not meet the carrier or decode gate on that band. Do not use an unqualified combination. Some unsupported requests are rejected before RF activation; a selectable setting does not override the qualification table.
