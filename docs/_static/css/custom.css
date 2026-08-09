@@ -287,6 +287,12 @@ footer a:focus-visible {
     letter-spacing: var(--wsprrypi-docs-tracking-display);
 }
 
+.rst-content table.docutils .no-break {
+    overflow-wrap: normal;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
 .rst-content table.docutils td {
     min-width: 0;
 }
