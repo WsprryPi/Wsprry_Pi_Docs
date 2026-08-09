@@ -118,6 +118,8 @@ Some Raspberry Pi 2 and Raspberry Pi 3 model revisions use different processors 
 
 \*\* On 12 m, one of eight complete frames decoded on a Raspberry Pi Zero 2 W in the 500 MHz PLLD profile. None of nine frames decoded on a Raspberry Pi 4 in the 750 MHz PLLD profile. Neither result met the requirement for three consecutive decodes. The difference correlates with the tested clock profiles, but it does not establish the processor itself as the cause. This note does not apply to the separate Si5351 result.
 
+Wsprry Pi does not support Si5351 transmission on 1.25 m or 70 cm. The Si5351A is specified for output frequencies up to 200 MHz, below both the 222 MHz and 432 MHz WSPR frequencies. The commercially available [QRP Labs Ultimate3S](https://qrp-labs.com/ultimate3/u3s.html) operates its Si5351A beyond that specification on 222 MHz, but QRP Labs explicitly reports that WSPR does not work there. Its advertised band coverage also stops at 222 MHz rather than extending to 70 cm. These bands do not have mainstream direct-output support among commercial Si5351 WSPR transmitters, and experimental operation in another product does not establish Wsprry Pi compatibility.
+
 - <span class="qualification-status qualification-status--qualified">Qualified</span>: The transmitter type produced usable output on that band during qualification testing.
 - <span class="qualification-status qualification-status--unqualified">Unqualified</span>: The transmitter type did not meet the carrier or decode gate on that band. Do not use an unqualified combination. Some unsupported requests are rejected before RF activation; a selectable setting does not override the qualification table.
 
