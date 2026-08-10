@@ -68,7 +68,13 @@ The default I2C bus address for the Si5351 is 0x60.  It may be configured to 0x6
 
 You must have a reference frequency to govern the clock generator.  QRP Labs breakout boards use a 27MHz TCXO, where the Adafruit breakouts I have seen use 25MHz.  Either will work fine for most frequencies.  QRP Labs has shared in some notes that 25MHz fails to divide to frequencies that can cleanly support 2M transmissions, so they have standardized on 27MHz.
 
-Enter the frequency here that corresponds to your installed TCXO.
+Enter the frequency that corresponds to the installed reference hardware.
+
+### Reference Source
+
+Choose **External clock / TCXO** for a module driven by an active reference. This is the default and preserves existing behavior. Choose **Passive crystal** only when a crystal is connected across the Si5351 XA/XB pins.
+
+When **Passive crystal** is selected, the **Crystal Load Capacitance** menu appears with 6, 8, and 10 pF choices. Select the value specified for the installed crystal; 10 pF is the default. The menu is hidden and its value is not programmed when **External clock / TCXO** is selected.
 
 ### Si 5351 Power Level
 
