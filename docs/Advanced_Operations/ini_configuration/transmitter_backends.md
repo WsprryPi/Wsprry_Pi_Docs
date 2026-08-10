@@ -5,7 +5,7 @@ Use these sections for frequency calibration and RF output-path settings. See [C
 (calibration-section)=
 ## Calibration
 
-The `[Calibration]` section supplies the manual PPM correction used by the Si5351 backend and whenever GPIO NTP correction is disabled.
+The `[Calibration]` section supplies **Reference calibration (PPM)** for the Si5351 backend. GPIO calibration uses the separate values in `[GPIO]`.
 
 ```{literalinclude} default_wsprrypi.ini
 :language: ini
@@ -16,7 +16,7 @@ The `[Calibration]` section supplies the manual PPM correction used by the Si535
 (gpio-section)=
 ## GPIO
 
-The `[GPIO]` section configures the supported direct RF pin, GPIO-backend power level, and NTP-derived correction. When `Operation.Transmit Backend = gpio`, the configured transmit pin is reserved even if `Operation.Transmit = false`. The other supported transmit pin remains available to ordinary GPIO roles. When the Si5351 backend is selected, a retained GPIO transmit-pin value reserves nothing.
+The `[GPIO]` section configures the supported direct RF pin, GPIO-backend power level, provider-derived system clock estimate, conducted residual, and fixed/manual fallback. When `Operation.Transmit Backend = gpio`, the configured transmit pin is reserved even if `Operation.Transmit = false`. The other supported transmit pin remains available to ordinary GPIO roles. When the Si5351 backend is selected, a retained GPIO transmit-pin value reserves nothing.
 
 GPIO is qualified on 80 m, 20 m, 15 m, and 10 m with the production synthesis
 pacing. WsprryPi rejects direct GPIO requests in the 12 m, 6 m, and 2 m band
