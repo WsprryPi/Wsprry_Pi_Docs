@@ -57,5 +57,11 @@ unaffected. A steady test tone is not sufficient evidence that WSPR modulation w
 - `--si5351-reference-frequency <hz>`  
   Define reference oscillator frequency.
 
+- `--si5351-reference-source <external_tcxo|crystal>`
+  Select an active external clock/TCXO or a passive crystal. Missing settings default to `external_tcxo`.
+
+- `--si5351-crystal-load-capacitance <6|8|10>`
+  Set the internal load capacitance used only with `--si5351-reference-source crystal`. The default is 10 pF.
+
 - `--si5351-tx-output <CLK0\|CLK1\|CLK2>`  
   Select output clock. This option is not exposed in the Web UI.

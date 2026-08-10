@@ -35,7 +35,9 @@ the disqualified bands usable.
 (si5351-section)=
 ## Si5351
 
-The `[Si5351]` section configures the I2C device, reference frequency, transmit output, and drive strength. The excerpt preserves the distinction between the internal parked synthesis state and emitted RF.
+The `[Si5351]` section configures the I2C device, reference frequency, reference hardware, transmit output, and drive strength. `Reference Source = external_tcxo` is the compatibility default for an active clock or TCXO. Select `crystal` only when a passive crystal is connected across XA/XB.
+
+For a passive crystal, `Crystal Load Capacitance` accepts only `6`, `8`, or `10` pF and defaults to `10`. WsprryPi programs this value only in crystal mode. It retains the setting without applying it in `external_tcxo` mode, so TCXO users should not treat it as a calibration control.
 
 ```{literalinclude} default_wsprrypi.ini
 :language: ini
