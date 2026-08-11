@@ -10,8 +10,8 @@ You will need the following:
 
 If you are using a Raspberry Pi 5 or variants, you will additionally need the Si5351 Clock Generator.  While I have provided a KiCad design for a Pi HAT with a purpose-built circuit surrounding the Si5351, you also may use one of the common breakout boards:
 
-- [Adafruit Si5351 Clock Generator Breakout](https://learn.adafruit.com/adafruit-si5351-clock-generator-breakout/overview) - This will work for frequencies up to 6m; the 25MHz TCXO is not well suited for 2m.
-- [QRP Labs Si5351A Synthesizer](https://www.qrp-labs.com/synth.html) - This breakout kit comes with a 27MHz TCXO, capable of transmissions through 2m.
+- [Adafruit Si5351 Clock Generator Breakout](https://learn.adafruit.com/adafruit-si5351-clock-generator-breakout/overview) - This board uses a 25 MHz crystal. Wsprry Pi has not qualified a 25 MHz reference for 2 m WSPR.
+- [QRP Labs Si5351A Synthesizer](https://www.qrp-labs.com/synth.html) - This kit is supplied with a 27 MHz crystal and supports optional TCXO configurations. Wsprry Pi's qualified 2 m configuration uses a 27 MHz reference.
 
 The Si5351 is controlled through the Pi's [I2C bus](https://pinout.xyz/pinout/i2c), requiring a connection to GPIO2 and GPIO3 for this communication.
 
