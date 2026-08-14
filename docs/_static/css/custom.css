@@ -236,7 +236,8 @@ footer a:focus-visible {
     color: var(--wsprrypi-docs-qualified-color);
 }
 
-.rst-content #transmitter-qualification .qualification-status--untested {
+.rst-content #transmitter-qualification .qualification-status--untested,
+.rst-content #transmitter-qualification .qualification-status--partial {
     color: var(--wsprrypi-docs-untested-color);
 }
 

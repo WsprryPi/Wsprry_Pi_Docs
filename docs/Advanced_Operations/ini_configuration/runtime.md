@@ -21,8 +21,23 @@ The `[Operation]` section selects the active mode and backend, gates RF transmis
 ```{literalinclude} default_wsprrypi.ini
 :language: ini
 :start-at: [Operation]
+:end-before: [Experimental]
+```
+
+(experimental-frequency-section)=
+## Experimental frequency policy
+
+The `[Experimental]` section provides advanced CLI/INI-only controls for operators performing authorized experiments. These settings are intentionally absent from the Web UI and default to `false`.
+
+```{literalinclude} default_wsprrypi.ini
+:language: ini
+:start-at: [Experimental]
 :end-before: [Calibration]
 ```
+
+`Allow Unqualified Frequency` permits a backend and mode combination that has not completed qualification. It cannot make an unavailable hardware plan usable. `Allow Non-Amateur Frequency` additionally permits a frequency outside Wsprry Pi's recognized amateur-band ranges, but only when `Allow Unqualified Frequency` is also `true`.
+
+These controls do not grant permission to transmit. The operator remains responsible for authorization, RF-path safety, filtering, and compliance with applicable rules.
 
 ### Startup transmitter safety
 
