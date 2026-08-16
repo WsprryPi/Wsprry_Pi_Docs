@@ -34,7 +34,10 @@
 ## Test Tone
 
 - `-t`, `--test-tone <frequency>`  
-  Generate a continuous RF tone. Useful for calibration and testing.
+  Generate a continuous RF tone. Enter a positive whole-number frequency in
+  hertz, or add an `Hz`, `kHz`, `MHz`, or `GHz` suffix to a decimal value that
+  resolves to whole-number hertz. Scientific notation and fractional-hertz
+  results are rejected.
 
 ---
 

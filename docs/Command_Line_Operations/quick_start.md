@@ -56,8 +56,11 @@ The CLI supports two primary modes:
 - `wsprrypi --help`  
   Display help text.
 
-- `sudo wsprrypi --test-tone 780e3`  
-  Transmit a constant RF tone at 780 kHz.
+- `sudo wsprrypi --test-tone 780kHz`
+  Transmit a constant RF tone at 780 kHz. Frequency inputs use whole-number
+  hertz, or a value with an `Hz`, `kHz`, `MHz`, or `GHz` suffix that resolves
+  to whole-number hertz. Scientific notation and fractional-hertz results are
+  rejected.
 
 - `sudo wsprrypi N9NNN EM10 33 20m`  
   Transmit a single WSPR message.
