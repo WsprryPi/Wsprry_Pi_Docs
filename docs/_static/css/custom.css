@@ -241,7 +241,8 @@ footer a:focus-visible {
     color: var(--wsprrypi-docs-untested-color);
 }
 
-.rst-content #transmitter-qualification .qualification-status--unqualified {
+.rst-content #transmitter-qualification .qualification-status--unqualified,
+.rst-content #transmitter-qualification .qualification-status--unavailable {
     color: var(--wsprrypi-docs-unqualified-color);
 }
 
