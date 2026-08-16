@@ -37,7 +37,8 @@
   Generate a continuous RF tone. Enter a positive whole-number frequency in
   hertz, or add an `Hz`, `kHz`, `MHz`, or `GHz` suffix to a decimal value that
   resolves to whole-number hertz. Scientific notation and fractional-hertz
-  results are rejected.
+  results are rejected. A band alias selects that band's WSPR dial frequency,
+  not its WSPR carrier frequency; use an explicit value for another carrier.
 
 ---
 
