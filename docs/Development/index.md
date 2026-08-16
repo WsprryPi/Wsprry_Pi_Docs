@@ -25,9 +25,12 @@ The backend is developed in modern C++.
 
 ## Repository Layout
 
-The top-level `WsprryPi` repository contains the main application source, configuration defaults, install scripts, documentation support, and several Git submodules.
+The top-level `WsprryPi` repository contains the main application source,
+configuration defaults, install scripts, documentation support, web UI, and
+reusable supporting components. A normal clone contains the complete source
+tree; no submodule initialization is required.
 
-The web UI is kept as a top-level submodule:
+The web UI is kept as a top-level component:
 
 ```text
 WsprryPi-UI/
@@ -39,9 +42,13 @@ The native C++ support libraries are kept under:
 src/
 ```
 
-## Submodules
+## Components
 
-Because of modularity, reuse, and licensing considerations, the central WsprryPi repository references these Git repositories as submodules.
+The component directories are ordinary files tracked by the central WsprryPi
+repository. Their named roots, public interfaces, standalone build or test
+entry points, and reuse boundaries remain intact. The former component
+repositories are retained as historical references rather than active
+synchronization targets.
 
 ### Web UI
 
@@ -51,7 +58,7 @@ Because of modularity, reuse, and licensing considerations, the central WsprryPi
 
 - [INI-Handler](https://github.com/WsprryPi/INI-Handler): A class for reading and writing formatted INI files.
 - [LCBLog](https://github.com/WsprryPi/LCBLog): A logging class for formatting, writing, levels, and timestamps.
-- [Mailbox](https://github.com/WsprryPi/Mailbox): A replacement interface for Broadcom mailbox communication.
+- [Mailbox](https://github.com/WsprryPi/Mailbox): The current Linux mailbox-property interface. Broadcom mailbox software is historical design lineage; the absorbed component does not contain Broadcom source.
 - [MonitorFile](https://github.com/WsprryPi/MonitorFile): A class for watching a file for changes.
 - [PPM-Manager](https://github.com/WsprryPi/PPM-Manager): A class for tracking and applying system clock PPM correction.
 - [Signal-Handler](https://github.com/WsprryPi/Signal-Handler): A class for intercepting process signals such as `SIGINT` and allowing clean shutdown.
@@ -62,9 +69,9 @@ Because of modularity, reuse, and licensing considerations, the central WsprryPi
 - [WSPR-Reference](https://github.com/WsprryPi/WSPR-Reference): Reference WSPR encoding and decoding support used for validation and compatibility.
 - [WSPR-Transmitter](https://github.com/WsprryPi/WSPR-Transmitter): The transmission backend library that manages RF backend execution, timing, DMA-backed GPIO transmission where supported, and hardware-backed transmission paths.
 
-## Current Submodule Layout
+## Current Component Layout
 
-At the time this documentation was updated, the project used the following submodule paths:
+The project tracks these component paths in the main repository:
 
 ```text
 WsprryPi-UI
@@ -83,7 +90,7 @@ src/WSPR-Transmitter
 
 This organization keeps the main application focused on configuration, scheduling, runtime orchestration, command-line handling, REST/WebSocket service behavior, and web UI integration.
 
-The submodules isolate reusable pieces such as:
+The component boundaries isolate reusable pieces such as:
 
 - INI parsing
 - logging
@@ -95,7 +102,11 @@ The submodules isolate reusable pieces such as:
 - WSPR reference behavior
 - RF transmission backends
 
-This modular layout makes it easier to update or replace lower-level components independently as hardware support evolves.
+This modular layout keeps lower-level components independently diagnosable and
+allows components such as LCBLog and WSPR-Reference to be extracted for reuse
+through a separately reviewed process. Original repository URLs, imported
+revisions, licensing disposition, and extraction guidance are recorded in
+`docs/components/provenance.md` in the WsprryPi source repository.
 
 ## Raspberry Pi 5 Support
 
@@ -105,7 +116,9 @@ Because Raspberry Pi 5 hardware differs significantly from earlier Raspberry Pi 
 
 ## Web UI Development
 
-The web UI lives in the `WsprryPi-UI` submodule. It provides the browser-based setup, operation, logging, and maintenance interface.
+The web UI lives in the `WsprryPi-UI` component. It provides the browser-based
+setup, operation, logging, and maintenance interface. Its source, tests, and
+deployment data are versioned with the parent application.
 
 The main backend exposes REST and WebSocket interfaces used by the UI for:
 
@@ -141,12 +154,41 @@ make -j$(nproc)
 make -j$(nproc) release
 ```
 
-Node.js is required for the complete runtime semantics validation target. Run it from the Raspberry Pi checkout:
+Source development requires the C++ build toolchain, CMake, Python 3, Node.js,
+npm, and PHP CLI. Chromium is also required for the hardware-free UI browser
+integration suite. On Debian or Raspberry Pi OS, install the development
+packages with:
+
+```bash
+sudo apt update
+sudo apt install -y \
+    git build-essential cmake pkg-config python3 \
+    libgpiod-dev libsystemd-dev libssl-dev \
+    nodejs npm php-cli chromium
+```
+
+Node.js is required for the complete runtime semantics validation target. Run
+it from the Raspberry Pi checkout:
 
 ```bash
 cd ~/WsprryPi/src
 make semantics-test
 ```
+
+The UI has tracked private npm manifests. Install their exact development
+dependency set and run the UI suites with:
+
+```bash
+cd ~/WsprryPi/WsprryPi-UI
+npm ci --ignore-scripts
+npm test
+npm run test:browser
+```
+
+The pinned `ws` package is used only by mocked WebSocket tests. It is not a
+production or browser-runtime dependency. Chromium is used only by the
+hardware-free browser integration tests. Do not commit the generated
+`node_modules/` directory.
 
 Targeted regression tests are also built and run from `src`.
 
