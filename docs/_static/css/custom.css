@@ -225,7 +225,7 @@ footer a:focus-visible {
 .rst-content #raspberry-pi-model-compatibility table.docutils,
 .rst-content #compute-module-compatibility table.docutils,
 .rst-content #raspberry-pi-pico-incompatibility table.docutils {
-    display: inline-block;
+    display: block;
 }
 
 .rst-content #transmitter-qualification .qualification-status {
@@ -251,6 +251,7 @@ footer a:focus-visible {
 .rst-content #compute-module-compatibility .compatibility-status,
 .rst-content #raspberry-pi-pico-incompatibility .compatibility-status {
     font-weight: var(--wsprrypi-docs-weight-semibold);
+    white-space: nowrap;
 }
 
 .rst-content #raspberry-pi-model-compatibility .compatibility-status--tested,
@@ -298,6 +299,69 @@ footer a:focus-visible {
 
 .rst-content table.docutils td {
     min-width: 0;
+}
+
+.rst-content #raspberry-pi-model-compatibility table.docutils th,
+.rst-content #raspberry-pi-model-compatibility table.docutils td,
+.rst-content #compute-module-compatibility table.docutils th,
+.rst-content #compute-module-compatibility table.docutils td,
+.rst-content #raspberry-pi-pico-incompatibility table.docutils th,
+.rst-content #raspberry-pi-pico-incompatibility table.docutils td,
+.rst-content #gpio-clock-profiles table.docutils th,
+.rst-content #gpio-clock-profiles table.docutils td,
+.rst-content #band-qualification table.docutils th,
+.rst-content #band-qualification table.docutils td {
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.rst-content #raspberry-pi-model-compatibility table.docutils th:first-child,
+.rst-content #raspberry-pi-model-compatibility table.docutils td:first-child,
+.rst-content #compute-module-compatibility table.docutils th:first-child,
+.rst-content #compute-module-compatibility table.docutils td:first-child,
+.rst-content #raspberry-pi-pico-incompatibility table.docutils th:first-child,
+.rst-content #raspberry-pi-pico-incompatibility table.docutils td:first-child {
+    min-width: 10rem;
+}
+
+.rst-content #raspberry-pi-model-compatibility table.docutils th:not(:first-child),
+.rst-content #raspberry-pi-model-compatibility table.docutils td:not(:first-child),
+.rst-content #compute-module-compatibility table.docutils th:not(:first-child),
+.rst-content #compute-module-compatibility table.docutils td:not(:first-child),
+.rst-content #raspberry-pi-pico-incompatibility table.docutils th:not(:first-child),
+.rst-content #raspberry-pi-pico-incompatibility table.docutils td:not(:first-child) {
+    min-width: 7.5rem;
+}
+
+.rst-content #gpio-clock-profiles table.docutils th:first-child,
+.rst-content #gpio-clock-profiles table.docutils td:first-child {
+    min-width: 7rem;
+}
+
+.rst-content #gpio-clock-profiles table.docutils th:nth-child(2),
+.rst-content #gpio-clock-profiles table.docutils td:nth-child(2) {
+    min-width: 13rem;
+}
+
+.rst-content #gpio-clock-profiles table.docutils th:nth-child(3),
+.rst-content #gpio-clock-profiles table.docutils td:nth-child(3) {
+    min-width: 14rem;
+}
+
+.rst-content #gpio-clock-profiles table.docutils th:nth-child(4),
+.rst-content #gpio-clock-profiles table.docutils td:nth-child(4) {
+    min-width: 6rem;
+}
+
+.rst-content #band-qualification table.docutils th:first-child,
+.rst-content #band-qualification table.docutils td:first-child {
+    min-width: 5rem;
+    white-space: nowrap;
+}
+
+.rst-content #band-qualification table.docutils th:not(:first-child),
+.rst-content #band-qualification table.docutils td:not(:first-child) {
+    min-width: 9rem;
 }
 
 .rst-content .admonition,

@@ -84,10 +84,12 @@ Qualification is specific to the transmitter type, band, and GPIO clock profile.
 
 Wsprry Pi supports two GPIO clock profiles. The processor identifies which profile a Raspberry Pi uses, but the relevant transmitter difference is the PLLD frequency and the resulting divider range.
 
-| GPIO clock profile | Processor or package | Raspberry Pi models | <span class="no-break">PLLD</span> |
+In the table, **SoC** means system on chip and **CM** means Compute Module.
+
+| GPIO profile | SoC or package | Pi models | <span class="no-break">PLLD</span> |
 | --- | --- | --- | --- |
-| Legacy | [`BCM2835`, `BCM2836`, `BCM2837`, and `BCM2837B0`](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835); [`RP3A0`](https://www.raspberrypi.com/documentation/computers/processors.html#rp3a0) contains a `BCM2710A1` die from the `BCM2837` family | Raspberry Pi 1 A, A+, B, and B+; Raspberry Pi 2 B; Raspberry Pi 3 A+, B, and B+; Raspberry Pi Zero, Zero W, and Zero 2 W; Compute Module 1, 3, and 3+ | 500 MHz |
-| BCM2711 | [`BCM2711`](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711) | Raspberry Pi 4 B; Raspberry Pi 400; Compute Module 4 and 4S | 750 MHz |
+| Legacy | [`BCM2835`, `BCM2836`, `BCM2837`, and `BCM2837B0`](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835); [`RP3A0`](https://www.raspberrypi.com/documentation/computers/processors.html#rp3a0) contains a `BCM2710A1` die from the `BCM2837` family | Pi 1 A/A+/B/B+; Pi 2 B; Pi 3 A+/B/B+; Pi Zero/Zero W/Zero 2 W; CM1/CM3/CM3+ | 500 MHz |
+| BCM2711 | [`BCM2711`](https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711) | Pi 4 B; Pi 400; CM4/CM4S | 750 MHz |
 
 Some Raspberry Pi 2 and Raspberry Pi 3 model revisions use different processors within the legacy profile. They retain the same 500 MHz PLLD category for Wsprry Pi GPIO transmission.
 
