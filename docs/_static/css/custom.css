@@ -230,17 +230,20 @@ footer a:focus-visible {
 
 .rst-content #transmitter-qualification .qualification-status {
     font-weight: var(--wsprrypi-docs-weight-semibold);
+    white-space: nowrap;
 }
 
 .rst-content #transmitter-qualification .qualification-status--qualified {
     color: var(--wsprrypi-docs-qualified-color);
 }
 
-.rst-content #transmitter-qualification .qualification-status--untested {
+.rst-content #transmitter-qualification .qualification-status--untested,
+.rst-content #transmitter-qualification .qualification-status--partial {
     color: var(--wsprrypi-docs-untested-color);
 }
 
-.rst-content #transmitter-qualification .qualification-status--unqualified {
+.rst-content #transmitter-qualification .qualification-status--unqualified,
+.rst-content #transmitter-qualification .qualification-status--unavailable {
     color: var(--wsprrypi-docs-unqualified-color);
 }
 

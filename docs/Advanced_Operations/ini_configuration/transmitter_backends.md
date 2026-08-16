@@ -18,13 +18,13 @@ The `[Calibration]` section supplies **Reference calibration (PPM)** for the Si5
 
 The `[GPIO]` section configures the supported direct RF pin, GPIO-backend power level, provider-derived system clock estimate, conducted residual, and fixed/manual fallback. When `Operation.Transmit Backend = gpio`, the configured transmit pin is reserved even if `Operation.Transmit = false`. The other supported transmit pin remains available to ordinary GPIO roles. When the Si5351 backend is selected, a retained GPIO transmit-pin value reserves nothing.
 
-GPIO is qualified on 80 m, 20 m, 15 m, and 10 m with the production synthesis
-pacing. WsprryPi rejects direct GPIO requests in the 12 m, 6 m, and 2 m band
-ranges before transmitter activation. This applies to WSPR, CW modes, and Test
-Tone; Si5351 is unaffected. See
+GPIO qualification depends on the Raspberry Pi clock profile, band, and
+transmission mode. Requests for unqualified combinations are blocked by default,
+while combinations the backend cannot construct remain unavailable. Check the
+[Band qualification](../../About_Wsprry_Pi/index.md#band-qualification) table
+and its numbered notes for the current mode-specific status. See
 [GPIO Band Capabilities and Signal Quality](../../FAQ/why_12m_looks_noisy.md)
-for the measured boundary and why changing pacing or calibration does not make
-the disqualified bands usable.
+for the measured signal-quality findings.
 
 ```{literalinclude} default_wsprrypi.ini
 :language: ini

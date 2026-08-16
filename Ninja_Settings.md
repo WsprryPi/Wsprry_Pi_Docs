@@ -16,6 +16,14 @@ Web Port = 31415
 Socket Port = 31416
 
 
+[Experimental]
+; Advanced CLI/INI-only frequency policy. These settings do not grant legal
+; authority to transmit and are not shown in the Web UI.
+Allow Unqualified Frequency = false
+; Frequencies outside recognized amateur bands require both settings to be true.
+Allow Non-Amateur Frequency = false
+
+
 [GPIO]
 ; Transmit Pin:
 ; BCM GPIO used for RF output when Transmit Backend = gpio.
@@ -59,3 +67,14 @@ Fade Out Ms = 20
 ; This does not change Fade In Ms or Fade Out Ms duration.
 Fade Slice Ms = 2
 ```
+
+`Allow Unqualified Frequency` permits a backend, hardware profile, band, and
+mode combination whose recorded state is **Untested** or **Unqualified**. It
+cannot enable an **Unavailable** output that the selected backend cannot safely
+construct. `Allow Non-Amateur Frequency` additionally permits a frequency
+outside Wsprry Pi's recognized US and international amateur-band ranges, but
+only when both settings are `true`.
+
+These settings do not grant permission to transmit. The operator remains
+responsible for authorization, RF-path safety, filtering, and compliance with
+applicable rules.
