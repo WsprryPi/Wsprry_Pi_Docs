@@ -230,6 +230,7 @@ footer a:focus-visible {
 
 .rst-content #transmitter-qualification .qualification-status {
     font-weight: var(--wsprrypi-docs-weight-semibold);
+    white-space: nowrap;
 }
 
 .rst-content #transmitter-qualification .qualification-status--qualified {
