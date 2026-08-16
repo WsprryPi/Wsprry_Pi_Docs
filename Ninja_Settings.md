@@ -68,11 +68,12 @@ Fade Out Ms = 20
 Fade Slice Ms = 2
 ```
 
-`Allow Unqualified Frequency` permits a backend and mode combination that has
-not completed qualification. It cannot enable an output that the selected
-backend cannot safely construct. `Allow Non-Amateur Frequency` additionally
-permits a frequency outside Wsprry Pi's recognized US and international
-amateur-band ranges, but only when both settings are `true`.
+`Allow Unqualified Frequency` permits a backend, hardware profile, band, and
+mode combination whose recorded state is **Untested** or **Unqualified**. It
+cannot enable an **Unavailable** output that the selected backend cannot safely
+construct. `Allow Non-Amateur Frequency` additionally permits a frequency
+outside Wsprry Pi's recognized US and international amateur-band ranges, but
+only when both settings are `true`.
 
 These settings do not grant permission to transmit. The operator remains
 responsible for authorization, RF-path safety, filtering, and compliance with
