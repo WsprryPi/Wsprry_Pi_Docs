@@ -18,16 +18,38 @@
 - `--si5351-power-level <1-4>`  
   Set Si5351 output drive strength.
 
+## Experimental Frequency Policy
+
+These advanced options are available from the command line and INI file. They
+are intentionally not exposed in the Web UI, and both default to disabled.
+
+- `--allow-unqualified-frequency`, `--no-allow-unqualified-frequency`
+  Allow or deny a backend and mode combination that has not completed
+  qualification. This option cannot enable an output that the selected backend
+  cannot safely construct.
+
+- `--allow-non-amateur-frequency`, `--no-allow-non-amateur-frequency`
+  Allow or deny a frequency outside Wsprry Pi's recognized US and international
+  amateur-band ranges. Outside-band transmission requires both allow options.
+
+These options do not grant permission to transmit. The operator remains
+responsible for authorization, RF-path safety, filtering, and compliance with
+applicable rules.
+
 ---
 
 ## GPIO Backend
 
-The GPIO backend is qualified on 80 m, 20 m, 15 m, and 10 m with production
-pacing. Requests whose final RF frequency is in the 12 m, 6 m, or 2 m band
-range are rejected before GPIO activation, whether entered as a band name or
-an arbitrary frequency. This covers WSPR, CW modes, and Test Tone; Si5351 is
-unaffected. A steady test tone is not sufficient evidence that WSPR modulation will decode. See
-[GPIO Band Capabilities and Signal Quality](../FAQ/why_12m_looks_noisy.md).
+GPIO qualification depends on the Raspberry Pi clock profile, band, and
+transmission mode. A band can be qualified for TONE, QRSS, FSKCW, or DFCW while
+WSPR remains unqualified. Requests for unqualified combinations are rejected
+before GPIO activation unless the experimental override is enabled; unavailable
+combinations remain blocked. Check the current [Band qualification](../About_Wsprry_Pi/index.md#band-qualification)
+table and its numbered notes before transmitting.
+
+A steady test tone is not sufficient evidence that WSPR modulation will
+decode. See [GPIO Band Capabilities and Signal Quality](../FAQ/why_12m_looks_noisy.md)
+for the underlying signal-quality findings.
 
 - `--transmit-gpio <4\|20>`  
   Select GPIO pin used for RF output.

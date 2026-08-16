@@ -126,7 +126,7 @@ Some Raspberry Pi 2 and Raspberry Pi 3 model revisions use different processors 
 
 - <span class="qualification-status qualification-status--qualified">Qualified</span>: The transmitter type produced usable output on that band during qualification testing.
 - <span class="qualification-status qualification-status--partial">Partial</span>: At least one supported mode is qualified on that band and at least one other mode is not. Check the numbered note before transmitting.
-- <span class="qualification-status qualification-status--unqualified">Unqualified</span>: The transmitter type did not meet the carrier or decode gate on that band. Do not use an unqualified combination.
+- <span class="qualification-status qualification-status--unqualified">Unqualified</span>: The backend and mode combination did not meet the applicable carrier or decode gate. Wsprry Pi blocks the combination by default. An operator with appropriate authorization may enable it with the explicit experimental override and remains responsible for RF-path safety, filtering, and compliance with applicable rules.
 - <span class="qualification-status qualification-status--unavailable">Unavailable</span>: The backend cannot safely construct this output. Experimental overrides do not enable it.
 
 See [GPIO Band Capabilities and Signal Quality](../FAQ/why_12m_looks_noisy.md) for the GPIO qualification findings.
