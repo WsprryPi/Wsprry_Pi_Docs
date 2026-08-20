@@ -133,9 +133,9 @@ Technical information on the update check process is available in the [WsprryPi 
 
 ## Support Bundle
 
-Use **Support Bundle** when a developer asks for diagnostic information about your Wsprry Pi installation. The Maintenance workflow creates the archive locally, lets you opt in to an active I²C bus scan when needed, downloads the completed `.tar.gz` through your browser, and removes the retained Pi-side copy after successful receipt.
+Use **Support Bundle** when the Wsprry Pi maintainer asks for diagnostic information. The workflow records useful support context, creates a readable `.tar.gz` candidate locally, lets you inspect it, encrypts the exact bytes you approve, and hands only the encrypted `.age` file to a private Dropbox File Request.
 
-Review the archive before sharing it. See [Create and Share a Support Bundle](support_bundle.md) for the complete collection inventory, privacy guidance, download and cleanup behavior, and instructions for attaching the bundle to a GitHub issue.
+Review the readable archive before encryption. See [Create and Share a Support Bundle](support_bundle.md) for privacy guidance, collection inventory, encrypted upload, receipt handling, truthful upload states, GitHub correlation, and cleanup.
 
 ```{toctree}
 :maxdepth: 1

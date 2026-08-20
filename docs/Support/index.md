@@ -43,7 +43,7 @@ A short, specific description usually helps more than a long transcript with no 
 
 A support bundle gives a developer useful diagnostic context. It can help identify configuration, runtime, audio, WSPR decoding, upload, and Raspberry Pi environment issues.
 
-Create and download the bundle from the Maintenance page. Before sharing it, review the collection inventory and extracted reports for information you do not want to make public. The [support-bundle guide](../User_Interface/Maintenance/support_bundle.md) explains creation, active I²C consent, archive review, automatic Pi-side cleanup, and GitHub issue attachment.
+Create and download the readable candidate from the Maintenance page. Review it for information you do not want to share, approve the exact candidate, then upload only its encrypted `.age` file through the private Dropbox handoff. The [support-bundle guide](../User_Interface/Maintenance/support_bundle.md) explains support context, active I²C consent, review, encryption, receipts, Dropbox metadata, truthful upload reporting, GitHub correlation, and cleanup.
 
 ## Example Questions
 

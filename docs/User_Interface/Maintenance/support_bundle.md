@@ -1,20 +1,23 @@
 # Create and Share a Support Bundle
 
-A support bundle gathers diagnostic information that can help a developer investigate a Wsprry Pi problem. The bundle is created on your Raspberry Pi and downloaded through your browser. Wsprry Pi does not upload it automatically.
+A support bundle gathers diagnostic information that can help the Wsprry Pi maintainer investigate a problem. The Maintenance workflow creates a readable archive on your Raspberry Pi, lets you inspect it, encrypts the exact archive you approved, and then opens a private Dropbox upload page. Wsprry Pi never uploads the readable archive.
 
 :::{important}
-A support bundle may contain sensitive information, including host and user names, network addresses, configuration values, logs, project paths, and service details. Wsprry Pi applies automatic redaction to common password, token, secret, and credential fields, but redaction is best-effort. Review the archive before sharing it.
+A support bundle may identify you, your station, equipment, or network. It can include callsigns, Maidenhead locators, host and user names, internal addresses, configuration values, logs, project paths, and service details. Automatic credential redaction is best-effort. Download and inspect the readable archive before approving encryption.
 :::
 
 ## Create the Bundle
 
 1. Open **Maintenance** in the Wsprry Pi web interface.
-2. In **Support Bundle**, select **Create Support Bundle**.
-3. Read the collection and privacy notice.
-4. Leave **Actively probe I²C bus 1** cleared unless a developer specifically needs an active bus scan.
-5. Select **Create Support Bundle** in the dialog.
-6. Wait while the panel reports that the bundle is queued or being collected. The collection time varies, so the interface does not show an estimated percentage.
-7. When the bundle is ready, select **Download support bundle**.
+2. In **Support Bundle**, select **Start support bundle**.
+3. Choose how the bundle will be associated with your support request:
+   - Enter the number of an existing WsprryPi GitHub issue.
+   - Choose to create a GitHub issue after collection. Enter a useful problem description and contact method for the private bundle record.
+   - Choose **I am not using GitHub**. Enter a useful problem description and contact method.
+4. Leave **Actively probe I²C bus 1** cleared unless the maintainer specifically requests an active bus scan.
+5. Select **Create readable candidate**.
+6. Wait while the panel reports that the bundle is queued or being collected. Collection time varies, so the interface does not invent a percentage or completion estimate.
+7. When collection finishes, record the displayed case ID and select **Download readable candidate**.
 
 The active I²C option is off by default. Passive I²C information is collected either way. Selecting the option runs exactly:
 
@@ -32,17 +35,16 @@ WsprryPi-support-HOST-UTC_TIMESTAMP.tar.gz
 
 Your browser chooses the save location. Wsprry Pi can report the filename, but it cannot reliably report the final folder on your computer.
 
-## What Happens After Download
+## Retention on the Raspberry Pi
 
-The interface waits until it has received the complete archive before starting Pi-side cleanup. After a successful download, it asks the Pi to delete its retained copy.
+The readable candidate remains on the Pi after download so the application can encrypt the exact bytes you reviewed. Downloading, encrypting, opening Dropbox, or reporting an upload does not delete it.
 
-- If cleanup succeeds, the Maintenance page confirms that the bundle was downloaded and removed from the Pi.
-- If cleanup fails, your downloaded file remains valid. Use **Delete from Pi** to try again.
+- Select **Delete from Pi** when you no longer need the retained candidate.
 - A retained successful bundle expires automatically after 24 hours.
 - Failed and cancelled collection jobs are removed without waiting for the retention period.
 - Restarting the daemon removes stale jobs that cannot be resumed.
 
-An interrupted or failed browser download does not trigger deletion, so you can try the download again.
+An interrupted or failed browser download leaves the retained candidate available so you can try again.
 
 ## What the Bundle Collects
 
@@ -99,25 +101,77 @@ Start with these files and directories:
 - `bundle/project` for checkout and installed-runtime information.
 - `bundle/hardware`, `bundle/web`, `bundle/network`, and `bundle/commands` for their corresponding diagnostic reports.
 
-Look especially for callsigns or other station identifiers, host/user names, IP addresses, project paths, URLs, and configuration values you do not want to make public. Do not edit the original archive after review; if it should not be public, ask the developer for a private sharing method.
+Look especially for callsigns or other station identifiers, host/user names, IP addresses, project paths, URLs, and configuration values you do not want to share. Do not edit the downloaded archive: it would no longer match the retained candidate. Select **Delete from Pi**, change the available collection choices, and collect a new candidate if anything should be excluded.
 
-## Attach the Bundle to a GitHub Issue
+## Approve and Encrypt the Reviewed Candidate
 
-1. Open the relevant issue in the [WsprryPi repository](https://github.com/WsprryPi/WsprryPi/issues), or create one if the developer asks you to.
-2. Add a comment describing what went wrong, what you expected, whether it is repeatable, and approximately when it happened. Timing helps the developer find the relevant log entries.
-3. Drag the reviewed `.tar.gz` file into the comment box, or use the **Attach files** paperclip and select it.
-4. Wait for GitHub to place the uploaded file link in the comment. Verify the attachment is present before submitting the comment.
+1. Return to the Support Bundle panel after inspecting the readable `.tar.gz` archive.
+2. Select **I reviewed this candidate and approve these exact bytes for encryption**.
+3. Select **Approve reviewed candidate**. The application finalizes and hashes that retained candidate; it does not recollect the diagnostics.
+4. Select **Check private upload availability**.
+5. If private upload is active, select **Encrypt the exact candidate I reviewed for the WsprryPi maintainer**, then select **Encrypt reviewed candidate**.
+6. Select **Download encrypted bundle**. Its filename ends in `.age`.
+7. Select **Download receipt** and keep the `.json` receipt with the encrypted file.
 
-GitHub currently supports `.gz` archives in issue comments and limits non-media attachments to 25 MB. If the bundle is larger, or if it contains information that should not be public, do not attach it to a public issue. Ask the developer for an approved private transfer method. Files attached to a public repository can be accessed without authentication. See GitHub's [Attaching files](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/attaching-files) documentation for the current rules.
+Encryption runs locally on the Pi using the WsprryPi maintainer's public encryption key. Only the encrypted `.age` file is intended for Dropbox. The receipt records the case ID, filenames, sizes, SHA-256 digests, and encryption-key identifier needed to match and verify the received file. A SHA-256 digest is an integrity value, not a digital signature.
 
-The support-bundle API is restricted to loopback or a directly connected trusted LAN and checks the browser-visible host and origin. This is network-location access control, not user authentication. Only share a bundle with people you trust.
+:::{danger}
+Never attach the readable `.tar.gz`, the encrypted `.age` file, the receipt, or a Dropbox transfer link to a public GitHub issue. The public issue should contain only the prepared case note and information you intentionally choose to publish.
+:::
+
+### When private upload is unavailable
+
+- **Upgrade required:** Install the displayed WsprryPi version or later, then try again. The local candidate remains unchanged. Older application versions do not receive a replacement Dropbox request address.
+- **Temporarily disabled:** Keep the local files and try again later or follow the authenticated message shown by the application.
+- **Availability check failed:** Confirm internet access and select **Try again**. Do not substitute an unverified upload destination.
+
+The upload address comes from a signed, replaceable intake policy. This lets the maintainer expire or replace an abused Dropbox File Request without publishing a new address in static documentation.
+
+## Upload the Encrypted File Through Dropbox
+
+1. After downloading the `.age` file and receipt, read the Dropbox disclosure in the Support Bundle panel.
+2. Select the acknowledgement, then select **Open private Dropbox upload**.
+3. On Dropbox, enter the requested name and valid email address. A Dropbox account is not required.
+4. Select the downloaded `.age` file—never the readable `.tar.gz` or receipt—and submit it.
+5. Wait until Dropbox displays **Finished uploading**.
+6. Return to Wsprry Pi, select the checkbox confirming that exact Dropbox result, and select **Record my upload report**.
+
+Dropbox cannot read the encrypted bundle contents, but it can observe upload metadata such as the filename, size, upload time, network information, and the name and email address entered on its form. The Wsprry Pi maintainer may also receive the submitted name and email as Dropbox metadata.
+
+Opening the Dropbox page is not an upload. Dropbox displaying **Finished uploading** is provider-reported success. Recording that result in Wsprry Pi is your report of success. Neither is confirmation that the maintainer has received, decrypted, or accepted the bundle. Maintainer confirmation happens separately after receipt and validation.
+
+![Private support upload workflow showing encryption and Dropbox disclosure](support_bundle_private_upload.png)
+
+## Continue the Support Request
+
+### Existing GitHub issue
+
+After you record Dropbox success, Wsprry Pi prepares a safe public comment containing the case ID but no diagnostics or transfer address.
+
+1. Review and select **Copy public comment**.
+2. Select **Open existing GitHub issue**.
+3. Sign in to GitHub and post the prepared comment yourself.
+
+Wsprry Pi cannot post automatically and does not store maintainer GitHub credentials. If browser clipboard access is unavailable, the application selects the complete comment so you can copy it manually.
+
+### New GitHub issue
+
+Select **Create prefilled GitHub issue**, sign in, and review the prefilled text. Add a concise public description, but do not paste diagnostic contents, transfer links, email addresses, callsigns, locators, or network details unless you intentionally choose to disclose them.
+
+GitHub does not allow an anonymous, unauthenticated user to create an issue. If you cannot or do not want to use GitHub, use the problem description and contact method you entered before collection. That private context travels inside the encrypted bundle; it is not added to a public issue.
+
+## Keep or Delete Your Local Files
+
+Keep the encrypted `.age` file and receipt together until the maintainer confirms receipt. You may also keep the readable archive for your own records, but protect it because it contains unencrypted diagnostics. Select **Delete from Pi** to remove the retained server-side candidate when it is no longer needed; ordinary file deletion is not guaranteed secure erasure.
+
+The support-bundle API is restricted to loopback or a directly connected trusted LAN and checks the browser-visible host and origin. This is network-location access control, not user authentication. Only operate the workflow from a network you trust.
 
 ## Command-Line Alternative
 
-The Maintenance workflow is recommended for most users because it handles consent, status, verified download, and Pi-side cleanup. The installed collector remains available for command-line troubleshooting:
+The Maintenance workflow is recommended because it handles support context, review consent, exact-byte finalization, encryption, receipt generation, signed upload availability, and truthful transfer state. The installed collector remains available for command-line troubleshooting:
 
 ```bash
 /usr/local/lib/wsprrypi/collect-support-bundle.sh --help
 ```
 
-Without an explicit private output directory, the command-line collector writes its archive, SHA-256 sidecar, and result JSON in the current directory. It does not upload them. Active I²C probing remains opt-in through `--probe-i2c`.
+Without an explicit private output directory, the command-line collector writes its readable archive, SHA-256 sidecar, and result JSON in the current directory. It does not encrypt or upload them and does not reproduce the complete browser intake workflow. Active I²C probing remains opt-in through `--probe-i2c`.
