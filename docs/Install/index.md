@@ -31,10 +31,14 @@ Whatever you do, you will need command-line access to your Pi to proceed via SSH
 
 Aside from the obvious, installing Wsprry Pi, the install script will do the following:
 
-- **Install Apache2**, a popular open-source, cross-platform web server that is the most popular web server by the numbers.  The [Apache Software Foundation](https://www.apache.org/) maintains Apache.  Apache is used to control Wsprry Pi from an easy-to-use web page.  Additionally, if you have not previously used the Apache installation, a redirect from the root of the web server to `/wsprrypi/` will be created for ease of use.  Finally, the script creates three proxies to communicate from the web page to the application:
+- **Install Apache2**, a popular open-source, cross-platform web server that is the most popular web server by the numbers.  The [Apache Software Foundation](https://www.apache.org/) maintains Apache.  Apache is used to control Wsprry Pi from an easy-to-use web page.  Additionally, if you have not previously used the Apache installation, a redirect from the root of the web server to `/wsprrypi/` will be created for ease of use.  Finally, the script creates proxy mappings and a managed access policy for communication between the web page and application:
   - `http://127.0.0.1:31415/config` to `/wsprrypi/config` for getting/setting the configuration
   - `http://127.0.0.1:31415/version` to `/wsprrypi/version` to retrieve the running version.
   - `ws://127.0.0.1:31416/socket` to `/wsprrypi/socket` for Web Socket communications.
+  - A managed privileged-network-safety policy that restricts protected HTTP
+    operations and the entire browser-facing WebSocket endpoint to directly
+    connected Ethernet/Wi-Fi networks by default. The installer validates the
+    complete Apache configuration before reloading it.
 - **Install Chrony**, [a replacement for ntpd](https://chrony-project.org/).
 - **Install PHP**, a popular, general-purpose scripting language that is especially suited for web development.  The [PHP Group](https://www.php.net/) maintains PHP.  I wrote the web pages in PHP.
 - **Install Raspberry Pi development libraries and other Packages**, `git`, and `libgpiod`.

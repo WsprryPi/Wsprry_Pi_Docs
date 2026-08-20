@@ -34,6 +34,44 @@ Confirm the action, and the process will complete and return the status.
 
 You will need to reconfigure all of your preferences before continuing to transmit.
 
+## Privileged Network Safety
+
+**Privileged network safety** limits configuration changes, device controls,
+support-bundle operations, and the browser WebSocket connection to clients on
+the Raspberry Pi's directly connected Ethernet or Wi-Fi networks. It is
+network-location access control, not authentication: it does not distinguish
+between users already on an allowed LAN and does not encrypt traffic.
+
+The Maintenance page reports three values separately:
+
+- **Requested** is the unsaved choice currently selected in the browser.
+- **Configured** is the value stored in `wsprrypi.ini`.
+- **Active** is the policy confirmed in the backend and Apache.
+
+Keep **Enforced** selected for normal operation. Browser operation uses the
+normal port-80 Apache site; the UI does not fall back to the direct backend
+ports for this control. When enforcement is active, Apache also restricts the
+entire browser-facing WebSocket endpoint. Off-LAN clients therefore cannot use
+read-only WebSocket commands or receive its broadcasts.
+
+The insecure override is intended only for deliberate administrator recovery
+or an explicitly accepted network design. Select **Insecure disabled**, type
+`DISABLE LOCAL-LAN SAFETY` exactly, and then select **Apply requested state**.
+The setting is not part of Setup autosave. When the insecure override is
+active, the page displays **NETWORK SAFETY OFF**.
+
+Applying either value validates the candidate Wsprry Pi and Apache
+configuration, reloads Apache without rebooting, and confirms the active
+policy. If validation, reload, or confirmation fails, the page preserves your
+requested choice and reports that the requested, configured, and active values
+may differ. Resolve the reported problem and verify the displayed state before
+trying again.
+
+Disabling this LAN check does not disable Host, Origin, CORS, malformed-request,
+HTTP method, command, forwarded-header, or ordinary configuration validation.
+See [Privileged Network Safety](network_safety.md) for protected operations,
+direct-backend behavior, network-change handling, and recovery guidance.
+
 ## Test Tone
 
 A test tone is useful for checking the transmit path, calibration, and tuning.
@@ -142,4 +180,5 @@ Review the readable archive before encryption. See [Create and Share a Support B
 :hidden:
 
 Create and Share a Support Bundle <support_bundle>
+Privileged Network Safety <network_safety>
 ```

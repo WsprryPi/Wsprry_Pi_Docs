@@ -17,6 +17,13 @@ The WsprryPi backend still listens on its service ports internally:
 
 Those ports are implementation details behind the proxy. Most users and documentation examples should use the proxied `/wsprrypi/` paths.
 
+Apache is required for browser operation and uses the browser's actual peer
+address for privileged network safety. Browser code does not fall back to the
+direct backend ports for protected operations. Compatible direct non-browser
+clients remain subject to peer, local `Host`, and optional matching `Origin`
+validation. `Forwarded`, `X-Forwarded-For`, `X-Real-IP`, and similar headers do
+not grant access.
+
 The HTTP interface serves both the browser UI and the REST API through the proxied base path.
 
 The UI entry point is:
@@ -57,6 +64,12 @@ The API exposes configuration for:
 - Planner preferences and paired-frame behavior
 
 Configuration replacement and patch requests apply the same GPIO ownership validation as startup and INI reload. With the GPIO backend, the selected GPIO4 or GPIO20 RF output cannot also be used by an enabled Band GPIO, Transmit LED, Shutdown Button, or Amp Control, regardless of the `Operation.Transmit` value. A rejected request returns the conflict instead of clearing or moving either assignment.
+
+With privileged network safety enforced, `PUT` and `PATCH` require a browser
+peer on the Pi's directly connected LAN. `GET /config` remains read-only and
+available where practical. Repair/reset, stop-and-disable, support-bundle
+operations, and `POST /api/network-safety` are also protected. An off-LAN
+request is rejected before the operation is proxied.
 
 A typical payload resembles:
 
@@ -104,6 +117,34 @@ A typical payload resembles:
     }
 }
 ```
+
+## Network Safety Endpoint
+
+The Maintenance page uses:
+
+```text
+GET  /wsprrypi/api/network-safety
+POST /wsprrypi/api/network-safety
+```
+
+`GET` is read-only and reports whether configured and active state are known,
+their values when known, and the exact status text. `POST` is protected and
+accepts one explicit mode:
+
+```json
+{"mode":"enforced"}
+```
+
+or:
+
+```json
+{"mode":"insecure-disabled"}
+```
+
+The apply response distinguishes whether the request was applied and reports
+configured and active state. When disabled, status is exactly `NETWORK SAFETY
+OFF`. A failed validation, publish, Apache reload, confirmation, or rollback
+must be treated as failure; do not infer active state from the requested value.
 
 ## Version Endpoint
 

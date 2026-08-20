@@ -21,6 +21,17 @@ The backend service receives this connection internally as:
 ws://127.0.0.1:31416/socket
 ```
 
+When privileged network safety is enforced, Apache restricts the entire
+browser-facing `/wsprrypi/socket` endpoint to clients on the Pi's directly
+connected LAN. Apache cannot authorize individual commands after upgrade, so
+off-LAN clients also lose read-only commands, ping/pong, and server broadcasts.
+There is no separate off-LAN read-only socket.
+
+Port `31416` is not a browser fallback. Compatible direct non-browser clients
+must be on loopback or an eligible directly connected LAN, send a valid local
+`Host`, and either omit `Origin` or send an `Origin` matching `Host`. Forwarded
+client headers are ignored for authorization.
+
 ## Available Commands
 
 Examples of supported commands include:
@@ -29,6 +40,13 @@ Examples of supported commands include:
 - `shutdown`
 - `reboot`
 - Runtime control and synchronization requests used by the browser UI
+
+Privileged commands include `shutdown`, `reboot`, `stop`, `tone_start`,
+`tone_end`, and `bounded_tone`. Read-only protocol operations include
+`get_tx_state`, `wspr_band_catalog`, `echo`, ping/pong, and server broadcasts.
+This classification does not make read-only commands available off-LAN through
+the protected browser-facing endpoint; the whole WebSocket connection is
+restricted while enforcement is active.
 
 Example request:
 

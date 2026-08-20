@@ -12,7 +12,7 @@ drwxr-xr-x 10 root root 4096 Sep 21 19:02 ..
 -rw-rw-rw-  1 root root  171 Mar  6 19:47 wsprrypi.ini
 ```
 
-The file uses standard INI syntax with eight sections: `Meta`, `Operation`, `Calibration`, `GPIO`, `Si5351`, `WSPR`, `CW`, and `Band GPIO`. Blank lines and extra whitespace are ignored. Each setting is a key/value pair separated by an equals sign, and comments begin with a semicolon (`;`).
+The file uses standard INI syntax with ten sections: `Meta`, `Security`, `Operation`, `Experimental`, `Calibration`, `GPIO`, `Si5351`, `WSPR`, `CW`, and `Band GPIO`. Blank lines and extra whitespace are ignored. Each setting is a key/value pair separated by an equals sign, and comments begin with a semicolon (`;`).
 
 After editing, confirm the syntax and values before restarting Wsprry Pi or relying on the configuration for transmission.
 
@@ -29,7 +29,7 @@ Complete Default INI File <ini_configuration/complete_example>
 
 ## Configuration Areas
 
-- [Runtime and Service Settings](ini_configuration/runtime.md) covers `[Meta]` and `[Operation]`, including mode, service ports, transmission gating, and control GPIOs.
+- [Runtime and Service Settings](ini_configuration/runtime.md) covers `[Meta]`, `[Security]`, `[Operation]`, and `[Experimental]`, including network safety, mode, service ports, transmission gating, control GPIOs, and experimental frequency policy.
 - [Calibration and Transmitter Backends](ini_configuration/transmitter_backends.md) covers `[Calibration]`, `[GPIO]`, and `[Si5351]`.
 - [WSPR Settings](ini_configuration/wspr.md) covers station identity, frequency, reported power, planning, and random offset.
 - [CW and Band GPIO Settings](ini_configuration/cw_and_band_gpio.md) covers QRSS, FSKCW, DFCW, scheduling, fades, and band switching.

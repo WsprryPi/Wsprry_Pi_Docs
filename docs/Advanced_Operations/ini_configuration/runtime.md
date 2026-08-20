@@ -10,8 +10,31 @@ The `[Meta]` section controls diagnostic logging.
 ```{literalinclude} default_wsprrypi.ini
 :language: ini
 :start-at: [Meta]
+:end-before: [Security]
+```
+
+(security-section)=
+## Security
+
+The `[Security]` section controls privileged network-location access. This is
+separate from ordinary Setup autosave.
+
+```{literalinclude} default_wsprrypi.ini
+:language: ini
+:start-at: [Security]
 :end-before: [Operation]
 ```
+
+`enforced` is the default and recommended value. Missing, empty, malformed,
+boolean-like, numeric, or unknown values also fail closed to enforced behavior
+and produce a warning. Only the exact value `insecure-disabled` bypasses the
+peer/subnet check for protected operations. It does not weaken Host, Origin,
+CORS, malformed-request, method, command, forwarded-header, or ordinary
+configuration validation.
+
+Use the [Privileged Network Safety](../../User_Interface/Maintenance/network_safety.md)
+panel to change this value through the validated Apache apply/reload transaction.
+Do not edit it through normal Setup autosave.
 
 (operation-section)=
 ## Operation
