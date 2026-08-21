@@ -62,6 +62,31 @@ If that happens, this longer form should work:
 
 This install command is idempotent; running it additional times will not have any negative impact.  If an update is released, re-run the installer to take advantage of the new release.
 
+### Upgrading a customized web interface
+
+Every installed web interface includes an immutable manifest describing the UI files supplied by that installation. Before replacing the web interface, the installer classifies the existing files:
+
+- `packaged`: all covered files match the prior packaged manifest.
+- `locally_modified`: a valid prior manifest exists, but covered files were modified, added, or deleted.
+- `unknown`: the prior installation cannot be compared safely, for example because its manifest is missing, malformed, unreadable, or unsupported.
+
+For a `locally_modified` installation, the installer creates a unique verified backup under `/var/backups/wsprrypi/ui` before changing the live web files. The backup preserves modified and added files and the prior manifest. A machine-readable `modification-report.json` records modified, added, and missing paths. Missing files have no bytes to copy, so the report is their recovery record.
+
+For an `unknown` installation, the installer backs up the complete covered UI tree before replacement. Runtime and installer-backup directories are excluded from UI identity and are not folded into this covered-tree backup.
+
+The installer verifies the backup before replacing the live UI. If backup creation or verification fails, replacement does not begin. After a successful backup, the installer installs the complete new packaged UI; it does not merge customizations into new files. Recover any desired customization manually by comparing the reported backup with the new installation.
+
+The final installer output relists modified, added, and missing files; the prior-manifest backup; the modification report; the backup directory; and whether replacement completed. Keep this output until you have reviewed or recovered the changes.
+
+To refuse replacement when the existing UI is `locally_modified` or `unknown`, pass:
+
+```bash
+sudo ./scripts/install.sh \
+  --fail-on-ui-modifications
+```
+
+This option leaves the existing UI in place instead of creating a replacement backup and publishing the new UI. Resolve or preserve the reported installation state, then run the installer again without the option when ready to replace it.
+
 Since the installation script compiles the application on your Pi to avoid any version errors, it will take some time on older Pis with fewer resources.  A Pi 3 with 1 GB of memory takes about 20 minutes.  If the script detects a system with fewer resources, it will intentionally use fewer resources, resulting in a slower installation time.  If that is the case, it will issue a warning:
 
 ```text

@@ -47,7 +47,7 @@ setUpdateCheckDisabled(false);
 * `uiRefreshPromptActive` prevents duplicate UI reload prompts
 * `data-update-check-active` protects shared modal ownership
 * `releaseUpdateCheckModalOwnership()` clears update modal handlers before generic confirmation dialogs reuse the modal
-* `/version.php` sends:
+* `/ui-version.php` sends:
 
 ```text
 Cache-Control: no-store, no-cache, must-revalidate, max-age=0
