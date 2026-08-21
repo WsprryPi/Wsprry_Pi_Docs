@@ -61,7 +61,9 @@ The CLI supports two primary modes:
   hertz, or a value with an `Hz`, `kHz`, `MHz`, or `GHz` suffix that resolves
   to whole-number hertz. Scientific notation and fractional-hertz results are
   rejected. Band aliases resolve to their WSPR dial frequencies; use an
-  explicit frequency when the test carrier should differ from the dial.
+  explicit frequency when the test carrier should differ from the dial. See
+  [Canonical Bands and WSPR Frequency Presets](../Advanced_Operations/canonical_bands.md)
+  for qualified 60 m presets and country/locality selection.
 
 - `sudo wsprrypi N9NNN EM10 33 20m`  
   Transmit a single WSPR message.

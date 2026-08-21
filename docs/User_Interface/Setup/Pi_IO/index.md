@@ -46,6 +46,11 @@ This section allows you to set pins to drive relays per band, to use a device su
 
 ![Band GPIO](Band_GPIO.png)
 
-Whether you use a band selection such as `20m` in WSPR, or a specific frequency, the system will determine which band that frequency represents. To energize a relay for that band, check the "Enabled" box for that band, select the GPIO pin you would like to use, and whether you want it to be "Active High" (checked) or "Active Low" (unchecked).
+Whether you use a WSPR preset such as `20m` or a specific frequency, the system
+correlates the resulting frequency to one canonical band. To energize a relay
+for that band, check the **Enabled** box, select the GPIO pin, and choose whether
+it is **Active High** (checked) or **Active Low** (unchecked). The worldwide
+correlation envelopes are broader than any one country's allocation; see
+[Canonical Bands and WSPR Frequency Presets](../../../Advanced_Operations/canonical_bands.md).
 
 The selected GPIO RF output cannot also be used by an enabled Band GPIO, Transmit LED, Shutdown Button, or Amp Control. Disabled roles may retain a pin without reserving it. The same pin can still be shared by multiple enabled bands when every assignment uses the same **Active High** setting; conflicting polarity is rejected.

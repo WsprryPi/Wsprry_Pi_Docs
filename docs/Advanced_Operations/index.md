@@ -9,6 +9,7 @@ Start with [Transmission Timing and Calibration](timing_calibration.md) when a t
 :hidden:
 
 Transmission Timing and Calibration <timing_calibration>
+Canonical Bands and WSPR Frequency Presets <canonical_bands>
 INI Configuration Reference <ini_configuration>
 Configuration Troubleshooting <configuration_troubleshooting>
 REST API <rest_api>
@@ -24,6 +25,9 @@ RF and Electrical Reference <rf_electrical>
 (si5351-based-transmissions)=
 (am-calibration)=
 - [Transmission Timing and Calibration](timing_calibration.md) explains WSPR timing, GPIO and Si5351 frequency calibration, and manual AM zero-beat calibration.
+
+(canonical-band-correlation)=
+- [Canonical Bands and WSPR Frequency Presets](canonical_bands.md) explains frequency-to-band correlation, built-in WSPR dial presets, profiles, per-band preferences, and country/locality selection.
 
 (ini-file)=
 - [INI Configuration Reference](ini_configuration.md) documents the complete daemon configuration file, including WSPR, CW, hardware, and scheduling values.

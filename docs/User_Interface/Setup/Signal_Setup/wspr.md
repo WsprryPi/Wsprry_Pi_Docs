@@ -3,8 +3,8 @@
 Use this page for WSPR station identity, transmission planning, frequency, power reporting, and calibration. Return to the [Signal Setup overview](index.md) to choose another mode. For calibration procedures, see [Transmission Timing and Calibration](../../../Advanced_Operations/timing_calibration.md); for output hardware, see [Configure Transmitter](../Transmitter/index.md).
 
 WSPR or Weak Signal Propagation Reporting is the original mode for Wsprry Pi.
-
-![WSPR Mode](WSPR_Mode.png)
+The controls described below appear in the **WSPR** half of the signal-mode
+selector. Configuration saves automatically after each valid change.
 
 ## Station Identity
 
@@ -80,12 +80,11 @@ These settings govern the way that WSPR is transmitted or received.
 
 ### Frequencies
 
-The Frequencies setting is a single frequency, or a list of frequencies, separated by spaces or commas.  The frequencies may be in band format:
-
-- 10m
-- 20m
-- 30m
-- etc.
+The Frequencies setting accepts one value or a list separated by spaces or
+commas. Use a bare WSPR preset such as `20m`, a qualified preset such as
+`60m:legacy` or `60m:wrc15`, an integral numeric USB dial frequency, or `0` to
+skip a position. Optional `@GPIO`, `@GPIOH`, and `@GPIOL` suffixes select Band
+GPIO behavior for an entry.
 
 They may also be listed in engineering notation where these are all the same:
 
@@ -96,11 +95,29 @@ They may also be listed in engineering notation where these are all the same:
 
 Notice that there are no spaces between the number and `m` for meters, and none between the number and the engineering notation.
 
-Finally, the frequency may be listed in pure Hz without a notation such as 21096.100.
+The frequency may also be listed in pure integral Hz, such as `21094600`.
 
 Of note, WSPR is an Upper Side Band (USB) mode.  The frequency entered is a typical USB dial frequency.  You may note that the tones are shifted ~1,500Hz higher.
 
-Using the bands will select the canonical WSPR frequency.
+Using a bare band preset selects the current frequency profile's WSPR dial
+convention. **Frequency profile** defaults to **Existing/Common** for
+compatibility. The initial alternate profile is **WRC-15**; it changes only the
+meaning of a bare `60m`. Open **Band preferences** to choose **Default**,
+**Preset**, or **Custom** independently for every canonical band. Each row shows
+the effective USB dial and RF tone. **Clear** removes only that band's override.
+Valid edits save automatically; invalid custom values remain visible and block
+autosave until corrected or cleared. Explicit qualified presets and numeric
+values entered in **Frequencies** never change when the profile changes.
+
+The `8m` and `5m` rows have no built-in WSPR preset. Select **Custom** and enter
+a positive integral USB dial frequency inside the corresponding correlation
+envelope before using either bare name. Configured values then participate in
+scheduling and the effective WSPR/Test Tone catalog.
+
+Wsprry Pi does not infer a country. See [Canonical Bands and WSPR Frequency
+Presets](../../../Advanced_Operations/canonical_bands.md) for the complete band
+and preset tables, country/locality guidance, configuration precedence, and
+examples.
 
 ### Random offset
 

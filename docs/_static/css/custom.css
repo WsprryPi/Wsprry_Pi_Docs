@@ -479,6 +479,17 @@ footer a:focus-visible {
     width: 1px;
 }
 
+/* Keep explanatory prose on the canonical-band reference comfortably readable
+   while leaving its compact frequency-mapping tables free to use the page. */
+#canonical-bands-and-wspr-frequency-presets > p,
+#canonical-bands-and-wspr-frequency-presets > ul,
+#canonical-bands-and-wspr-frequency-presets > ol,
+#canonical-bands-and-wspr-frequency-presets section > p,
+#canonical-bands-and-wspr-frequency-presets section > ul,
+#canonical-bands-and-wspr-frequency-presets section > ol {
+    max-width: 75ch;
+}
+
 @media screen and (max-width: 768px) {
     .wy-nav-content-wrap {
         margin-left: 0;

@@ -90,7 +90,8 @@ Choose one of these frequency sources:
 
 - **WSPR band** uses a canonical band entry supplied by the connected
   controller. The preview shows the WSPR dial frequency and the resulting RF
-  frequency after the WSPR offset is applied.
+  frequency after the WSPR offset is applied. Its bare 60 m entry follows the
+  saved frequency profile and per-band preference.
 - **Custom RF frequency** accepts an exact, whole-number frequency in Hz. This
   value is the RF frequency; no WSPR offset is added.
 
@@ -104,6 +105,10 @@ browser. **Start** remains unavailable until the controller is connected, its
 catalog is available, a valid frequency source is selected, and normal
 transmission interlocks permit a test tone. A disabled button is visually
 muted and cannot be selected.
+
+See [Canonical Bands and WSPR Frequency Presets](../../Advanced_Operations/canonical_bands.md)
+for the effective preset rules and the distinction between a WSPR dial preset
+and the exact RF carrier used by **Custom RF frequency**.
 
 If scheduled WSPR or CW-family transmission is enabled, the page prompts you
 to stop and disable it before starting a test tone.
