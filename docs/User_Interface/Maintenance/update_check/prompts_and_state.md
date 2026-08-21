@@ -17,9 +17,11 @@ UI refresh required
 Refresh
 ```
 
-* Cancel suppresses the same build/version for the current page lifetime
+* Cancel suppresses the same installed identity for the current page lifetime
 * Hidden while active also records the same in-memory dismissal
 * Failed show attempts are retried on later polls
+* Refresh requests carry the expected installed identity for convergence checking
+* A failed convergence check replaces repeated prompts with a persistent consistency diagnostic
 
 ## App Update Modal
 
@@ -115,8 +117,7 @@ forceUpdateCheckNow();
 
 ```js
 maybePromptForUiRefresh({
-  ui_build_id: "test-" + Date.now(),
-  ui_version: window.WSPRRYPI_UI_VERSION
+  installed_ui_build_id: "sha256:test-" + Date.now()
 });
 ```
 
@@ -124,6 +125,6 @@ maybePromptForUiRefresh({
 
 ```js
 dismissedUiRefreshBuildId = null;
-dismissedUiRefreshVersion = null;
 uiRefreshPromptActive = false;
+uiConsistencyDiagnosticActive = false;
 ```

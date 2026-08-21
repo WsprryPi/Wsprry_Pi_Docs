@@ -10,9 +10,9 @@ The UI build poller detects local web UI file changes and prompts the browser to
 
 It works by:
 
-* Generating a `ui_build_id` from tracked PHP, JS, and CSS file metadata
-* Polling the local `/version` endpoint every 60 seconds
-* Comparing the loaded build ID against the current server build ID
+* Loading the installed UI identity into every rendered page
+* Polling the local `/wsprrypi/ui-version.php` endpoint every 60 seconds
+* Comparing the loaded-page identity with the currently installed UI identity
 * Showing a `UI refresh required` modal when they differ
 
 This mechanism is entirely local and does not contact GitHub.
@@ -45,14 +45,13 @@ Purpose:
 
 Both systems share:
 
-* The `/version` endpoint
 * Shared Bootstrap modal infrastructure
-* Local storage persistence
 * Duplicate interval guards
 * Modal suppression/retry logic
 
 However, they intentionally use separate:
 
+* Endpoints
 * Poll timers
 * Comparison logic
 * Dismissal state
@@ -61,7 +60,7 @@ However, they intentionally use separate:
 
 ## Technical Overview
 
-Current implementation lives primarily in `WsprryPi-UI/data/site.js`, with UI build metadata from `WsprryPi-UI/data/ui_version.php` and `/version` metadata from `src/web_server.cpp` or `WsprryPi-UI/data/version.php`.
+Current implementation lives primarily in `WsprryPi-UI/data/site.js`. UI identity comes from the UI-owned `/wsprrypi/ui-version.php` endpoint and immutable `ui-manifest.json`. Application and running-service metadata continue to come from `/wsprrypi/version`.
 
 ### Two Separate Pollers
 
@@ -70,7 +69,7 @@ WsprryPi has two update mechanisms:
 1. UI build-id polling detects whether the web UI files changed and prompts the browser to reload.
 2. GitHub/app update polling checks whether the installed WsprryPi build is behind an upstream GitHub branch or release.
 
-They share the `/version` endpoint and the shared Bootstrap `#confirmModal`, but they have separate timers, comparison rules, cache behavior, and dismissal state.
+They share the Bootstrap `#confirmModal`, but they have separate endpoints, timers, comparison rules, cache behavior, and dismissal state. A difference between the installed executable and running-service versions does not request a browser refresh.
 
 For ordinary update checks and notifications, use the [Maintenance page](index.md#update-checker). The pages below are implementation references for development and validation.
 
