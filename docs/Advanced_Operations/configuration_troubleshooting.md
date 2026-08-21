@@ -35,3 +35,21 @@ sudo systemctl restart wsprrypi.service
 Then confirm in the log that the configured backend was selected without a startup-inhibition error. After a successful restart, the saved **Enable on Boot** policy determines whether transmission scheduling is enabled.
 
 Do not repeatedly restart the service without correcting the reported cause. If the failure persists, leave transmission disabled and collect a support bundle from **Maintenance** before requesting help.
+
+## Pi 5 RP1 Route Is Unavailable or Mismatched
+
+Leave transmission disabled when the route panel reports **Unavailable**,
+**Staged**, **Mismatch**, or **Rollback required**. Do not edit boot files or
+enable both overlays manually.
+
+Check that `rp1-gpclk-dkms` version `1.0.0-1` is installed for the running
+kernel, the module exposes `/dev/rp1-gpclk0`, both packaged overlays are
+present, and exactly one Wsprry Pi-owned route is configured. Requested,
+persisted, configured, and active routes must all be GPIO4 or all be GPIO20.
+Eligibility and cleanup must also be accepted; Wsprry Pi does not fall back to
+another route or backend.
+
+For **Staged**, use the offered reboot or rollback action. For **Mismatch** or
+**Rollback required**, preserve the displayed state and collect a support
+bundle before making manual changes. The bundle includes package, DKMS,
+module, device, overlay, boot-fragment, and journal evidence when readable.

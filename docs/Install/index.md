@@ -192,4 +192,10 @@ Connect to your new web page from your favorite computer or cell phone using the
 
 While the TAPR Hat is optional, an antenna is not. Choosing an antenna is beyond the scope of this documentation. The direct GPIO backend can use GPIO4 (header pin 7) or GPIO20 (header pin 38), but its square-wave output requires the filtering, DC blocking, and protection described in the [RF and Electrical Reference](../Advanced_Operations/rf_electrical.md). Do not connect an antenna directly to an unfiltered GPIO pin.
 
-As explained above, if you are using a Pi 5, you will not use the GPIO4 connection and instead leverage the Si5351.
+On Raspberry Pi 5, the installer can optionally install the pinned
+`rp1-gpclk-dkms` provider. Installation delivers both GPIO4 and GPIO20 overlays
+inactive; it does not choose or qualify a route. You may instead use Si5351 and
+leave the optional provider uninstalled. After installation, choose and apply a
+Pi 5 route from **Setup > Transmitter**. A route change is complete only after
+Wsprry Pi confirms the same requested, persisted, configured, and active route
+after startup.
