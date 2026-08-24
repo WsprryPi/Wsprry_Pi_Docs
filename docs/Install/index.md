@@ -76,7 +76,7 @@ For an `unknown` installation, the installer backs up the complete covered UI tr
 
 The installer verifies the backup before replacing the live UI. If backup creation or verification fails, replacement does not begin. After a successful backup, the installer installs the complete new packaged UI; it does not merge customizations into new files. Recover any desired customization manually by comparing the reported backup with the new installation.
 
-The final installer output relists modified, added, and missing files; the prior-manifest backup; the modification report; the backup directory; and whether replacement completed. Keep this output until you have reviewed or recovered the changes.
+The installer stays quiet when the existing UI matches the packaged files and no backup is needed. If it finds local modifications, the final output shows a short **Customized UI backed up** notice with change counts, the backup directory, and the detailed modification report. An `unknown` installation instead shows **Existing UI backed up**, because the installer preserved the prior files but could not prove whether they were customized. Keep the reported locations until you have reviewed or recovered the files. A UI publication error is always reported, even when no backup was created.
 
 To refuse replacement when the existing UI is `locally_modified` or `unknown`, pass:
 
