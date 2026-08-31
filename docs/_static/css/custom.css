@@ -35,7 +35,8 @@
     --wsprrypi-docs-error-color: #b66a76;
     --wsprrypi-docs-qualified-color: #216e39;
     --wsprrypi-docs-untested-color: #7a5700;
-    --wsprrypi-docs-unqualified-color: #a11f2f;
+    --wsprrypi-docs-unqualified-color: #6b3fa0;
+    --wsprrypi-docs-unavailable-color: #a11f2f;
     --wsprrypi-docs-active-color: #c8a85d;
     --wsprrypi-docs-chrome-bg: #405e7a;
     --wsprrypi-docs-chrome-text: #ecf1f6;
@@ -242,9 +243,12 @@ footer a:focus-visible {
     color: var(--wsprrypi-docs-untested-color);
 }
 
-.rst-content #transmitter-qualification .qualification-status--unqualified,
-.rst-content #transmitter-qualification .qualification-status--unavailable {
+.rst-content #transmitter-qualification .qualification-status--unqualified {
     color: var(--wsprrypi-docs-unqualified-color);
+}
+
+.rst-content #transmitter-qualification .qualification-status--unavailable {
+    color: var(--wsprrypi-docs-unavailable-color);
 }
 
 .rst-content #raspberry-pi-model-compatibility .compatibility-status,
@@ -269,7 +273,7 @@ footer a:focus-visible {
 .rst-content #raspberry-pi-model-compatibility .compatibility-status--unsupported,
 .rst-content #compute-module-compatibility .compatibility-status--unsupported,
 .rst-content #raspberry-pi-pico-incompatibility .compatibility-status--unsupported {
-    color: var(--wsprrypi-docs-unqualified-color);
+    color: var(--wsprrypi-docs-unavailable-color);
 }
 
 .rst-content table.docutils th,
