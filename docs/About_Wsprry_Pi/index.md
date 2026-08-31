@@ -97,7 +97,7 @@ Some Raspberry Pi 2 and Raspberry Pi 3 model revisions use different processors 
 
 RP1 (Raspberry Pi 5 GPIO) is qualified on the listed bands from 2200 m through 17 m, except 630 m. The remaining RP1 entries, including 630 m, are currently untested; they are not recorded as failed qualification results. These results are separate from the PLLD GPIO clock profiles above.
 
-| Band | GPIO: 500 MHz PLLD | GPIO: 750 MHz PLLD | GPIO: RP1 (Raspberry Pi 5) | Si5351 |
+| Band | GPIO: Pi 1–3<br>500 MHz PLLD | GPIO: Pi 4<br>750 MHz PLLD | GPIO: Pi 5<br>200 MHz PLL_SYS | Si5351 |
 | --- | --- | --- | --- | --- |
 | 2200 m | <span class="qualification-status qualification-status--partial">Partial</span><sup>1</sup> | <span class="qualification-status qualification-status--qualified">Qualified</span><sup>1</sup> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
 | 630 m | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--qualified">Qualified</span> |
