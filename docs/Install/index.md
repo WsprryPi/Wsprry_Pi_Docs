@@ -192,4 +192,9 @@ Connect to your new web page from your favorite computer or cell phone using the
 
 While the TAPR Hat is optional, an antenna is not. Choosing an antenna is beyond the scope of this documentation. The direct GPIO backend can use GPIO4 (header pin 7) or GPIO20 (header pin 38), but its square-wave output requires the filtering, DC blocking, and protection described in the [RF and Electrical Reference](../Advanced_Operations/rf_electrical.md). Do not connect an antenna directly to an unfiltered GPIO pin.
 
-As explained above, if you are using a Pi 5, you will not use the GPIO4 connection and instead leverage the Si5351.
+On Raspberry Pi 5, RP1 GPIO output requires an externally provisioned provider
+and route-management service. The Wsprry Pi installer does not install or
+remove them. You may instead use Si5351. After external provisioning, choose and apply a
+Pi 5 route from **Setup > Transmitter**. A route change is complete only after
+Wsprry Pi confirms the same requested, persisted, configured, and active route
+after startup.

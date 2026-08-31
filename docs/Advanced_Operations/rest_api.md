@@ -118,6 +118,25 @@ A typical payload resembles:
 }
 ```
 
+## RP1 GPCLK Route Endpoint
+
+Pi 5 route controls use the bounded same-origin endpoint:
+
+```text
+GET  /wsprrypi/api/rp1-gpclk-route
+POST /wsprrypi/api/rp1-gpclk-route
+```
+
+`GET` is read-only and reports requested, persisted, configured, active,
+eligible, generation, journal, and operator state. `POST` accepts only the
+fixed operations `preflight`, `apply-and-reboot`, and `rollback`, an exact `GPIO4` or
+`GPIO20` route, and the current transaction generation. Unknown operations,
+routes, stale generations, non-idle state, or foreign boot content fail closed.
+
+The endpoint never accepts a shell command, arbitrary path, overlay name, or
+reboot command. A successful apply response can still report that reboot is
+required; active state is not inferred until startup reconciliation succeeds.
+
 ## Network Safety Endpoint
 
 The Maintenance page uses:

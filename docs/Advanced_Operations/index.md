@@ -14,6 +14,7 @@ INI Configuration Reference <ini_configuration>
 Configuration Troubleshooting <configuration_troubleshooting>
 REST API <rest_api>
 WebSocket Interface <websocket>
+Raspberry Pi 5 RP1 GPCLK <rp1_gpclk>
 RF and Electrical Reference <rf_electrical>
 ```
 
@@ -50,6 +51,10 @@ RF and Electrical Reference <rf_electrical>
 (transmission-cancelled)=
 (test-tone-state)=
 - [WebSocket Interface](websocket.md) documents commands, runtime broadcasts, transmission lifecycle events, and browser synchronization.
+
+- [Raspberry Pi 5 RP1 GPCLK](rp1_gpclk.md) explains external provider
+  provisioning, route identities, reboot transactions, recovery, and
+  diagnostic evidence.
 
 (pwm-peripheral)=
 (rf-and-electrical-considerations)=

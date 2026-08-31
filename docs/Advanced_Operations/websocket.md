@@ -60,6 +60,12 @@ Example response:
 {"tx_state":true}
 ```
 
+On builds with the Pi 5 RP1 integration, `get_tx_state` also reports
+requested/persisted/configured/active route fields,
+`rp1_eligibility`, `rp1_cleanup_state`, and `rp1_journal_state`. Values such as
+`unavailable`, `unknown`, and `none-reported` are intentional: clients must not
+infer active hardware state from the configured route.
+
 ## Broadcast Events
 
 As long as the socket remains connected, the server broadcasts runtime events to all connected clients.

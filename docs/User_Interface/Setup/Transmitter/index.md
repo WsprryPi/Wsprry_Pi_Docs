@@ -8,17 +8,19 @@ Use this page to choose the transmitter backend and review the hardware-specific
 
 ![Transmitter Type](select_output.png)
 
-- **GPIO** - Available on the Raspberry Pi models before the Pi 5.
+- **GPIO** - Available on earlier Raspberry Pi models and on Pi 5 when the
+  optional compatible RP1 GPCLK provider is installed and eligible.
 - **Si5351** - If detected, the Si5351 may be used on any supported Raspberry Pi.
 
 ## GPIO
 
 GPIO-based transmissions are the typical method most people think of when they think of Wsprry Pi.  It uses a GPIO Pin attached to a clock generator on the Pi to transmit WSPR tones.
 
-It is available to select on all Pi versions before the Pi 5.
+On Pi 5, GPIO output uses an externally provisioned RP1 GPCLK provider. Installation
+alone does not qualify either route or authorize transmission.
 
-Conducted testing qualifies this backend on 80 m, 20 m, 15 m, and 10 m with
-the production pacing value. WsprryPi rejects GPIO requests in the 12 m, 6 m,
+For the legacy GPIO backend, conducted testing qualifies 80 m, 20 m, 15 m, and 10 m with
+the production pacing value. WsprryPi rejects legacy GPIO requests in the 12 m, 6 m,
 and 2 m band ranges before transmitter activation. The restriction applies to
 scheduled operation and Test Tone and does not limit the Si5351 backend. See
 [GPIO Band Capabilities and Signal Quality](../../../FAQ/why_12m_looks_noisy.md).
@@ -30,6 +32,19 @@ There are only two choices when setting up the GPIO-based transmitter:
 ### Transmit Pin
 
 GPIO4 and GPIO20 are the supported direct RF output choices. The selected pin is reserved by the GPIO backend even when transmission is disabled, because Wsprry Pi must retain ownership of the configured RF path for startup and safe-state handling.
+
+On Pi 5, the route panel distinguishes **Requested** from **Active**. Selecting
+the other pin creates a draft; it does not autosave, change boot state, or
+redirect committed work. When the transmitter is completely idle, choose
+**Apply route and reboot** to run preflight, persist the request, stage only
+the route through the external route manager, and request a reboot. Choose **Cancel** to
+restore the persisted active selection without changing the Pi.
+
+The panel reports checking, reboot required, applying, staged, mismatch,
+unavailable, and rollback states. Transmission remains disabled during an
+unresolved transaction. If reboot could not be requested after staging, use
+the offered recovery action or select **Roll back**. After startup, Wsprry Pi
+permits RP1 only when all route and eligibility evidence agrees exactly.
 
 The other pin remains available on the **Pi I/O** tab. Selecting the Si5351 backend releases both GPIO4 and GPIO20 for ordinary GPIO roles; the retained GPIO transmit-pin value is ignored while Si5351 is selected.
 

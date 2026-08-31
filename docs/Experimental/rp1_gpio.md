@@ -5,6 +5,11 @@ nosearch: true
 
 # Experimental Raspberry Pi 5 RP1 GPIO transmission
 
+This is a historical record of the Issue 399 custom-kernel provider. Its device
+names, installation steps, and qualification table do not describe the current
+external-provider integration. For current operation, see
+[Raspberry Pi 5 RP1 GPCLK](../Advanced_Operations/rp1_gpclk.md).
+
 This page records an engineering workflow that is deliberately absent from the
 normal Wsprry Pi navigation and installation process. Raspberry Pi 5 RP1 GPIO
 transmission is implemented for continued development, but ordinary operators
