@@ -117,7 +117,7 @@ Some Raspberry Pi 2 and Raspberry Pi 3 model revisions use different processors 
 | 70 cm | <span class="qualification-status qualification-status--unqualified">Unqualified</span> | <span class="qualification-status qualification-status--unavailable">Unavailable</span><sup>5</sup> | <span class="qualification-status qualification-status--untested">Untested</span> | <span class="qualification-status qualification-status--unavailable">Unavailable</span><sup>5</sup> |
 
 1. On 2200 m, the 500 MHz PLLD profile is qualified for TONE, QRSS, FSKCW, and DFCW; WSPR did not meet the decode requirement. The 750 MHz PLLD profile is qualified for TONE, QRSS, FSKCW, DFCW, and WSPR.
-2. GPIO transmission on 12 m did not meet the WSPR decode requirement with either clock profile. This does not affect the separate Si5351 qualification.
+2. GPIO transmission on 12 m did not meet the WSPR decode requirement with 500 MHz or 750 MHz PLLD on the Pi 1-4.
 3. Si5351 qualification on 2 m requires the tested 27 MHz reference configuration. A 25 MHz reference did not pass 2 m qualification testing and is unqualified.
 4. On 6 m, the 750 MHz PLLD profile is qualified for TONE, QRSS, FSKCW, and DFCW. WSPR did not meet the decode requirement.
 5. The 750 MHz PLLD GPIO planner cannot construct 1.25 m or 70 cm output. Si5351 direct output is also unavailable on these bands. Experimental overrides cannot enable unavailable combinations.
