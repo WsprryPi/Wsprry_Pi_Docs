@@ -53,28 +53,11 @@ Raspberry Pi 5-family systems use the Si5351 transmitter only.
 
 ## Compute Module compatibility
 
-Compute Modules retain the GPIO and I2C capabilities of their corresponding Raspberry Pi generation, but they do not include GPIO headers. Their carrier board must route the connections required by the selected transmitter. Although these configurations are untested, they are expected to work as indicated in the table; generation-specific restrictions, including the Compute Module 5 GPIO limitation, still apply.
-
-| Model | GPIO | Si5351 |
-| --- | --- | --- |
-| Raspberry Pi Compute Module 1 | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
-| Raspberry Pi Compute Module 3 | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
-| Raspberry Pi Compute Module 3+ | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
-| Raspberry Pi Compute Module 4 | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
-| Raspberry Pi Compute Module 4S | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
-| Raspberry Pi Compute Module 5 | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
-| Raspberry Pi Compute Module Zero | <span class="compatibility-status compatibility-status--untested">Untested</span> | <span class="compatibility-status compatibility-status--untested">Untested</span> |
+Compute Modules retain the GPIO and I2C capabilities of their corresponding Raspberry Pi generation, but they do not include GPIO headers. Their carrier board must route the connections required by the selected transmitter. Although these configurations are untested, they are expected to work; generation-specific restrictions, including the Compute Module 5 GPIO limitation, still apply.
 
 ## Raspberry Pi Pico incompatibility
 
 Raspberry Pi Pico boards are microcontrollers and do not run Linux, so they are incompatible with WsprryPi. WsprryPi cannot use either the GPIO or Si5351 transmitter backend on these boards.
-
-| Model | GPIO | Si5351 |
-| --- | --- | --- |
-| Raspberry Pi Pico | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> |
-| Raspberry Pi Pico W | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> |
-| Raspberry Pi Pico 2 | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> |
-| Raspberry Pi Pico 2 W | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> | <span class="compatibility-status compatibility-status--unsupported">Not supported</span> |
 
 ## Transmitter qualification
 
