@@ -75,7 +75,7 @@ In the table, **SoC** means system on chip and **CM** means Compute Module. Cloc
 | Pi 3 A+/B+; CM3+ | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2837b0">BCM2837B0</a> | 500 MHz PLLD | 19.2 MHz |
 | Zero 2 W | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#rp3a0">RP3A0</a> (BCM2710A1 die) | 500 MHz PLLD | 19.2 MHz |
 | Pi 4 B; Pi 400; CM4/CM4S | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711">BCM2711</a> | 750 MHz PLLD | 54 MHz |
-| Pi 5 | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2712">BCM2712</a> with RP1 GPIO controller | 200 MHz PLL_SYS | 50 MHz |
+| Pi 5 | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2712">BCM2712</a> / RP1 GPIO | 200 MHz PLL_SYS | 50 MHz |
 
 ### Band qualification
 
