@@ -84,17 +84,17 @@ Qualification is specific to the transmitter type, band, and GPIO clock profile.
 
 The GPIO hardware falls into three groups: the original Pi 1 family, Pi 2–4, and Pi 5. The SoC or package determines the oscillator frequency and GPIO clock source; Pi 2–4 do not all use the same PLLD frequency.
 
-In the table, **SoC** means system on chip and **CM** means Compute Module. Each SoC or package bullet is aligned with its corresponding models. Clock frequencies are nominal.
+In the table, **SoC** means system on chip and **CM** means Compute Module. Clock frequencies are nominal.
 
-| GPIO family | SoC or package | Pi models | GPIO clock source | Oscillator |
-| --- | --- | --- | --- | --- |
-| Pi 1 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835">BCM2835</a></li></ul> | <ul><li>Pi 1 A/A+/B/B+; Zero/Zero W; CM1</li></ul> | 500 MHz PLLD | 19.2 MHz |
-| Pi 2–4 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2836">BCM2836</a></li></ul> | <ul><li>Pi 2 B (original revisions)</li></ul> | 500 MHz PLLD | 19.2 MHz |
-| Pi 2–4 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2837">BCM2837</a></li></ul> | <ul><li>Pi 2 B (revision 1.2); Pi 3 B; CM3</li></ul> | 500 MHz PLLD | 19.2 MHz |
-| Pi 2–4 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2837b0">BCM2837B0</a></li></ul> | <ul><li>Pi 3 A+/B+; CM3+</li></ul> | 500 MHz PLLD | 19.2 MHz |
-| Pi 2–4 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#rp3a0">RP3A0</a> (BCM2710A1 die)</li></ul> | <ul><li>Zero 2 W</li></ul> | 500 MHz PLLD | 19.2 MHz |
-| Pi 2–4 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711">BCM2711</a></li></ul> | <ul><li>Pi 4 B; Pi 400; CM4/CM4S</li></ul> | 750 MHz PLLD; 54 MHz oscillator on 2200 m | 54 MHz |
-| Pi 5 | <ul><li><a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2712">BCM2712</a> with RP1 GPIO controller</li></ul> | <ul><li>Pi 5</li></ul> | 200 MHz PLL_SYS (RP1) | 50 MHz (RP1) |
+| Pi models | SoC or package | GPIO clock source | Oscillator |
+| --- | --- | --- | --- |
+| Pi 1 A/A+/B/B+; Zero/Zero W; CM1 | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835">BCM2835</a> | 500 MHz PLLD | 19.2 MHz |
+| Pi 2 B (original revisions) | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2836">BCM2836</a> | 500 MHz PLLD | 19.2 MHz |
+| Pi 2 B (revision 1.2); Pi 3 B; CM3 | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2837">BCM2837</a> | 500 MHz PLLD | 19.2 MHz |
+| Pi 3 A+/B+; CM3+ | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2837b0">BCM2837B0</a> | 500 MHz PLLD | 19.2 MHz |
+| Zero 2 W | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#rp3a0">RP3A0</a> (BCM2710A1 die) | 500 MHz PLLD | 19.2 MHz |
+| Pi 4 B; Pi 400; CM4/CM4S | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2711">BCM2711</a> | 750 MHz PLLD; 54 MHz oscillator on 2200 m | 54 MHz |
+| Pi 5 | <a href="https://www.raspberrypi.com/documentation/computers/processors.html#bcm2712">BCM2712</a> with RP1 GPIO controller | 200 MHz PLL_SYS | 50 MHz |
 
 The oscillator column describes the reference for the GPIO clock hardware. On Pi 5 this is RP1's [50 MHz crystal reference](https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf), separate from the BCM2712 processor clock. Pi 1–3 use a [19.2 MHz oscillator](https://github.com/raspberrypi/linux/blob/rpi-6.12.y/arch/arm/boot/dts/broadcom/bcm283x.dtsi). These hardware groupings do not change the band qualification results below.
 
