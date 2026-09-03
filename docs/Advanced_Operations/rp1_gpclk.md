@@ -1,10 +1,28 @@
 # Raspberry Pi 5 RP1 GPCLK
 
-Wsprry Pi can use an externally provisioned RP1 GPCLK provider at
-`/dev/rp1-gpclk` for direct GPIO clock output on Raspberry Pi 5.
-Wsprry Pi does not install, remove, package, or attest that provider. Provision
-the provider and its route-management service separately, following their
-maintainer's instructions. Si5351 remains a separate backend choice.
+On Raspberry Pi 5-family systems, the Wsprry Pi installer resolves, installs,
+and validates a compatible RP1-GPCLK-DKMS provider and its route-management
+service. Installation establishes neutral administration: neither GPIO4 nor
+GPIO20 is selected, the transmission consumer remains absent, and output is
+disabled. The `/dev/rp1-gpclk` endpoint normally appears only after an operator
+selects and applies a route. Si5351 remains a separate backend choice.
+
+## Installation and ownership
+
+Use the normal Wsprry Pi installer. Do not manually install an additional RP1
+provider over an installer-managed one. A repeat installation verifies exact
+ownership and identity, safely recovers an existing owned route or neutral
+runtime, updates or validates the provider and application, and restores neutral
+administration. Foreign, modified, mixed, or unproven provider state is
+preserved and reported as a failure for operator review.
+
+Normal uninstall removes the RP1 provider and runtime administration only when
+the ownership record and installed identity still match. It does not remove or
+adopt an unproven provider. Retained installer failure details and a support
+bundle are the preferred evidence when recovery is refused.
+
+Installing the provider does not select a route, change GPIO state, or start a
+transmission.
 
 Runtime checks establish application compatibility, not qualification of a
 transmitter, band, power level, filter, or RF chain. RP1 development output
@@ -18,7 +36,7 @@ routes. Wsprry Pi tracks five distinct facts:
 
 - **Requested**: the operator's current draft or transaction request.
 - **Persisted**: the route saved in Wsprry Pi configuration.
-- **Configured**: the boot route reported by the external route manager.
+- **Configured**: the boot route reported by the managed route service.
 - **Active**: the route reported by the loaded provider.
 - **Eligible**: runtime protocol, capability, route, exclusive ownership, and
   cleanup checks permit the requested operation. Package versions and build
@@ -36,12 +54,12 @@ confirmed. There is no automatic route or backend fallback.
 3. Select **Apply route and reboot**, or select **Cancel** to discard the draft.
 4. After restart, confirm the panel reports the selected route as Active.
 
-The application delegates route changes to the external route manager through
+The application delegates route changes to the managed route service through
 its bounded interface. The manager handles boot configuration and rollback;
 Wsprry Pi checks transaction generations and reconciles the reported route.
 A process failure or unsuccessful reboot request keeps transmission disabled
 until reconciliation or rollback succeeds. If the manager is unavailable,
-leave transmission disabled and resolve provider provisioning separately.
+leave transmission disabled and follow the troubleshooting guidance below.
 
 ## Diagnostic evidence
 

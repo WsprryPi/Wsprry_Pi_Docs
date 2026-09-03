@@ -8,7 +8,10 @@ You will need the following:
 - An SD card for the OS image
 - A power supply for the Pi.  Pay attention to potentially noisy power supplies here.  You will benefit from a well-regulated supply with sufficient ripple suppression.  You may see supply ripple as mixing products centered around the transmit carrier, typically at 120Hz (60Hz mains frequency) and 100Hz (50Hz mains frequency).
 
-If you are using a Raspberry Pi 5 or variants, you will additionally need the Si5351 Clock Generator.  While I have provided a KiCad design for a Pi HAT with a purpose-built circuit surrounding the Si5351, you also may use one of the common breakout boards:
+If you choose the Si5351 backend, you will additionally need an Si5351 clock
+generator. While I have provided a KiCad design for a Pi HAT with a
+purpose-built circuit surrounding the Si5351, you may also use one of the
+common breakout boards:
 
 - [Adafruit Si5351 Clock Generator Breakout](https://learn.adafruit.com/adafruit-si5351-clock-generator-breakout/overview) - This board uses a 25 MHz crystal. Wsprry Pi has not qualified a 25 MHz reference for 2 m WSPR.
 - [QRP Labs Si5351A Synthesizer](https://www.qrp-labs.com/synth.html) - This kit is supplied with a 27 MHz crystal and supports optional TCXO configurations. Wsprry Pi's qualified 2 m configuration uses a 27 MHz reference.
@@ -43,6 +46,11 @@ Aside from the obvious, installing Wsprry Pi, the install script will do the fol
 - **Install PHP**, a popular, general-purpose scripting language that is especially suited for web development.  The [PHP Group](https://www.php.net/) maintains PHP.  I wrote the web pages in PHP.
 - **Install Raspberry Pi development libraries and other Packages**, `git`, and `libgpiod`.
 - **Compile and configure Wsprry Pi**
+- **Install and validate RP1 GPIO support on Raspberry Pi 5-family systems.**
+  The installer resolves a compatible RP1-GPCLK-DKMS provider, verifies its
+  source and installed artifacts, and establishes route-neutral administration.
+  It does not select GPIO4 or GPIO20, enable clock output, or authorize a
+  transmission.
 - **Disable the Raspberry Pi's built-in sound card.** Wsprry Pi uses the RPi PWM peripheral to time the frequency transitions of the output clock.  The Pi's sound system also utilizes this peripheral; any sound events during a WSPR transmission will interfere with the WSPR transmission.
 
 (install-wspr)=
@@ -50,7 +58,9 @@ Aside from the obvious, installing Wsprry Pi, the install script will do the fol
 
 You may use this command to install Wsprry Pi (one line):
 
-`curl -fsSL installwspr.aa0nt.net | sudo bash`
+```bash
+curl -fsSL installwspr.aa0nt.net | sudo bash
+```
 
 This shorter URL relies on my hosted DNS for a redirect to GitHub.  If my DNS is broken for some reason, you may see an error like this:
 
@@ -58,9 +68,17 @@ This shorter URL relies on my hosted DNS for a redirect to GitHub.  If my DNS is
 
 If that happens, this longer form should work:
 
-`curl -fsSL https://raw.githubusercontent.com/WsprryPi/WsprryPi/refs/heads/main/scripts/install.sh | sudo bash`
+```bash
+curl -fsSL https://raw.githubusercontent.com/WsprryPi/WsprryPi/refs/heads/main/scripts/install.sh | sudo bash
+```
 
-This install command is idempotent; running it additional times will not have any negative impact.  If an update is released, re-run the installer to take advantage of the new release.
+This install command is idempotent; running it again updates the application
+without requiring you to remove an exact installer-owned RP1 provider first.
+On Pi 5-family systems, the installer safely returns any exact owned route to a
+neutral, inhibited state before replacing provider or application files. It
+refuses foreign, modified, mixed, or otherwise unproven provider state instead
+of adopting or removing it. If an update is released, re-run the installer to
+take advantage of the new release.
 
 ### Upgrading a customized web interface
 
@@ -188,13 +206,30 @@ Some Windows systems can use this naming standard without additional work, but o
 
 Connect to your new web page from your favorite computer or cell phone using the IP address or the `{name}.local` name, and you can begin setting things up.  See Operations for more information.
 
+## Uninstall Wsprry Pi
+
+Run the normal installer in uninstall mode:
+
+```bash
+curl -fsSL installwspr.aa0nt.net | sudo env ACTION=uninstall bash
+```
+
+Uninstall removes the Wsprry Pi application, service, configuration, and web
+files while retaining shared operating-system packages. On Pi 5-family
+systems, it also removes the RP1 provider and runtime administration when the
+installer can prove that the installed identity is still the one Wsprry Pi
+owns. Foreign, modified, mixed, or unproven provider state is preserved, and
+the uninstall reports a failure instead of deleting it.
+
 ## Additional Hardware
 
 While the TAPR Hat is optional, an antenna is not. Choosing an antenna is beyond the scope of this documentation. The direct GPIO backend can use GPIO4 (header pin 7) or GPIO20 (header pin 38), but its square-wave output requires the filtering, DC blocking, and protection described in the [RF and Electrical Reference](../Advanced_Operations/rf_electrical.md). Do not connect an antenna directly to an unfiltered GPIO pin.
 
-On Raspberry Pi 5, RP1 GPIO output requires an externally provisioned provider
-and route-management service. The Wsprry Pi installer does not install or
-remove them. You may instead use Si5351. After external provisioning, choose and apply a
-Pi 5 route from **Setup > Transmitter**. A route change is complete only after
-Wsprry Pi confirms the same requested, persisted, configured, and active route
-after startup.
+On Raspberry Pi 5-family systems, the Wsprry Pi installer installs and validates
+the compatible [RP1 GPCLK provider](../Advanced_Operations/rp1_gpclk.md) and
+route-management service. Installation leaves both GPIO routes unselected and
+output disabled. Choose and apply GPIO4 or GPIO20 from **Setup > Transmitter**
+only after installation. A route change
+is complete only after Wsprry Pi confirms the same requested, persisted,
+configured, and active route after startup. You may instead use Si5351 without
+selecting an RP1 route.

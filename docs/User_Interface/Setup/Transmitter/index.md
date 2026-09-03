@@ -9,15 +9,16 @@ Use this page to choose the transmitter backend and review the hardware-specific
 ![Transmitter Type](select_output.png)
 
 - **GPIO** - Available on earlier Raspberry Pi models and on Pi 5 when the
-  optional compatible RP1 GPCLK provider is installed and eligible.
+  installer-managed RP1 GPCLK provider and selected route are eligible.
 - **Si5351** - If detected, the Si5351 may be used on any supported Raspberry Pi.
 
 ## GPIO
 
 GPIO-based transmissions are the typical method most people think of when they think of Wsprry Pi.  It uses a GPIO Pin attached to a clock generator on the Pi to transmit WSPR tones.
 
-On Pi 5, GPIO output uses an externally provisioned RP1 GPCLK provider. Installation
-alone does not qualify either route or authorize transmission.
+On Pi 5-family systems, the normal installer supplies and validates the RP1
+GPCLK provider but leaves both routes unselected and output disabled.
+Installation alone does not qualify either route or authorize transmission.
 
 For the legacy GPIO backend, conducted testing qualifies 80 m, 20 m, 15 m, and 10 m with
 the production pacing value. WsprryPi rejects legacy GPIO requests in the 12 m, 6 m,
@@ -37,7 +38,7 @@ On Pi 5, the route panel distinguishes **Requested** from **Active**. Selecting
 the other pin creates a draft; it does not autosave, change boot state, or
 redirect committed work. When the transmitter is completely idle, choose
 **Apply route and reboot** to run preflight, persist the request, stage only
-the route through the external route manager, and request a reboot. Choose **Cancel** to
+the route through the managed route service, and request a reboot. Choose **Cancel** to
 restore the persisted active selection without changing the Pi.
 
 The panel reports checking, reboot required, applying, staged, mismatch,

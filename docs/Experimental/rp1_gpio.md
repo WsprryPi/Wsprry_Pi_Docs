@@ -7,7 +7,7 @@ nosearch: true
 
 This is a historical record of the Issue 399 custom-kernel provider. Its device
 names, installation steps, and qualification table do not describe the current
-external-provider integration. For current operation, see
+installer-managed integration. For current operation, see
 [Raspberry Pi 5 RP1 GPCLK](../Advanced_Operations/rp1_gpclk.md).
 
 This page records an engineering workflow that is deliberately absent from the
@@ -24,9 +24,9 @@ provider modules, overlay, userspace UAPI, and running kernel release must be an
 exact matching set. A module that merely loads is not proof of compatibility.
 
 The normal Wsprry Pi installer does not install or select any of these
-experimental artifacts. Kernel, module, overlay, boot-file, service, GPIO, and
-reboot changes require a separately controlled maintenance window and a
-known-good boot selection retained for recovery.
+historical Issue 399 artifacts. Kernel, module, overlay, boot-file, service,
+GPIO, and reboot changes require a separately controlled maintenance window
+and a known-good boot selection retained for recovery.
 
 ## Drive selection
 
