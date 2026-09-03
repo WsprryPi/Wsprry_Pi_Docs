@@ -2,11 +2,11 @@
 
 The Transmitter tab on the Signal Setup page contains settings related to the active output hardware path and transmission behavior.
 
-![Transmitter Configuration](Signal_Setup_Transmitter.png)
-
-Use this page to choose the transmitter backend and review the hardware-specific configuration required for your station.  Either the GPIO or Si5351 is chosen to display contextual setup fields.
-
-![Transmitter Type](select_output.png)
+Use the **RF Output Path** switch to choose the transmitter backend. The switch
+shows GPIO on the left and Si5351 on the right; switch it off for GPIO or on for
+Si5351. The same RF Output panel then shows only the settings for that hardware.
+On wide screens those controls share one row. On smaller screens they wrap or
+stack without changing their order.
 
 - **GPIO** - Available on earlier Raspberry Pi models and on Pi 5 when the
   installer-managed RP1 GPCLK provider and selected route are eligible.
@@ -25,8 +25,6 @@ the production pacing value. WsprryPi rejects legacy GPIO requests in the 12 m, 
 and 2 m band ranges before transmitter activation. The restriction applies to
 scheduled operation and Test Tone and does not limit the Si5351 backend. See
 [GPIO Band Capabilities and Signal Quality](../../../FAQ/why_12m_looks_noisy.md).
-
-![GPIO Configuration](GPIO.png)
 
 There are only two choices when setting up the GPIO-based transmitter:
 
@@ -51,8 +49,6 @@ The other pin remains available on the **Pi I/O** tab. Selecting the Si5351 back
 
 If an existing configuration assigns the selected RF pin to an enabled ordinary GPIO role, both controls remain visible and are marked invalid until one assignment is changed or disabled. Invalid edits are not saved.
 
-![GPIO RF output conflict](../Conditional_GPIO/GPIO_RF_Conflict.png)
-
 ### GPIO Power Level
 
 These are output driver strength levels mapped within the Pi's GPIO registers.  You may adjust the output from 0-7 with the slider.  The values roughly align to power levels at the pin before any amplification or filtering:
@@ -70,7 +66,9 @@ Actual output should be measured with the entire circuit and antenna.
 
 ## Si5351
 
-The Si5351 is selectable as an output device on all supported Pi versions.  If the application cannot validate communication with the Si5351, it will show that it is not detected when viewed in the dropdown.
+The Si5351 is selectable as an output device on all supported Pi versions. If
+the application cannot validate communication with the Si5351, the RF Output
+panel reports that the device was not detected.
 
 ### I2C Bus
 

@@ -50,7 +50,10 @@ Frequency calibration matters because WSPR occupies a narrow band. The Raspberry
 
 ### Si5351-Based Transmissions
 
-The Si5351 reference is independent of the Raspberry Pi system clock estimate and GPIO calibration values. Configure **Reference calibration (PPM)** in **Setup > Transmitter > Si5351 Output > Frequency calibration**. Wsprry Pi applies that value only to Si5351 synthesis planning.
+The Si5351 reference is independent of the Raspberry Pi system clock estimate
+and GPIO calibration values. Switch **Setup > Transmitter > RF Output Path** to
+Si5351, then configure **Reference calibration (PPM)** in the same RF Output
+panel. Wsprry Pi applies that value only to Si5351 synthesis planning.
 
 Measure the Si5351 correction against its actual crystal or external reference through a suitable conducted RF path. Do not copy the GPIO estimate, GPIO residual, or GPIO fixed/manual value into the Si5351 setting.
 
