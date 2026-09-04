@@ -33,17 +33,27 @@ There are only two choices when setting up the GPIO-based transmitter:
 GPIO4 and GPIO20 are the supported direct RF output choices. The selected pin is reserved by the GPIO backend even when transmission is disabled, because Wsprry Pi must retain ownership of the configured RF path for startup and safe-state handling.
 
 On Pi 5, the route panel distinguishes **Requested** from **Active**. Selecting
-the other pin creates a draft; it does not autosave, change boot state, or
-redirect committed work. When the transmitter is completely idle, choose
-**Apply route and reboot** to run preflight, persist the request, stage only
-the route through the managed route service, and request a reboot. Choose **Cancel** to
-restore the persisted active selection without changing the Pi.
+the other pin or None creates a draft; it does not autosave or redirect
+committed work. When the transmitter is completely idle, choose **Switch
+route** for GPIO4 or GPIO20. Choose **Remove route** for None. Choose **Cancel**
+to restore the persisted selection without changing the Pi.
 
-The panel reports checking, reboot required, applying, staged, mismatch,
-unavailable, and rollback states. Transmission remains disabled during an
-unresolved transaction. If reboot could not be requested after staging, use
-the offered recovery action or select **Roll back**. After startup, Wsprry Pi
-permits RP1 only when all route and eligibility evidence agrees exactly.
+Switching and removal happen in the current boot and do not require a reboot.
+The status dialog remains visible through the brief controller disconnect and
+checks the result without repeating the operation. If Wsprry Pi was running,
+successful removal brings it back online and idle. A service that was already
+stopped or administrator-masked remains stopped or masked.
+
+The panel distinguishes checking, plan ready, switching, restoring, route
+selected, removing, route removed, service stopped, restoration failed, and
+recovery-required states. Transmission remains disabled during an unresolved
+transaction. **Recover to no route** is an exceptional fail-closed action: it
+leaves Wsprry Pi stopped and the controller inhibited for investigation. Use
+**Remove route** for normal removal. See [Raspberry Pi 5 RP1 GPCLK](../../../Advanced_Operations/rp1_gpclk.md)
+for recovery guidance.
+
+Wsprry Pi permits RP1 transmission only when the route and eligibility
+evidence agrees exactly.
 
 The other pin remains available on the **Pi I/O** tab. Selecting the Si5351 backend releases both GPIO4 and GPIO20 for ordinary GPIO roles; the retained GPIO transmit-pin value is ignored while Si5351 is selected.
 

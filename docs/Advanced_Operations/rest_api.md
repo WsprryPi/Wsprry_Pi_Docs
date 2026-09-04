@@ -128,14 +128,34 @@ POST /wsprrypi/api/rp1-gpclk-route
 ```
 
 `GET` is read-only and reports requested, persisted, configured, active,
-eligible, generation, journal, and operator state. `POST` accepts only the
-fixed operations `preflight`, `apply-and-reboot`, and `rollback`, an exact `GPIO4` or
-`GPIO20` route, and the current transaction generation. Unknown operations,
-routes, stale generations, non-idle state, or foreign boot content fail closed.
+eligible, generation, journal, service-restoration status, and operator state.
+
+For the installed runtime route profile, `POST` accepts these fixed operations:
+
+- `preflight` validates a GPIO4 or GPIO20 switch and returns the current
+  transaction generation and plan digest.
+- `switch` applies the preflighted GPIO4 or GPIO20 route in the current boot.
+- `remove` removes the exact active GPIO4 or GPIO20 route and restores the
+  prior Wsprry Pi service intent.
+- `recover` performs exceptional fail-closed cleanup and leaves Wsprry Pi
+  stopped and inhibited.
+
+`switch` requires the current generation; the service binds that generation to
+the reviewed preflight digest.
+`remove` names the exact route being removed. A successful switch or removal
+response means the bounded operation was queued; clients must poll `GET` until
+the route reaches a terminal state. A temporary disconnect is not proof of
+success. Normal removal finishes as route neutral with Wsprry Pi either online
+and idle, or still stopped or masked because that was its prior state.
+
+The compatibility development profile retains `preflight`,
+`apply-and-reboot`, and `rollback`. Runtime requests are never translated into
+reboot operations. Unknown operations, routes, stale generations, non-idle
+state, foreign boot content, and ownership conflicts fail closed.
 
 The endpoint never accepts a shell command, arbitrary path, overlay name, or
-reboot command. A successful apply response can still report that reboot is
-required; active state is not inferred until startup reconciliation succeeds.
+reboot command. Active or neutral state is not inferred until read-only status
+reconciliation succeeds.
 
 ## Network Safety Endpoint
 

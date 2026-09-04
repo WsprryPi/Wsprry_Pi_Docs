@@ -39,8 +39,8 @@ Do not repeatedly restart the service without correcting the reported cause. If 
 ## Pi 5 RP1 Route Is Unavailable or Mismatched
 
 Leave transmission disabled when the route panel reports **Unavailable**,
-**Staged**, **Mismatch**, or **Rollback required**. Do not edit boot files or
-enable both overlays manually.
+**Mismatch**, **Restoration failed**, or **Recovery required**. Do not edit
+provider files, unload modules, or try to select a route manually.
 
 The normal installer supplies and validates the RP1 provider and route manager
 on Pi 5-family systems. Re-run the
@@ -49,16 +49,20 @@ recover and update an exact installer-owned runtime, but it refuses foreign,
 modified, mixed, or unproven provider state rather than overwriting it.
 
 After installation, `/dev/rp1-gpclk` is normally absent until a route is
-selected. Once a route has been applied and the Pi has restarted, confirm the
-route-management service is available and exactly one route is configured.
-Requested, persisted, configured, and active routes must all be GPIO4 or all be
-GPIO20. Eligibility and cleanup must also be accepted; Wsprry Pi does not fall
-back to another route or backend.
+selected. Route switching and removal happen in the current boot. For a
+selected route, requested, persisted, configured, and active routes must all be
+GPIO4 or all be GPIO20. For a removed route, configured and active must both be
+None and the transmission consumer endpoint must be absent. Eligibility and
+cleanup must also be accepted; Wsprry Pi does not fall back to another route or
+backend.
 
-For **Staged**, use the offered reboot or rollback action. For **Mismatch** or
-**Rollback required**, preserve the displayed state and collect a support
-bundle before making manual changes. The RP1 diagnostics include endpoint,
-route-manager socket, persisted-route, and journal-inventory observations when
-readable. If the installer reports an ownership, identity, or recovery refusal,
-preserve that state and the retained installer failure details; do not unload
-modules, delete journals, or edit provider files manually.
+For **Restoration failed**, correct the reported service error and follow the
+command shown in the route panel. For **Mismatch** or **Recovery required**,
+preserve the displayed state and collect a support bundle before making manual
+changes. The exceptional **Recover to no route** action intentionally leaves
+Wsprry Pi stopped and inhibited; use **Remove route** for normal removal. The
+RP1 diagnostics include endpoint, route-manager socket, persisted-route, and
+journal-inventory observations when readable. If the installer reports an
+ownership, identity, or recovery refusal, preserve that state and the retained
+installer failure details; do not unload modules, delete journals, or edit
+provider files manually.

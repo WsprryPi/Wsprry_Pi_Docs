@@ -31,12 +31,12 @@ the application does not authorize transmission.
 
 ## Route identities
 
-GPIO4 (header pin 7) and GPIO20 (header pin 38) are separate boot-selected
+GPIO4 (header pin 7) and GPIO20 (header pin 38) are separate controller-managed
 routes. Wsprry Pi tracks five distinct facts:
 
 - **Requested**: the operator's current draft or transaction request.
 - **Persisted**: the route saved in Wsprry Pi configuration.
-- **Configured**: the boot route reported by the managed route service.
+- **Configured**: the route reported by the managed route service.
 - **Active**: the route reported by the loaded provider.
 - **Eligible**: runtime protocol, capability, route, exclusive ownership, and
   cleanup checks permit the requested operation. Package versions and build
@@ -45,21 +45,43 @@ routes. Wsprry Pi tracks five distinct facts:
 Transmission is blocked unless all route identities match and eligibility is
 confirmed. There is no automatic route or backend fallback.
 
-## Change a route
+## Change or remove a route
 
 1. Stop transmission and wait for committed work, cancellation, cleanup,
    provider leases, and backend transactions to finish.
-2. Open **Setup > Transmitter**, select GPIO4 or GPIO20, and review Requested
-   and Active.
-3. Select **Apply route and reboot**, or select **Cancel** to discard the draft.
-4. After restart, confirm the panel reports the selected route as Active.
+2. Open **Setup > Transmitter** and review Requested and Active.
+3. Select GPIO4 or GPIO20 and choose **Switch route**, or select None and
+   choose **Remove route**. Choose **Cancel** to discard the draft.
+4. Keep the status dialog open while Wsprry Pi briefly disconnects. Confirm it
+   reports the selected route as Active, or reports **Route removed**.
 
 The application delegates route changes to the managed route service through
-its bounded interface. The manager handles boot configuration and rollback;
-Wsprry Pi checks transaction generations and reconciles the reported route.
-A process failure or unsuccessful reboot request keeps transmission disabled
-until reconciliation or rollback succeeds. If the manager is unavailable,
-leave transmission disabled and follow the troubleshooting guidance below.
+its bounded interface. Route switching and removal happen in the current boot;
+they do not require a reboot. Wsprry Pi checks transaction generations and
+reconciles the reported route before it permits transmission.
+
+**Remove route** returns the controller to a verified neutral state, removes
+the transmission consumer endpoint, keeps output disabled, and releases only
+the inhibitor owned by the route manager. If Wsprry Pi was running before the
+operation, the manager restarts it online and idle. If the service was already
+stopped or administrator-masked, it remains stopped or masked.
+
+The separate recovery action is for an incomplete or inconsistent route
+transaction. Recovery is intentionally fail-closed: it stops Wsprry Pi and
+leaves the controller inhibited for operator investigation. It is not the
+normal way to remove a route.
+
+If the route is removed but Wsprry Pi cannot be restored, transmission remains
+disabled and the panel reports **Route removed; service unavailable**. Correct
+the reported service error, then retry the removal with the installed client,
+substituting the route that was removed:
+
+```bash
+sudo python3 /usr/lib/rp1-gpclk-dkms/runtime_route_client.py remove gpio4 --execute
+```
+
+If the manager is unavailable or reports an ownership conflict, leave
+transmission disabled and preserve the error details for troubleshooting.
 
 ## Diagnostic evidence
 
