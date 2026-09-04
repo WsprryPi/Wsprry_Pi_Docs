@@ -69,6 +69,16 @@ facts remain explicitly unknown rather than being inferred.
 
 A support bundle adds independent read-only host evidence under
 `bundle/hardware/rp1-gpclk` and the corresponding command reports. It records
-endpoint presence, route-manager socket state, a route-journal inventory, and
-the persisted route when readable. It does not attest provider packages or
-overlay hashes. A support bundle does not establish RF qualification.
+scoped DKMS registration; the running kernel and header availability;
+kernel-specific filename, version, and `vermagic` for the consumer and route
+controller modules; loaded-module state; WsprryPi installation-record presence;
+endpoint and route-manager socket state; a route-journal inventory; the
+persisted route; and the runtime provider's read-only `inspect` result when
+available. Missing, inaccessible, unsafe, timed-out, or nonzero inspection
+results remain in the bundle as diagnostic evidence instead of stopping
+collection.
+
+The collector does not copy the WsprryPi installation record, attest the Debian
+provider package or overlay hashes, change DKMS or route state, load a module,
+or authorize output. A support bundle does not establish hardware or RF
+qualification.
