@@ -63,6 +63,22 @@ The API exposes configuration for:
 - CW timing and fade configuration
 - Planner preferences and paired-frame behavior
 
+The read-only `Platform` section of `GET /config` includes the detected I2C bus
+inventory and the Si5351-compatible addresses found on the configured bus.
+These values describe current host state and are not persisted configuration or
+client authority.
+
+```text
+GET /wsprrypi/config/si5351-addresses?bus=N
+```
+
+This read-only endpoint refreshes the compatible address list for a selected
+host-present bus. Its JSON response contains `I2C Bus`, `Addresses`, and
+`Discovery Error`. Address checks are limited to `0x60` through `0x6F` and do
+not program the clock generator or enable an output. Configuration updates
+independently rediscover and validate the submitted bus/address pair rather
+than trusting this response.
+
 Configuration replacement and patch requests apply the same GPIO ownership validation as startup and INI reload. With the GPIO backend, the selected GPIO4 or GPIO20 RF output cannot also be used by an enabled Band GPIO, Transmit LED, Shutdown Button, or Amp Control, regardless of the `Operation.Transmit` value. A rejected request returns the conflict instead of clearing or moving either assignment.
 
 With privileged network safety enforced, `PUT` and `PATCH` require a browser

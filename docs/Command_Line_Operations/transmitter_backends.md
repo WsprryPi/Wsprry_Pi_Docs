@@ -145,7 +145,8 @@ for the underlying signal-quality findings.
   Select I2C bus (default: 1).
 
 - `--si5351-i2c-address <addr>`  
-  Set device address (decimal or hex).
+  Set the device address in decimal or `0x`-prefixed hexadecimal. Valid
+  addresses are `0x60` through `0x6F` inclusive.
 
 - `--si5351-reference-frequency <hz>`  
   Define reference oscillator frequency.

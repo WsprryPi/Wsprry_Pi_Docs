@@ -82,11 +82,32 @@ panel reports that the device was not detected.
 
 ### I2C Bus
 
-While the Raspberry Pi has two GPIO bus (0 and 1), at the time of this writing only Bus 1 should be used.
+Choose one of the I2C buses detected on the Raspberry Pi. Wsprry Pi lists only
+buses currently exposed by Linux with a corresponding I2C device. If the saved
+bus is no longer available, it remains identified as unavailable but cannot be
+selected; choose another listed bus explicitly. Enable or attach an I2C bus,
+then reload the page to refresh the list.
+
+A listed bus confirms only that the Linux adapter is present. It does not
+confirm access permissions, external-header routing, wiring, power, or an
+attached Si5351.
 
 ### I2C Address
 
-The default I2C bus address for the Si5351 is 0x60.  It may be configured to 0x61 by pulling the A0 pin high.  Other models and clones may have different addresses.
+After a bus is selected, Wsprry Pi checks addresses `0x60` through `0x6F` and
+lists only addresses that respond to the Si5351 register-read check. The saved
+address remains selected only while it is detected on that bus. If it is
+missing, the menu has no selection; choose a detected address explicitly.
+
+The menu distinguishes discovery in progress, no compatible response, and a
+discovery error. Select the bus again or reload the page to retry after fixing
+wiring, power, permissions, or I2C configuration.
+
+The standard Si5351 address is `0x60`; some boards support `0x61`, and
+compatible devices or clones may use another address in the supported range.
+The Si5351 does not provide a definitive silicon-identification register, so a
+listed address means that a register-compatible device responded. Verify the
+attached hardware before transmitting.
 
 ### Reference Frequency
 

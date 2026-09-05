@@ -37,6 +37,12 @@ for the measured signal-quality findings.
 
 The `[Si5351]` section configures the I2C device, reference frequency, reference hardware, transmit output, and drive strength. `Reference Source = external_tcxo` is the compatibility default for an active clock or TCXO. Select `crystal` only when a passive crystal is connected across XA/XB.
 
+`I2C Address` accepts decimal or `0x`-prefixed hexadecimal values from `0x60`
+through `0x6F` inclusive. The web interface further limits its address menu to
+register-compatible devices detected on the selected, host-present I2C bus.
+Direct CLI and INI configuration still undergo range and transmission-readiness
+validation.
+
 For a passive crystal, `Crystal Load Capacitance` accepts only `6`, `8`, or `10` pF and defaults to `10`. WsprryPi programs this value only in crystal mode. It retains the setting without applying it in `external_tcxo` mode, so TCXO users should not treat it as a calibration control.
 
 ```{literalinclude} default_wsprrypi.ini
