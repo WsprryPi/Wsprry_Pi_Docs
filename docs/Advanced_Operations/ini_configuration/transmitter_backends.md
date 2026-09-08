@@ -50,3 +50,42 @@ For a passive crystal, `Crystal Load Capacitance` accepts only `6`, `8`, or `10`
 :start-at: [Si5351]
 :end-before: [WSPR]
 ```
+
+
+(wtp-section)=
+## Pico WTP
+
+Set `[Operation] Transmit Backend = wtp` to select a Pico on Linux. Keep
+`Transmit = false` and `Enable on Boot = Never` while configuring and checking
+the endpoint. The inactive WTP defaults have empty identities and zero USB IDs;
+selecting WTP requires complete, valid values.
+
+| Setting in `[WTP]` | Value and purpose |
+| --- | --- |
+| `Endpoint` | Dedicated WTP character-device path under `/dev/`. A stable `/dev/serial/by-id/` alias is accepted after identity checks. The Console interface is rejected. |
+| `USB Serial` | Exact USB serial string, preserving leading zeros. |
+| `USB Vendor ID` | Decimal USB vendor ID, from 1 through 65535. |
+| `USB Product ID` | Decimal USB product ID, from 1 through 65535. |
+| `Device ID` | WTP device identity from HELLO: 32 lowercase hexadecimal characters. |
+| `Start Uncertainty ns` | Maximum permitted start uncertainty, from 1 through 1000000000 nanoseconds. Default: 1000000 (1 ms). |
+| `Allow Frequency Adjustment` | Default: `false`. Explicitly permits the device's reported realizable frequency rounding; it does not establish RF accuracy. |
+
+Obtain identities from the attached device rather than copying another board's
+values. USB identity, WTP device identity and the current boot identity serve
+different checks. A changed USB path alone does not identify a replacement.
+
+The host requires synchronized UTC with at most 500 ms reported maximum error.
+The Pico separately needs valid UTC within the configured start-uncertainty
+budget and its own clock limits. Wsprry Pi observes that clock; USB does not
+provision it. Raising the budget is an explicit acceptance decision, not clock
+calibration or proof of start accuracy.
+
+Set host `[Calibration] PPM = 0.0`. Disable TX LED, amplifier, shutdown-button
+and band-selector GPIO controls, including per-frequency `@` selectors. CW fades
+are unsupported. Settings for inactive GPIO and Si5351 backends are retained.
+An unresolved WTP session blocks endpoint or backend replacement until its state
+is resolved.
+
+See [Pico development controls](../../User_Interface/Setup/Transmitter/index.md#pico-development-controls)
+for selection, status and recovery. Keep transmission disabled until configuration,
+clock evidence and the intended RF path have been checked.

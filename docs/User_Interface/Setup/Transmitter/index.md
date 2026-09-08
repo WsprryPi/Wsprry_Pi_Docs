@@ -2,7 +2,7 @@
 
 The Transmitter tab on the Signal Setup page contains settings related to the active output hardware path and transmission behavior.
 
-Use the **RF Output Path** switch to choose the transmitter backend. The switch
+Use the **RF Output Path** switch to choose between GPIO and Si5351. The switch
 shows GPIO on the left and Si5351 on the right; switch it off for GPIO or on for
 Si5351. The same RF Output panel then shows only the settings for that hardware.
 On wide screens those controls share one row. On smaller screens they wrap or
@@ -11,6 +11,8 @@ stack without changing their order.
 - **GPIO** - Available on earlier Raspberry Pi models and on Pi 5 when the
   installer-managed RP1 GPCLK provider and selected route are eligible.
 - **Si5351** - If detected, the Si5351 may be used on any supported Raspberry Pi.
+- **Pico over USB** - Available through the separate, default-off development
+  controls described below. The production USB adapter requires Linux.
 
 ## GPIO
 
@@ -133,3 +135,53 @@ The Si5351 has four configurable power levels:
 4. 8mA - ~+8 to +10 dBm
 
 While these are technically feasible levels, the device is not intended to drive a load.  It should be followed by an amplifier of some sort.
+
+
+## Pico development controls
+
+Enable **Show Pico development controls** to reveal the **Pico output** panel.
+This switch defaults off and saves only a browser preference. Hiding the panel
+preserves the saved output selection and field drafts. If Pico remains selected,
+the page says so beside the switch.
+
+**Use Pico over USB** is the separate, persisted output selection. Keep
+transmission disabled while configuring it. Disable TX LED, amplifier,
+shutdown-button and band GPIO controls first; host GPIO calibration and CW
+fades do not apply. Set host PPM to zero.
+
+Enter **Endpoint path**, **USB serial**, **Device identity**, **USB vendor ID**
+and **USB product ID** for the attached Pico's dedicated WTP function. Do not
+use its Console port. The USB IDs are decimal; the device identity is 32
+lowercase hexadecimal characters. See the
+[WTP INI reference](../../../Advanced_Operations/ini_configuration/transmitter_backends.md#pico-wtp)
+for exact requirements.
+
+**Maximum start uncertainty (ns)** defaults to 1000000 (1 ms). The Pico's own
+clock evidence must meet this limit. The host also needs synchronized UTC;
+neither the USB connection nor GPSDO frequency discipline alone supplies the
+Pico with valid UTC. **Allow device frequency rounding** accepts the device's
+reported realizable frequencies and does not qualify RF accuracy.
+
+These controls expose development integration. Continuous **Test Tone** is
+unavailable with Pico; complete finite jobs run using the Pico's local timing.
+Revealing or hiding the panel neither starts transmission nor clears a fault.
+
+### Pico status and recovery
+
+**Pico status** shows **Output observed**, **Host UTC**, **Device / boot** and
+**Last job**. These are recorded observations, not electrical measurements.
+Check their age and any reported failure. An unavailable status response means
+unknown; it does not establish that the Pico is stopped. A previous job failure
+remains in the history after cleanup.
+
+If a job or connection becomes unresolved, disable transmission and review the
+reported state. **Reconcile Pico** checks an idle device or reconnects the
+current session to resolve its owned job. Recovery may stop that job. It never
+resumes transmission, reloads an uncertain job or takes another owner's job.
+After successful reconciliation, review the current observation and configuration
+before explicitly enabling transmission again.
+
+Status polling does not perform recovery. A changed device or boot identity,
+foreign ownership, or unresolved output blocks further work. Restarting the
+host creates a new session and does not adopt the old session's job. Closing
+USB or exiting the host application is not proof of RF shutdown.

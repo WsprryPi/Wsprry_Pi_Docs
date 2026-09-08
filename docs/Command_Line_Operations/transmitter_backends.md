@@ -2,10 +2,11 @@
 
 ## Backend Selection
 
-- `--backend <gpio\|si5351>`  
+- `--backend <gpio\|si5351\|wtp>`
   Select RF output method.  
   - `gpio`: Direct RF from Raspberry Pi GPIO (limited models).  
   - `si5351`: External clock generator via I2C.
+  - `wtp`: WsprryPico through its dedicated USB WTP interface on Linux.
 
 - `--power-level <level>`  
   Set transmit power for the active backend:  
@@ -159,3 +160,32 @@ for the underlying signal-quality findings.
 
 - `--si5351-tx-output <CLK0\|CLK1\|CLK2>`  
   Select output clock. This option is not exposed in the Web UI.
+
+
+## Pico WTP Backend
+
+Select `--backend wtp` and supply the endpoint identity through `--ini-file`
+(`-i`). There are no endpoint-discovery command-line switches. Configure the
+[WTP INI section](../Advanced_Operations/ini_configuration/transmitter_backends.md#pico-wtp)
+first, with transmission disabled and automatic startup disabled. Selecting a
+backend does not override an enabled transmit setting in that file.
+
+Use the dedicated WTP USB function, not the Pico Console. Wsprry Pi checks the
+selected path, USB serial, vendor/product IDs and WTP device identity. It does
+not set the Pico clock: the Linux host and Pico each need independently valid
+UTC. The default start-uncertainty budget is 1 ms; an SNTP-synchronized Pico may
+need a larger, explicitly chosen budget supported by its firmware.
+
+Finite WSPR, QRSS, FSKCW and DFCW jobs use the Pico's local timing. The continuous
+`--test-tone` workflow is unavailable for WTP. Bounded Tone exists in the runtime
+API, but is not a continuous Test Tone substitute. Host PPM must be zero; disable
+ancillary GPIO controls and CW fades before selecting WTP.
+
+WTP band/mode combinations remain untested in the host frequency policy and
+require the explicit unqualified-frequency option described above. Successful
+USB communication or a completed job does not qualify the RF output.
+
+Review [Pico status and recovery](../User_Interface/Setup/Transmitter/index.md#pico-status-and-recovery)
+before operation. Closing USB or exiting Wsprry Pi does not prove the Pico has
+stopped. An unresolved job blocks further work; recovery must establish the
+current device state without resuming or taking another owner's job.
