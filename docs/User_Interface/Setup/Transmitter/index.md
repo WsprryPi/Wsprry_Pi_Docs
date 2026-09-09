@@ -11,8 +11,10 @@ stack without changing their order.
 - **GPIO** - Available on earlier Raspberry Pi models and on Pi 5 when the
   installer-managed RP1 GPCLK provider and selected route are eligible.
 - **Si5351** - If detected, the Si5351 may be used on any supported Raspberry Pi.
+<!-- if-wsprrypico -->
 - **Pico over USB** - Available through the separate, default-off development
   controls described below. The production USB adapter requires Linux.
+<!-- endif-wsprrypico -->
 
 ## GPIO
 
@@ -137,6 +139,7 @@ The Si5351 has four configurable power levels:
 While these are technically feasible levels, the device is not intended to drive a load.  It should be followed by an amplifier of some sort.
 
 
+<!-- if-wsprrypico -->
 ## Pico development controls
 
 Enable **Show Pico development controls** to reveal the **Pico output** panel.
@@ -185,3 +188,4 @@ Status polling does not perform recovery. A changed device or boot identity,
 foreign ownership, or unresolved output blocks further work. Restarting the
 host creates a new session and does not adopt the old session's job. Closing
 USB or exiting the host application is not proof of RF shutdown.
+<!-- endif-wsprrypico -->

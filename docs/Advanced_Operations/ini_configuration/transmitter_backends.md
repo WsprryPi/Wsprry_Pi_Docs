@@ -52,6 +52,7 @@ For a passive crystal, `Crystal Load Capacitance` accepts only `6`, `8`, or `10`
 ```
 
 
+<!-- if-wsprrypico -->
 (wtp-section)=
 ## Pico WTP
 
@@ -89,3 +90,4 @@ is resolved.
 See [Pico development controls](../../User_Interface/Setup/Transmitter/index.md#pico-development-controls)
 for selection, status and recovery. Keep transmission disabled until configuration,
 clock evidence and the intended RF path have been checked.
+<!-- endif-wsprrypico -->

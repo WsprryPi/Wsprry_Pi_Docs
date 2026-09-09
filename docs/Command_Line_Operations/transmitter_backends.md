@@ -2,11 +2,17 @@
 
 ## Backend Selection
 
+<!-- if-wsprrypico -->
 - `--backend <gpio\|si5351\|wtp>`
+<!-- else-wsprrypico -->
+- `--backend <gpio\|si5351>`
+<!-- endif-wsprrypico -->
   Select RF output method.  
   - `gpio`: Direct RF from Raspberry Pi GPIO (limited models).  
   - `si5351`: External clock generator via I2C.
+<!-- if-wsprrypico -->
   - `wtp`: WsprryPico through its dedicated USB WTP interface on Linux.
+<!-- endif-wsprrypico -->
 
 - `--power-level <level>`  
   Set transmit power for the active backend:  
@@ -162,6 +168,7 @@ for the underlying signal-quality findings.
   Select output clock. This option is not exposed in the Web UI.
 
 
+<!-- if-wsprrypico -->
 ## Pico WTP Backend
 
 Select `--backend wtp` and supply the endpoint identity through `--ini-file`
@@ -189,3 +196,4 @@ Review [Pico status and recovery](../User_Interface/Setup/Transmitter/index.md#p
 before operation. Closing USB or exiting Wsprry Pi does not prove the Pico has
 stopped. An unresolved job blocks further work; recovery must establish the
 current device state without resuming or taking another owner's job.
+<!-- endif-wsprrypico -->
