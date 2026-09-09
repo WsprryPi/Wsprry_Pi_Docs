@@ -111,62 +111,22 @@ Since the installation script compiles the application on your Pi to avoid any v
 [WARN ] The compilation step may take from 10m (Pi 3) to up to 50m (Pi 1)
 ```
 
-I have GREATLY simplified the installer since version 1.x.  Here is more or less what you will see:
+The installer reports progress for each operation. The following excerpt shows
+executable replacement during an update; other installation steps are omitted:
 
 ```text
-[INFO ] Checking environment.
-[INFO ] Wsprry Pi installation beginning.
-[INFO ] System: Debian GNU/Linux 12 (bookworm).
-[INFO ] Running Wsprry Pi's install script, version 2.1.0.
-[WARN ] The compilation step may take from 10m (Pi 3) to up to 50m (Pi 1)
-[INFO ] Updating and managing required packages (this may take a few minutes).
-[  ✔  ] Complete: Update local package index.
-[  ✔  ] Complete: Fix broken or incomplete package installations.
-[  ✔  ] Complete: Upgrade git.
-[  ✔  ] Complete: Install apache2.
-[  ✔  ] Complete: Install php.
-[  ✔  ] Complete: Install chrony.
-[  ✔  ] Complete: Install libgpiod-dev.
-[  ✔  ] Complete: Upgrade libgpiod2.
-[  ✔  ] Complete: Clone repository 'https://github.com/WsprryPi/WsprryPi'.
-[  ✔  ] Complete: Reset failed systemd states.
-[  ✔  ] Complete: Reload systemd daemon.
-[  ✔  ] Complete: Compile release binary.
-[  ✔  ] Complete: Move binary to staging.
-[  ✔  ] Complete: Install application.
-[  ✔  ] Complete: Change ownership on application.
-[  ✔  ] Complete: Make app executable.
-[  ✔  ] Complete: Install configuration.
-[  ✔  ] Complete: Change ownership on configuration.
-[  ✔  ] Complete: Set config permissions.
-[  ✔  ] Complete: Copy systemd file.
-[  ✔  ] Complete: Change ownership on systemd file.
-[  ✔  ] Complete: Change permissions on systemd file.
-[  ✔  ] Complete: Create log path.
-[  ✔  ] Complete: Change ownership on log path.
-[  ✔  ] Complete: Change permissions on log path.
-[  ✔  ] Complete: Enable systemd service.
-[  ✔  ] Complete: Reload systemd.
-[  ✔  ] Complete: Start systemd service.
-[  ✔  ] Complete: Change ownership on logs.
-[  ✔  ] Complete: Change permissions on logs.
-[  ✔  ] Complete: Install configuration.
-[  ✔  ] Complete: Change ownership on configuration.
-[  ✔  ] Complete: Set config permissions.
-[  ✔  ] Complete: Create target web directory.
-[  ✔  ] Complete: Copy web files.
-[  ✔  ] Complete: Set ownership.
-[  ✔  ] Complete: Set directory permissions.
-[  ✔  ] Complete: Set file permissions.
-[  ✔  ] Complete: Insert ServerName directive.
-[  ✔  ] Complete: Copy Apache vhost to sites-available.
-[  ✔  ] Complete: Enable proxy modules.
-[  ✔  ] Complete: Disable default site.
-[  ✔  ] Complete: Enable wsprrypi site.
-[  ✔  ] Complete: Test Apache configuration.
-[  ✔  ] Complete: Reload Apache.
-[  ✔  ] Complete: Delete local repository.
+[  ✔  ] Complete: Stage executable for /usr/local/bin/wsprrypi.
+[  ✔  ] Complete: Back up existing executable at /usr/local/bin/wsprrypi.
+[  ✔  ] Complete: Stop wsprrypi.service.
+[  ✔  ] Complete: Install executable at /usr/local/bin/wsprrypi.
 ```
+
+The backup message appears only when an executable already exists at the
+destination. The service-stop message appears only when the service is running.
+Other messages vary with your Pi, installed packages, and installation options.
+Each `Complete:` message confirms that operation succeeded; executable
+replacement alone does not mean the entire installation has finished. If an
+operation fails, the installer reports `Failed:` for that operation.
 
 You may see:
 
