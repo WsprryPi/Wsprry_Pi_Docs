@@ -100,6 +100,14 @@ Choose one of these frequency sources:
 The example above shows the safe disconnected state: the frequency source and
 exact RF preview remain visible, while **Start** and **End** are unavailable.
 
+Test Tone targets the RF carrier shown in the preview. On the legacy GPIO
+backend, a frequency that crosses a hardware clock-divider boundary is rejected
+rather than replaced with a nearby carrier. Choose another valid frequency if
+this happens. The reported frequency is the controller's synthesis target;
+actual RF accuracy still depends on clock calibration and the measurement path.
+See [Transmission Timing and Calibration](../../Advanced_Operations/timing_calibration.md#interpreting-test-tone-measurements)
+when using a tone to measure frequency error.
+
 The WSPR band list is controller-authorized rather than a fixed list in the
 browser. **Start** remains unavailable until the controller is connected, its
 catalog is available, a valid frequency source is selected, and normal

@@ -40,6 +40,16 @@
   results are rejected. A band alias selects that band's WSPR dial frequency,
   not its WSPR carrier frequency; use an explicit value for another carrier.
 
+An explicit numeric Test Tone frequency is the requested RF carrier; no WSPR
+audio offset is added. For example, `--test-tone 14097100` targets 14,097,100 Hz.
+On the legacy GPIO backend, an unsafe clock-divider boundary causes the request
+to fail instead of moving the carrier. Choose a nearby valid frequency and
+review the new request before trying again. A successful start reports the
+synthesis target, not a measured RF frequency.
+
+For clock-error measurements and older GPIO tone records, see
+[Interpreting Test Tone Measurements](../Advanced_Operations/timing_calibration.md#interpreting-test-tone-measurements).
+
 ---
 
 ## Notes

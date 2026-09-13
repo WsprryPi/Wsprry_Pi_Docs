@@ -48,6 +48,30 @@ Existing configurations that contain the retired `GPIO.Use NTP` key are actively
 
 Frequency calibration matters because WSPR occupies a narrow band. The Raspberry Pi reference crystal has both static error and temperature-dependent drift. Recheck the residual after meaningful hardware, temperature, power-supply, or reference-source changes.
 
+### Interpreting Test Tone Measurements
+
+Use the final requested RF carrier as the nominal frequency for a current Test
+Tone measurement. The Maintenance page's **WSPR band** choice adds the displayed
+WSPR offset to the dial frequency; **Custom RF frequency** already specifies RF.
+An explicit numeric `--test-tone` value also specifies RF directly. Apply that
+conversion once, and keep receiver calibration separate from transmitter PPM.
+The displayed or reported carrier is a synthesis target, not a measurement.
+
+When reviewing older records, identify the exact executable version used. Legacy
+GPIO builds before the [test-tone frequency correction](https://github.com/WsprryPi/WsprryPi/commit/ef9a76a5be4d8223b89bcd64df1e1a376d48a0a5)
+nominally emitted Test Tone **2.197265625 Hz below the requested RF frequency**,
+before oscillator error and any hardware-limit adjustment. For those affected
+measurements, compare the retained raw frequency with
+`requested RF - 2.197265625 Hz`, accounting separately for any reported hardware
+adjustment. Reassess a GPIO PPM value derived from such a tone before reusing it
+with a corrected build.
+
+The displacement is fixed in hertz, so its apparent PPM changes with frequency.
+Do not absorb it into a universal clock correction or apply it again to a
+corrected build. It does not apply to Si5351 or RP1 Test Tone, or to the configured
+QRSS, FSKCW, and DFCW carriers. WSPR intentionally transmits four tones centered
+around the requested WSPR RF frequency.
+
 ### Si5351-Based Transmissions
 
 The Si5351 reference is independent of the Raspberry Pi system clock estimate
