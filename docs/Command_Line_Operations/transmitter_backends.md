@@ -11,7 +11,9 @@
   - `gpio`: Direct RF from Raspberry Pi GPIO (limited models).  
   - `si5351`: External clock generator via I2C.
 <!-- if-wsprrypico -->
-  - `wtp`: WsprryPico through its dedicated USB WTP interface on Linux.
+  - `wtp`: WsprryPico over its dedicated USB WTP interface, Plain LAN, or
+    authenticated TLS network connection on Linux. The binding comes from
+    `[WTP] Transport` in the selected INI file.
 <!-- endif-wsprrypico -->
 
 - `--power-level <level>`  
@@ -171,29 +173,37 @@ for the underlying signal-quality findings.
 <!-- if-wsprrypico -->
 ## Pico WTP Backend
 
-Select `--backend wtp` and supply the endpoint identity through `--ini-file`
-(`-i`). There are no endpoint-discovery command-line switches. Configure the
+Select `--backend wtp` and supply the endpoint through `--ini-file` (`-i`).
+`[WTP] Transport` chooses USB (`usb`, the legacy default), Plain LAN
+(`network_plain`), or authenticated TLS (`network`). For USB, use the dedicated
+WTP function, not the Pico Console. For a network binding, set `Hostname`
+and `TCP Port`; TLS also requires provisioned host-side CA, client
+certificate, and client-key files. Configure the
 [WTP INI section](../Advanced_Operations/ini_configuration/transmitter_backends.md#pico-wtp)
-first, with transmission disabled and automatic startup disabled. Selecting a
-backend does not override an enabled transmit setting in that file.
+first, with transmission and automatic startup disabled.
 
-Use the dedicated WTP USB function, not the Pico Console. Wsprry Pi checks the
-selected path, USB serial, vendor/product IDs and WTP device identity. It does
-not set the Pico clock: the Linux host and Pico each need independently valid
-UTC. The default start-uncertainty budget is 1 ms; an SNTP-synchronized Pico may
-need a larger, explicitly chosen budget supported by its firmware.
+There is no command-line option to browse DNS-SD services, edit the known-device
+catalog, or choose a saved Fleet profile. The Fleet development pane is hidden
+at every page load. When enabled for a session, **Use this device** explicitly
+copies a selected profile into the active `[WTP]` configuration. Running
+`--backend wtp` by itself does not choose a catalog profile and does not
+override `Transmit = true` in an INI file. Direct and manual endpoints remain
+usable when discovery is unavailable.
 
-Finite WSPR, QRSS, FSKCW and DFCW jobs use the Pico's local timing. The continuous
-`--test-tone` workflow is unavailable for WTP. Bounded Tone exists in the runtime
-API, but is not a continuous Test Tone substitute. Host PPM must be zero; disable
-ancillary GPIO controls and CW fades before selecting WTP.
+The host and Pico each need independently valid UTC. The default Pico start
+uncertainty budget is 1 ms; choose a larger value only with device clock
+evidence. Finite WSPR, QRSS, FSKCW, and DFCW jobs use the Pico's local timing.
+Continuous `--test-tone` is unavailable for WTP. Host PPM must be zero, and
+ancillary GPIO controls and CW fades must be disabled before selecting WTP.
 
 WTP band/mode combinations remain untested in the host frequency policy and
-require the explicit unqualified-frequency option described above. Successful
-USB communication or a completed job does not qualify the RF output.
+require the explicit unqualified-frequency option described above. A successful
+USB or network connection, discovery advertisement, or completed job does not
+qualify RF output.
 
 Review [Pico status and recovery](../User_Interface/Setup/Transmitter/index.md#pico-status-and-recovery)
-before operation. Closing USB or exiting Wsprry Pi does not prove the Pico has
-stopped. An unresolved job blocks further work; recovery must establish the
-current device state without resuming or taking another owner's job.
+before operation. Closing a connection or exiting Wsprry Pi does not prove the
+Pico has stopped. An unresolved job blocks further work; recovery must
+establish the current device state without resuming or taking another owner's
+job.
 <!-- endif-wsprrypico -->

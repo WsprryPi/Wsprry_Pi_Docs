@@ -12,8 +12,9 @@ stack without changing their order.
   installer-managed RP1 GPCLK provider and selected route are eligible.
 - **Si5351** - If detected, the Si5351 may be used on any supported Raspberry Pi.
 <!-- if-wsprrypico -->
-- **Pico over USB** - Available through the separate, default-off development
-  controls described below. The production USB adapter requires Linux.
+- **Pico via WTP** - Development controls support USB, Plain LAN, and
+  authenticated network connections on Linux. Fleet remains hidden on every
+  page load.
 <!-- endif-wsprrypico -->
 
 ## GPIO
@@ -142,50 +143,82 @@ While these are technically feasible levels, the device is not intended to drive
 <!-- if-wsprrypico -->
 ## Pico development controls
 
-Enable **Show Pico development controls** to reveal the **Pico output** panel.
-This switch defaults off and saves only a browser preference. Hiding the panel
-preserves the saved output selection and field drafts. If Pico remains selected,
-the page says so beside the switch.
+The **Fleet** tab is hidden and disabled on every page load. It is available
+only when enabled for the current development session; that choice is not saved
+as a browser preference. The instructions below apply only while Fleet is
+visible. Showing or hiding it does not change the active endpoint or start a
+transmission.
 
-**Use Pico over USB** is the separate, persisted output selection. Keep
-transmission disabled while configuring it. Disable TX LED, amplifier,
-shutdown-button and band GPIO controls first; host GPIO calibration and CW
-fades do not apply. Set host PPM to zero.
-
-Enter **Endpoint path**, **USB serial**, **Device identity**, **USB vendor ID**
-and **USB product ID** for the attached Pico's dedicated WTP function. Do not
-use its Console port. The USB IDs are decimal; the device identity is 32
-lowercase hexadecimal characters. See the
-[WTP INI reference](../../../Advanced_Operations/ini_configuration/transmitter_backends.md#pico-wtp)
-for exact requirements.
+**Use Pico** selects the WTP backend in the saved host configuration. The
+**Connection** choice supports USB, Plain LAN, and Network (TLS). Keep
+transmission disabled while configuring a device. Disable TX LED, amplifier,
+shutdown-button, and band GPIO controls first; host GPIO calibration and CW
+fades do not apply. Set host PPM to zero. For USB, use the Pico's dedicated WTP
+interface, not its Console port. For network connections, enter the hostname
+and actual TCP port. TLS also needs host paths to the CA, client certificate,
+and client key. See the [WTP INI reference](../../../Advanced_Operations/ini_configuration/transmitter_backends.md#pico-wtp)
+for the individual settings.
 
 **Maximum start uncertainty (ns)** defaults to 1000000 (1 ms). The Pico's own
-clock evidence must meet this limit. The host also needs synchronized UTC;
-neither the USB connection nor GPSDO frequency discipline alone supplies the
-Pico with valid UTC. **Allow device frequency rounding** accepts the device's
-reported realizable frequencies and does not qualify RF accuracy.
+clock evidence must meet this limit, and the host needs synchronized UTC.
+**Allow device frequency rounding** accepts reported realizable frequencies;
+it does not qualify RF accuracy. Continuous **Test Tone** is unavailable with
+Pico; complete finite jobs use its local timing.
 
-These controls expose development integration. Continuous **Test Tone** is
-unavailable with Pico; complete finite jobs run using the Pico's local timing.
-Revealing or hiding the panel neither starts transmission nor clears a fault.
+### Known and nearby devices
+
+The selector separates **Saved devices** from **Nearby advertisements**. A
+saved device stays listed when its advertisement disappears. An advertisement
+is a connection hint, not proof of device identity, an active listener, or RF
+readiness. If Avahi discovery is unavailable or no service appears, use
+**Add device** for a manual USB or network profile. Merely opening the selector
+or highlighting an entry does not connect, identify, save, or switch devices.
+
+To add a nearby Pico, select its advertisement and choose **Add device**.
+Review its connection type and the advertised SRV target and port. Give the
+profile a name and enter the expected full 32-character WTP device ID. For
+Network (TLS), provision the device-specific trust files on the host and enter
+the expected certificate identity before identifying or saving it. For Plain
+LAN, explicitly choose that binding and use **Identify selected nearby
+device** to read HELLO, STATUS, and CAPS. Confirm the observed full device ID
+before saving it. Plain LAN's reported ID is an unauthenticated observation;
+the connection is neither encrypted nor client-authenticated. Identification
+does not claim, arm, or recover a job.
+
+**Save device** asks for confirmation and saves a profile only. It does not
+change the active `[WTP]` endpoint. To apply a saved profile, select it and
+choose **Use this device**. This separate action asks for confirmation and is
+refused while transmission is enabled or the current Pico has pending, owned,
+active, or unresolved work. Resolve that work and review Pico status before
+trying again. Selection never enables transmission or resumes an old job.
+Renaming, editing, or removing a saved profile also leaves the active endpoint
+unchanged.
+
+A DNS-SD profile keeps its saved endpoint. If the advertisement's target,
+port, or binding changes, Fleet shows the difference and blocks a new use of
+that profile until you edit it and a fresh identity check succeeds. Plain LAN
+requires explicit review and consent again; neither binding silently follows
+a changed advertisement or falls back to another binding. Manual profiles
+keep their configured connection behavior.
 
 ### Pico status and recovery
 
-**Pico status** shows **Output observed**, **Host UTC**, **Device / boot** and
+**Pico status** shows **Output observed**, **Host UTC**, **Device / boot**, and
 **Last job**. These are recorded observations, not electrical measurements.
 Check their age and any reported failure. An unavailable status response means
 unknown; it does not establish that the Pico is stopped. A previous job failure
 remains in the history after cleanup.
 
-If a job or connection becomes unresolved, disable transmission and review the
-reported state. **Reconcile Pico** checks an idle device or reconnects the
+If a job or connection becomes unresolved, disable transmission and review
+the reported state. **Reconcile Pico** checks an idle device or reconnects the
 current session to resolve its owned job. Recovery may stop that job. It never
-resumes transmission, reloads an uncertain job or takes another owner's job.
-After successful reconciliation, review the current observation and configuration
-before explicitly enabling transmission again.
+resumes transmission, reloads an uncertain job, or takes another owner's job.
+After successful reconciliation, review the current observation and
+configuration before explicitly enabling transmission again.
 
 Status polling does not perform recovery. A changed device or boot identity,
 foreign ownership, or unresolved output blocks further work. Restarting the
 host creates a new session and does not adopt the old session's job. Closing
-USB or exiting the host application is not proof of RF shutdown.
+USB or a network connection, or exiting the host application, is not proof of
+RF shutdown.
 <!-- endif-wsprrypico -->

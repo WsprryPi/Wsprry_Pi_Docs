@@ -58,36 +58,66 @@ For a passive crystal, `Crystal Load Capacitance` accepts only `6`, `8`, or `10`
 
 Set `[Operation] Transmit Backend = wtp` to select a Pico on Linux. Keep
 `Transmit = false` and `Enable on Boot = Never` while configuring and checking
-the endpoint. The inactive WTP defaults have empty identities and zero USB IDs;
-selecting WTP requires complete, valid values.
+the endpoint. The active `[WTP]` section remains the runtime's endpoint
+authority. A missing `Transport` value means USB, preserving a valid legacy
+configuration.
 
 | Setting in `[WTP]` | Value and purpose |
 | --- | --- |
-| `Endpoint` | Dedicated WTP character-device path under `/dev/`. A stable `/dev/serial/by-id/` alias is accepted after identity checks. The Console interface is rejected. |
-| `USB Serial` | Exact USB serial string, preserving leading zeros. |
-| `USB Vendor ID` | Decimal USB vendor ID, from 1 through 65535. |
-| `USB Product ID` | Decimal USB product ID, from 1 through 65535. |
-| `Device ID` | WTP device identity from HELLO: 32 lowercase hexadecimal characters. |
+| `Transport` | `usb` (default), `network_plain` (Plain LAN), or `network` (TLS). There is no automatic fallback between them. |
+| `Endpoint` | For USB, the dedicated WTP device path under `/dev/`. Do not use the Console interface. |
+| `USB Serial` | Exact USB serial string, including leading zeros. |
+| `USB Vendor ID` / `USB Product ID` | Decimal USB identifiers, each from 1 through 65535 when USB is selected. |
+| `Hostname` / `TCP Port` | For either network binding, the connection name or address and its actual port. DNS-SD uses the SRV port, which may differ from 31417. |
+| `TLS Server Identity` | For TLS, the expected certificate name. Direct connections may use the configured hostname; a discovered TLS profile requires an explicit expected identity. |
+| `TLS CA File` / `TLS Client Certificate` / `TLS Client Key` | Absolute paths to provisioned files on the WsprryPi host for TLS. The INI and catalog retain file references, not key contents. |
+| `Device ID` | Expected 32-character lowercase hexadecimal WTP identity from HELLO. USB and TLS require it. A direct legacy Plain LAN endpoint may leave it blank and learn an identity for the current session, but a saved profile cannot be selected without a confirmed full ID. Plain LAN HELLO is not cryptographic authentication. |
 | `Start Uncertainty ns` | Maximum permitted start uncertainty, from 1 through 1000000000 nanoseconds. Default: 1000000 (1 ms). |
-| `Allow Frequency Adjustment` | Default: `false`. Explicitly permits the device's reported realizable frequency rounding; it does not establish RF accuracy. |
+| `Allow Frequency Adjustment` | Default: `false`. Permits reported realizable frequency rounding; it does not establish RF accuracy. |
 
-Obtain identities from the attached device rather than copying another board's
-values. USB identity, WTP device identity and the current boot identity serve
-different checks. A changed USB path alone does not identify a replacement.
+Obtain identities from the intended device rather than copying another
+board's values. USB identity, WTP device identity, TLS certificate identity,
+and current boot identity serve different checks. A hostname, DNS-SD instance
+label, or Plain LAN HELLO alone does not establish trusted identity.
 
 The host requires synchronized UTC with at most 500 ms reported maximum error.
 The Pico separately needs valid UTC within the configured start-uncertainty
-budget and its own clock limits. Wsprry Pi observes that clock; USB does not
-provision it. Raising the budget is an explicit acceptance decision, not clock
-calibration or proof of start accuracy.
+budget and its own clock limits. Raising the budget is an explicit acceptance
+decision, not clock calibration or proof of start accuracy.
 
-Set host `[Calibration] PPM = 0.0`. Disable TX LED, amplifier, shutdown-button
+Set host `[Calibration] PPM = 0.0`. Disable TX LED, amplifier, shutdown-button,
 and band-selector GPIO controls, including per-frequency `@` selectors. CW fades
 are unsupported. Settings for inactive GPIO and Si5351 backends are retained.
-An unresolved WTP session blocks endpoint or backend replacement until its state
-is resolved.
+Unresolved WTP work blocks endpoint or backend replacement until its state is
+resolved.
+
+### Saved devices and the active endpoint
+
+When the hidden Fleet development pane is enabled for a session, it keeps a
+private, versioned catalog at `<INI-path>.wtp-devices.json`. The catalog holds
+named USB, manual-network, and DNS-SD profiles with host-side TLS file
+references. First access imports the currently selected valid `[WTP]` settings
+without changing them. A saved profile may remain listed while its discovery
+advertisement is absent.
+
+Adding, renaming, editing, or removing a profile does not change `[WTP]`.
+**Use this device** is the explicit action that applies a saved profile through
+the normal host configuration path. It requires transmission to be disabled
+and the current runtime to be safely replaceable. If writing the INI fails,
+the old active endpoint remains selected. If the write succeeds but runtime
+application cannot be confirmed, read the current configuration and Pico
+status before any further operation. The catalog does not create a second
+active endpoint setting.
+
+A DNS-SD profile keeps its saved binding, target, and SRV port. A changed
+advertisement requires explicit profile review and a fresh device identity
+check before another selection. TLS must still validate its expected server
+identity, credentials, and full WTP device ID. Plain LAN requires renewed
+operator consent and never silently retargets. Configured manual endpoints
+retain their normal direct connection behavior; failed discovery does not
+disable them.
 
 See [Pico development controls](../../User_Interface/Setup/Transmitter/index.md#pico-development-controls)
-for selection, status and recovery. Keep transmission disabled until configuration,
-clock evidence and the intended RF path have been checked.
+for the Fleet workflow and recovery. Keep transmission disabled until the
+configuration, clock evidence, and intended RF path have been checked.
 <!-- endif-wsprrypico -->
