@@ -6,7 +6,7 @@ Settings will save, or throw an error in the indicator at the top of the page.  
 
 ![Setup Card](Setup.png)
 
-The card title section contains contextual information, such as an indicator that the settings were unable to be saved with a hint for where to look:
+If a change cannot be saved, a brief status appears beside the Setup title. Details about what needs attention appear below the tabs:
 
 ![Invalid Callsign](invalid_callsign.png)
 
