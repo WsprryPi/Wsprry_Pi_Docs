@@ -49,9 +49,10 @@ own local schedule. **Use this device** selects the separate single-endpoint
 `[WTP]` backend; it does not create an independent output assignment. Saving or
 removing a catalog profile also does not create or remove an assignment.
 
-Each target must advertise support for the assigned job. The initial physical
-Pi server accepts only Si5351 tones on 20m, up to ten seconds. Pico modes depend
-on its reported capabilities. For a Pi profile, set the start-uncertainty limit
+Each target must advertise support for the assigned job. The Pi Si5351 server
+reports its existing WSPR, TONE, QRSS, FSKCW and DFCW capabilities. Its qualified
+amateur bands from 2200m through 2m retain their existing frequency policy.
+Pi and Pico jobs are checked against the selected target's reported capabilities. For a Pi profile, set the start-uncertainty limit
 to accommodate the reported clock uncertainty, no higher than `500000000` ns
 (500 ms); the existing 1 ms default can reject ordinary NTP timing. Values are
 never silently increased.

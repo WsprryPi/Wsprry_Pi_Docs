@@ -218,21 +218,30 @@ endpoint. Configure the server in
 and use [Fleet output assignments](../User_Interface/Setup/index.md#assign-an-output-schedule)
 on the controller.
 
-The initial physical server route is **Si5351 finite TONE only**, at
-14.000–14.350 MHz with up to ten seconds of RF-on duration. It uses the existing
-Si5351 bus, address, reference, CLK output, drive, and PPM settings. Other Pi
-server modes and physical backends are rejected before arming; no fallback
-backend is selected. Local support for a mode does not imply Pi WTP server
-support for it.
+The Si5351 server exposes the backend's **WSPR, TONE, QRSS, FSKCW and DFCW**
+capabilities. It uses the existing bus, address, reference, CLK output, drive,
+and PPM settings. Its existing qualified amateur bands from 2200m through 2m
+remain qualified; 8m and 5m retain their separate experimental policy.
+
+CAPS reports the backend's numerical planner envelope, 7,812.5 Hz through
+200 MHz. This envelope does not authorize frequencies outside amateur
+allocations or override band policy. Each job is checked by the selected
+backend's planner and existing frequency policy. GPIO/RP1 server adapters are
+not available; no fallback backend is selected.
+
+Finite jobs may contain up to 512 contiguous events and have a total duration
+up to 24 hours. These are protocol resource limits. Frequency changes and
+RF-off intervals, including an initial silent interval, use the backend's
+precomputed execution plan. Per-event realized frequencies come from that same configured
+planner and require adjustment consent when they differ from the request.
 
 The server requires synchronized UTC, at least two seconds of ARM lead, and
 reported UTC uncertainty no greater than 500 ms. The controller profile must
 also allow the target's reported uncertainty. Reported frequency realization
 requires explicit permission for adjustment; it is not a measured RF frequency.
 Output-disable timeout is five seconds; unconfirmed output-off inhibits further
-work. SDR observation has confirmed finite TONE and local immediate abort on
-the initial route, without qualifying other routes, modes, frequency accuracy,
-or long-term timing.
+work. The WTP integration preserves the existing backend qualification; it does not
+establish a new claim about measured frequency accuracy or long-term timing.
 
 Protocol details are maintained in the
 [WsprryPico protocol documentation](https://github.com/WsprryPi/WsprryPico/tree/devel/docs/protocol).

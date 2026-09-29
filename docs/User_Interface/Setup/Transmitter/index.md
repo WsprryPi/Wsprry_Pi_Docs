@@ -203,8 +203,8 @@ keep their configured connection behavior.
 
 For independent remote schedules alongside this Pi's local schedule, use
 [Output schedules](../index.md#assign-an-output-schedule). The Pi server uses
-Plain LAN and currently accepts only finite Si5351 TONE jobs on 20m, up to
-ten seconds. The single-endpoint selection and Pico status controls below
+Plain LAN and derives its supported modes and frequency limits from the
+selected backend. Si5351 supports finite WSPR, TONE, QRSS, FSKCW and DFCW jobs. The single-endpoint selection and Pico status controls below
 remain separate from those assignments.
 
 ### Pico status and recovery
