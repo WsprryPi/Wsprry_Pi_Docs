@@ -207,3 +207,33 @@ Pico has stopped. An unresolved job blocks further work; recovery must
 establish the current device state without resuming or taking another owner's
 job.
 <!-- endif-wsprrypico -->
+
+<!-- if-wsprrypico -->
+## Pi WTP server capability
+
+A managed Pi can expose its local transmitter to a central Pi through Plain
+LAN WTP. This is independent of choosing `--backend wtp` for an outbound
+endpoint. Configure the server in
+[`[WTP Server]`](../Advanced_Operations/ini_configuration/runtime.md#wtp-server)
+and use [Fleet output assignments](../User_Interface/Setup/index.md#assign-an-output-schedule)
+on the controller.
+
+The initial physical server route is **Si5351 finite TONE only**, at
+14.000–14.350 MHz with up to ten seconds of RF-on duration. It uses the existing
+Si5351 bus, address, reference, CLK output, drive, and PPM settings. Other Pi
+server modes and physical backends are rejected before arming; no fallback
+backend is selected. Local support for a mode does not imply Pi WTP server
+support for it.
+
+The server requires synchronized UTC, at least two seconds of ARM lead, and
+reported UTC uncertainty no greater than 500 ms. The controller profile must
+also allow the target's reported uncertainty. Reported frequency realization
+requires explicit permission for adjustment; it is not a measured RF frequency.
+Output-disable timeout is five seconds; unconfirmed output-off inhibits further
+work. SDR observation has confirmed finite TONE and local immediate abort on
+the initial route, without qualifying other routes, modes, frequency accuracy,
+or long-term timing.
+
+Protocol details are maintained in the
+[WsprryPico protocol documentation](https://github.com/WsprryPi/WsprryPico/tree/devel/docs/protocol).
+<!-- endif-wsprrypico -->

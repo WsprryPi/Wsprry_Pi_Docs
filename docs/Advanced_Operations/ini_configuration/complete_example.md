@@ -7,3 +7,24 @@ This is the complete default configuration maintained by this documentation repo
 ```{literalinclude} default_wsprrypi.ini
 :language: ini
 ```
+
+<!-- if-wsprrypico -->
+## Optional development listener
+
+The standard download above does not include development WTP sections. For a
+managed Pi endpoint, add this section to the active INI:
+
+```ini
+[WTP Server]
+Enabled = true
+Port = 31417
+Interface = auto
+```
+
+These are the listener defaults, not permission to transmit. Local Enable off
+makes safe, idle output available for a remote claim; local Enable on reserves
+it. Review the [listener and ownership reference](runtime.md#wtp-server)
+before changing these controls. For an outbound profile, use the
+[WTP endpoint reference](transmitter_backends.md#pico-wtp). Independent Fleet
+assignments are saved outside the INI.
+<!-- endif-wsprrypico -->

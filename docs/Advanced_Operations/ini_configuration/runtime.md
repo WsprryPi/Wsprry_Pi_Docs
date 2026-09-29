@@ -86,3 +86,62 @@ If that startup operation fails, WsprryPi keeps the web and socket services avai
 To recover, correct the reported hardware or configuration problem and restart the WsprryPi service. A configuration reload or transmission toggle cannot clear the startup inhibition. See [Configuration Troubleshooting](../configuration_troubleshooting.md#startup-transmission-is-inhibited) for operator checks.
 
 This protection begins when the daemon runs. Use a separate hardware inhibit when the transmitter must remain disabled during the earlier power-up and operating-system boot interval.
+
+<!-- if-wsprrypico -->
+## WTP Server
+
+The managed Pi listener uses these defaults:
+
+```ini
+[WTP Server]
+Enabled = true
+Port = 31417
+Interface = auto
+```
+
+`Enabled` controls inbound WTP admission. It does not enable local RF or an
+outbound Fleet schedule. `Port` accepts `1` through `65535`.
+`--wtp-server-port` overrides it for one process without changing the saved INI.
+Direct one-shot CLI transmissions do not start the managed listener or Fleet.
+
+`Interface = auto` requires exactly one operational physical LAN IPv4 address.
+With multiple eligible addresses, specify an interface such as `eth0` or
+`wlan0`. Only private RFC1918 addresses on up/running physical interfaces are
+eligible; Wi-Fi must be in station mode. Loopback, bridges, tunnels, access-point
+interfaces, and public addresses are excluded. The listener retries after
+interface recovery. Address loss withdraws its DNS-SD advertisement. A settings
+or route change waits for current ownership/work to end and suspends admission
+of new remote jobs while pending.
+
+The listener defaults to active after confirmed startup quiescence. Local
+Enable off permits a claim only when output is safe and idle. Local Enable on
+reserves the local output even between jobs; the listener still permits
+inspection but refuses claims. `Enable on Boot` remains the local startup
+policy. Listener admission and each outbound assignment remain independent.
+
+An external INI transaction enabling local transmission immediately cancels
+remote-controlled work and revokes future assignments. The browser's confirmed
+**Let it finish** transaction is recognized on file reload and retains that
+choice. See [local takeover](../../User_Interface/index.md#local-control-and-remote-ownership)
+for the interactive choices and output-unknown recovery.
+
+Avahi publishes `_wtp._tcp.local.` with the actual port and `binding=plain`.
+Discovery failure does not remove the direct listener. Pi inbound WTP uses
+unencrypted Plain LAN with the shared `local-network` principal; TLS is not
+implemented for this listener. Outbound TLS profiles for compatible Pico
+servers remain available, with no automatic fallback to Plain LAN.
+
+### Persistent ownership and assignments
+
+The process user's private `~/.wsprrypi-wtp/revocation-v1` journal preserves
+local takeover history. Keep it across restarts and use a consistent service
+user. An unreadable or malformed journal inhibits admission; deleting it can
+erase takeover history.
+
+`<active-INI-path>.wtp-assignments.json` stores independent remote schedules,
+consumed slots, and unresolved dispatch state. It is separate from
+`<active-INI-path>.wtp-devices.json`, which stores connection profiles, and from
+`[WTP]`, which selects the single-endpoint backend. Manage assignments through
+Fleet or its [HTTP resource](../rest_api.md#pi-endpoint-and-fleet-resources).
+After interrupted work, reconcile the affected output before resuming it.
+<!-- endif-wsprrypico -->

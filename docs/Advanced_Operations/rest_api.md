@@ -237,3 +237,75 @@ This endpoint is used for:
 - UI build reload detection
 - Asset cache busting
 - GitHub update comparison logic
+
+<!-- if-wsprrypico -->
+## Pi endpoint and Fleet resources
+
+Development Pi/Pico controls use the resources below. Paths are shown as the
+backend receives them; browser requests prepend `/wsprrypi`, for example
+`/wsprrypi/api/v1/host/wtp-endpoint`. The existing peer, Host, Origin, and
+privileged-network guards apply. Browser writes use same-origin JSON intent
+headers. These are local host-management resources; WTP job control uses the
+separate TCP endpoint, default port `31417`.
+
+- `GET /api/v1/host/wtp-endpoint`
+
+  Listener, requested/effective local Enable, remote owner/job, output uncertainty, takeover generation, and launch observation.
+
+- `POST /api/v1/host/wtp-endpoint/enable`
+
+  Confirm target-local takeover using the current configuration `If-Match` revision.
+
+- `POST /api/v1/host/wtp-endpoint/recover`
+
+  Request local output reconciliation with `{"confirmed":true}`. Success requires confirmed inactive output.
+
+- `GET /api/v1/host/fleet`
+
+  Read assignments, per-output runtime observations, and the assignment ETag.
+
+- `POST /api/v1/host/fleet`
+
+  Change an assignment using its current `If-Match` revision. Operations: `assign`, `enable`, `pause`, `schedule`, `recover`, `remove`.
+
+- `GET /api/v1/host/discovery`
+
+  Read nearby DNS-SD observations without claiming a device.
+
+- `GET/POST /api/v1/host/devices`
+
+  Read or edit saved connection profiles; edits require the catalog `If-Match` revision.
+
+- `POST /api/v1/host/discovery/identify`
+
+  Perform explicit read-only identification of a selected candidate.
+
+- `POST /api/v1/host/devices/use`
+
+  Select a profile for the single `[WTP]` backend using the host config `If-Match` and body `catalog_revision`.
+
+The takeover request contains `choice` (`end_now` or `finish_current`),
+`confirmed`, `observed_owner`, and `observed_job`. Send the owner and job from
+fresh endpoint status. If ownership or the job changes before confirmation,
+the server requires renewed confirmation with fresh status. An unconfirmed
+request does not change remotely owned state. The central controller has no
+approval role. Both accepted choices revoke future assignments; finish-current
+keeps effective local output inhibited until confirmed completion and output-off.
+
+Direct `PUT` or `PATCH /config` writes explicitly setting
+`Operation.Transmit=true` are noninteractive: they immediately cancel remote
+work. An unrelated settings patch does not cancel a previously selected
+finish-current choice. Use the dedicated takeover resource for an interactive
+browser workflow.
+
+Pi assignments use a target status HTTP port (default `31415`) as well as the
+WTP port. A changed target takeover generation removes that assignment before
+further dispatch, including after controller downtime. Network loss alone does
+not remove an assignment or establish output-off. Failed or uncertain work
+pauses that output pending reconciliation; consumed slots are not retried.
+
+See [Fleet setup](../User_Interface/Setup/index.md#pi-and-pico-fleet-setup)
+for operator actions and the
+[application Fleet reference](https://github.com/WsprryPi/WsprryPi/blob/devel/docs/wtp-fleet.md)
+for persistence and request contracts.
+<!-- endif-wsprrypico -->

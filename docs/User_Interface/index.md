@@ -116,3 +116,36 @@ Any errors will be indicated there, with text directing you to the issue.
 ![Save Error](Save_Error.png)
 
 Information related to each page follows.
+
+<!-- if-wsprrypico -->
+## Local control and remote ownership
+
+In the development WTP workflow, this Pi can run its own schedule while
+controlling other Pi or Pico outputs. Local **Enable**, this Pi's inbound WTP
+listener, and each remote output's schedule are independent controls.
+
+To reclaim a remotely owned Pi, open **that Pi's** web interface and select
+**Enable**. Confirm removal of remote ownership and future schedule assignments.
+For an armed or running remote job, choose:
+
+- **End now** to stop the job immediately.
+- **Let it finish** to allow the current job to finish before local output starts.
+- **Cancel** to keep the existing ownership and saved Enable setting.
+
+Both accepted choices prevent replacement remote jobs immediately. The central
+controller cannot approve, delay, or veto this local action. Saved assignments
+on the controller are removed when it next observes the takeover, including
+when it was offline during the takeover.
+
+With **Let it finish**, Enable is saved immediately, but effective local output
+stays inhibited until the current job ends and output-off is confirmed. If
+output state remains unknown, local transmission and new remote claims stay
+inhibited. Review the status beside the control and use **Reconcile local
+output** to request a local stop/reset; successful recovery requires confirmed
+inactive output.
+
+A direct HTTP configuration write explicitly setting `Operation.Transmit=true`,
+or an external enabled INI transaction, is noninteractive and immediately
+cancels remote work. It does not offer the browser's finish-current choice.
+See [Fleet and listener setup](Setup/index.md#pi-and-pico-fleet-setup).
+<!-- endif-wsprrypico -->

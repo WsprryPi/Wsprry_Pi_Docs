@@ -174,7 +174,7 @@ readiness. If Avahi discovery is unavailable or no service appears, use
 **Add device** for a manual USB or network profile. Merely opening the selector
 or highlighting an entry does not connect, identify, save, or switch devices.
 
-To add a nearby Pico, select its advertisement and choose **Add device**.
+To add a nearby Pi or Pico, select its advertisement and choose **Add device**.
 Review its connection type and the advertised SRV target and port. Give the
 profile a name and enter the expected full 32-character WTP device ID. For
 Network (TLS), provision the device-specific trust files on the host and enter
@@ -200,6 +200,12 @@ that profile until you edit it and a fresh identity check succeeds. Plain LAN
 requires explicit review and consent again; neither binding silently follows
 a changed advertisement or falls back to another binding. Manual profiles
 keep their configured connection behavior.
+
+For independent remote schedules alongside this Pi's local schedule, use
+[Output schedules](../index.md#assign-an-output-schedule). The Pi server uses
+Plain LAN and currently accepts only finite Si5351 TONE jobs on 20m, up to
+ten seconds. The single-endpoint selection and Pico status controls below
+remain separate from those assignments.
 
 ### Pico status and recovery
 
