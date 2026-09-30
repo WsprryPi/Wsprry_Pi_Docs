@@ -218,22 +218,28 @@ endpoint. Configure the server in
 and use [Fleet output assignments](../User_Interface/Setup/index.md#assign-an-output-schedule)
 on the controller.
 
-The Si5351 server exposes the backend's **WSPR, TONE, QRSS, FSKCW and DFCW**
-capabilities. It uses the existing bus, address, reference, CLK output, drive,
-and PPM settings. Its existing qualified amateur bands from 2200m through 2m
-remain qualified; 8m and 5m retain their separate experimental policy.
+The selected native **GPIO, RP1 GPCLK or Si5351** backend exposes **WSPR,
+TONE, QRSS, FSKCW and DFCW** through the same WTP server. GPIO uses the selected
+transmit pin, drive and clock correction; RP1 uses its kernel provider, selected
+GPIO4/GPIO20 route and drive; Si5351 uses its bus, address, reference, CLK output,
+drive and PPM settings.
 
-CAPS reports the backend's numerical planner envelope, 7,812.5 Hz through
-200 MHz. This envelope does not authorize frequencies outside amateur
-allocations or override band policy. Each job is checked by the selected
-backend's planner and existing frequency policy. GPIO/RP1 server adapters are
-not available; no fallback backend is selected.
+CAPS reports the selected backend's numerical clock or planner envelope.
+Si5351's envelope is 7,812.5 Hz through 200 MHz; its existing qualified bands
+from 2200m through 2m retain their qualification, and 8m/5m retain their separate
+experimental policy. GPIO retains its processor-specific frequency policy.
+Each job must satisfy the selected backend's native tone plan and frequency
+policy. Backend selection remains explicit.
+
+RP1 retains its existing development authorization. A WTP job requires the
+host's existing development confirmation for that exact job ID and selected
+route. Fleet does not create that confirmation.
 
 Finite jobs may contain up to 512 contiguous events and have a total duration
 up to 24 hours. These are protocol resource limits. Frequency changes and
 RF-off intervals, including an initial silent interval, use the backend's
 precomputed execution plan. Per-event realized frequencies come from that same configured
-planner and require adjustment consent when they differ from the request.
+clock or tone plan and require adjustment consent when they differ from the request.
 
 The server requires synchronized UTC, at least two seconds of ARM lead, and
 reported UTC uncertainty no greater than 500 ms. The controller profile must
@@ -242,6 +248,12 @@ requires explicit permission for adjustment; it is not a measured RF frequency.
 Output-disable timeout is five seconds; unconfirmed output-off inhibits further
 work. The WTP integration preserves the existing backend qualification; it does not
 establish a new claim about measured frequency accuracy or long-term timing.
+
+For legacy GPIO, forcibly terminating the controlling process can leave the
+clock output active until startup quiescence runs on restart. The five-second
+output-disable timeout applies while the process is responsive. A killed
+process or closed connection does not confirm output-off; review the restored
+endpoint and [reconcile local output](../User_Interface/index.md#local-control-and-remote-ownership).
 
 Protocol details are maintained in the
 [WsprryPico protocol documentation](https://github.com/WsprryPi/WsprryPico/tree/devel/docs/protocol).

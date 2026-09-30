@@ -49,9 +49,10 @@ own local schedule. **Use this device** selects the separate single-endpoint
 `[WTP]` backend; it does not create an independent output assignment. Saving or
 removing a catalog profile also does not create or remove an assignment.
 
-Each target must advertise support for the assigned job. The Pi Si5351 server
-reports its existing WSPR, TONE, QRSS, FSKCW and DFCW capabilities. Its qualified
-amateur bands from 2200m through 2m retain their existing frequency policy.
+Each target must advertise support for the assigned job. Native GPIO, RP1 and
+Si5351 Pi servers report their WSPR, TONE, QRSS, FSKCW and DFCW capabilities.
+The selected backend's processor, route and frequency policies still apply.
+RP1 retains its exact-operation host confirmation; Fleet does not create it.
 Pi and Pico jobs are checked against the selected target's reported capabilities. For a Pi profile, set the start-uncertainty limit
 to accommodate the reported clock uncertainty, no higher than `500000000` ns
 (500 ms); the existing 1 ms default can reject ordinary NTP timing. Values are
